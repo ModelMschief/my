@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
   // CHANGE THIS LINE: Use './' so it works regardless of the repo name
-  base: "./", 
+  base: "/my/", 
 
   server: {
     host: "::",
