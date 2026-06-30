@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 const HeroSection = () => {
-  const roles = ['Python Developer', 'ML Engineer', 'Full Stack Developer', 'Data Analyst', 'RAG Specialist'];
+  const roles = ['Backend Engineer', 'AI Engineer', 'Blockchain Developer', 'Node.js Developer', 'API Specialist'];
   const [currentRole, setCurrentRole] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
