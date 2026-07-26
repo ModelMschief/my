@@ -7,19 +7,19 @@ const skills = [
     icon: '</>',
     items: [
       { name: 'Python', level: 90 },
-      { name: 'Node.js', level: 75 },
+      { name: 'Node.js', level: 60 },
       { name: 'FastAPI / Flask', level: 85 },
-      { name: 'JavaScript', level: 70 },
+      { name: 'JavaScript', level: 50 },
     ],
   },
   {
     category: 'Databases & Cache',
     icon: '🗄️',
     items: [
-      { name: 'MongoDB', level: 80 },
+      { name: 'MongoDB', level: 70 },
       { name: 'Redis', level: 70 },
-      { name: 'PostgreSQL', level: 65 },
-      { name: 'Vector DBs', level: 75 },
+      { name: 'PostgreSQL', level: 30 },
+      { name: 'Vector DBs', level: 50 },
     ],
   },
   {
@@ -39,7 +39,7 @@ const skills = [
       { name: 'BSC / Binance Smart Chain', level: 85 },
       { name: 'TON Blockchain', level: 75 },
       { name: 'Telegram Bot API', level: 90 },
-      { name: 'REST APIs', level: 95 },
+      { name: 'REST APIs', level: 90 },
     ],
   },
 ];
