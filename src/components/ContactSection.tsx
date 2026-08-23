@@ -1,320 +1,347 @@
 import { motion, useInView } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { 
+  Send, 
+  Terminal as TerminalIcon, 
+  Mail, 
+  MessageSquare, 
+  CheckCircle2, 
+  ExternalLink,
+  Bot,
+  Sparkles,
+  ShieldCheck,
+  Zap
+} from 'lucide-react';
 
-const ContactSection = () => {
+export const ContactSection = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [dispatchMethod, setDispatchMethod] = useState<'telegram' | 'email'>('telegram');
   const [submitted, setSubmitted] = useState(false);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Terminal Easter Egg State
+  const [terminalInput, setTerminalInput] = useState('');
+  const [terminalHistory, setTerminalHistory] = useState<Array<{ command: string; output: string | React.ReactNode }>>([
+    {
+      command: 'init',
+      output: 'Quantum Singularity Shell v2.6.4 // Type "help" for available commands.',
+    },
+  ]);
+  const terminalEndRef = useRef<HTMLDivElement>(null);
+
+  const handleCommandSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    const cmd = terminalInput.trim().toLowerCase();
+    if (!cmd) return;
+
+    let output: string | React.ReactNode = '';
+
+    switch (cmd) {
+      case 'help':
+        output = 'Available: whoami, skills, projects, contact, telegram, bigbang, clear';
+        break;
+      case 'whoami':
+        output = 'Shebin T R // AI & RAG Pipeline Architect, Non-Custodial BSC/TON Blockchain Engineer.';
+        break;
+      case 'skills':
+        output = 'Core: Python (FastAPI/Flask), RAG (Chroma/LangChain), BSC JSON-RPC, TON SDK, Node.js, Redis, MongoDB.';
+        break;
+      case 'projects':
+        output = '1. BSC Non-Custodial Gateway | 2. Custom RAG Framework | 3. TON Crypto Lib | 4. API Provider Platform.';
+        break;
+      case 'contact':
+      case 'telegram':
+        output = 'Telegram: @gojo16s | WhatsApp: +91 9037610098 | Email: shebinraju2021@gmail.com';
+        break;
+      case 'bigbang':
+        output = '💥 Supernova Singularity Triggered! Cosmic particle drift initialized.';
+        break;
+      case 'clear':
+        setTerminalHistory([]);
+        setTerminalInput('');
+        return;
+      default:
+        output = `Command not recognized: "${cmd}". Type "help" for valid directives.`;
+    }
+
+    setTerminalHistory((prev) => [...prev, { command: cmd, output }]);
+    setTerminalInput('');
+  };
+
+  useEffect(() => {
+    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [terminalHistory]);
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (dispatchMethod === 'telegram') {
+      const text = encodeURIComponent(
+        `Hi Shebin, I saw your portfolio!\nName: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`
+      );
+      window.open(`https://t.me/gojo16s?text=${text}`, '_blank');
+    } else {
+      const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      );
+      window.open(`mailto:shebinraju2021@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    }
+
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-    setFormData({ name: '', email: '', message: '' });
-  };
-
-  const contactInfo = [
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
-      ),
-      label: 'Email',
-      value: 'shebinraju2021@gmail.com',
-      href: 'mailto:shebinraju2021@gmail.com',
-      color: 'from-blue-500 to-cyan-500',
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
-      ),
-      label: 'WhatsApp',
-      value: '+91 9037610098',
-      href: 'https://wa.me/919037610098',
-      color: 'from-green-500 to-emerald-500',
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-        </svg>
-      ),
-      label: 'Telegram',
-      value: '@gojo16s',
-      href: 'https://t.me/gojo16s',
-      color: 'from-blue-400 to-blue-600',
-    },
-  ];
-
-  const socialLinks = [
-    { name: 'X (Twitter)', icon: '𝕏', href: 'https://x.com/TShebin2920', color: 'from-gray-700 to-gray-900' },
-    { name: 'GitHub', icon: '⌘', href: 'https://github.com/modelmsschief', color: 'from-gray-600 to-gray-800' },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
+    setTimeout(() => setSubmitted(false), 4000);
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24 bg-card relative overflow-hidden">
-      {/* Background decorations */}
-      <motion.div
-        className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
-
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="contact" ref={sectionRef} className="py-24 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-semibold mb-4"
-          >
-            Get In Touch
-          </motion.span>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Let's Work <span className="text-gradient">Together</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border-cyan-500/30 text-xs font-mono-code text-cyan-300 mb-4 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+            <Send className="w-3.5 h-3.5" />
+            <span>QUANTUM DISPATCH PROTOCOL</span>
+          </div>
+          <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+            Initialize <span className="text-gradient-cyan">Connection</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Have a project in mind? I'd love to hear about it. Let's discuss how we can collaborate.
+          <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg mt-3 font-light">
+            Ready to architect high-throughput APIs, RAG intelligence, or non-custodial blockchain systems? Let's connect.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {/* Contact Info */}
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Direct Telegram & Social Hub */}
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="lg:col-span-5 space-y-6"
           >
-            <motion.h3
-              variants={itemVariants}
-              className="text-2xl font-bold text-foreground mb-8"
-            >
-              Contact Information
-            </motion.h3>
+            {/* Quick Connect Cards */}
+            <div className="rounded-2xl glass-card border border-slate-800/90 p-6 space-y-4">
+              <h3 className="font-display text-lg font-bold text-white flex items-center gap-2">
+                <Bot className="w-5 h-5 text-cyan-400" />
+                <span>Instant Direct Channels</span>
+              </h3>
 
-            <div className="space-y-6">
-              {contactInfo.map((info, index) => (
-                <motion.a
-                  key={info.label}
-                  href={info.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variants={itemVariants}
-                  whileHover={{ x: 8, transition: { duration: 0.2 } }}
-                  className="flex items-center gap-4 group cursor-pointer"
-                >
-                  <motion.div
-                    className={`w-14 h-14 bg-gradient-to-br ${info.color} rounded-xl flex items-center justify-center text-white shadow-lg`}
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                  >
-                    {info.icon}
-                  </motion.div>
+              {/* Telegram Channel */}
+              <a
+                href="https://t.me/gojo16s"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-cyan-500/50 hover:bg-cyan-950/20 transition-all duration-300"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                    <Bot className="w-5 h-5" />
+                  </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">{info.label}</p>
-                    <p className="font-semibold text-foreground group-hover:text-accent transition-colors">
-                      {info.value}
+                    <p className="text-xs text-slate-400 font-mono-code">Telegram Handle</p>
+                    <p className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                      @gojo16s
                     </p>
                   </div>
-                </motion.a>
-              ))}
+                </div>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors" />
+              </a>
+
+              {/* WhatsApp Channel */}
+              <a
+                href="https://wa.me/919037610098"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-emerald-500/50 hover:bg-emerald-950/20 transition-all duration-300"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <MessageSquare className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-slate-400 font-mono-code">WhatsApp Direct</p>
+                    <p className="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">
+                      +91 9037610098
+                    </p>
+                  </div>
+                </div>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+              </a>
+
+              {/* Email Channel */}
+              <a
+                href="mailto:shebinraju2021@gmail.com"
+                className="group flex items-center justify-between p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-blue-500/50 hover:bg-blue-950/20 transition-all duration-300"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-slate-400 font-mono-code">Direct Email</p>
+                    <p className="text-sm font-semibold text-white group-hover:text-blue-300 transition-colors">
+                      shebinraju2021@gmail.com
+                    </p>
+                  </div>
+                </div>
+                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
+              </a>
             </div>
 
-            <motion.div variants={itemVariants} className="mt-12">
-              <h4 className="font-semibold text-foreground mb-4">Follow Me</h4>
-              <div className="flex gap-4">
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`w-12 h-12 bg-gradient-to-br ${social.color} rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg`}
-                    whileHover={{ scale: 1.15, rotate: 5, y: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                    title={social.name}
-                  >
-                    {social.icon}
-                  </motion.a>
-                ))}
+            {/* Interactive Cyber Terminal Easter Egg */}
+            <div className="rounded-2xl glass-card border border-cyan-500/20 p-5 font-mono-code text-xs space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                <div className="flex items-center gap-2">
+                  <TerminalIcon className="w-4 h-4 text-cyan-400" />
+                  <span className="text-slate-300 text-[11px]">interactive_cli_shell</span>
+                </div>
+                <span className="text-[10px] text-slate-500">TRY: "help"</span>
               </div>
-            </motion.div>
+
+              {/* Terminal Logs */}
+              <div className="h-32 overflow-y-auto space-y-2 pr-1 scrollbar-thin text-slate-300">
+                {terminalHistory.map((item, i) => (
+                  <div key={i} className="space-y-0.5">
+                    <p className="text-cyan-400">
+                      <span className="text-slate-500">&gt;</span> {item.command}
+                    </p>
+                    <p className="text-slate-300 pl-3 leading-relaxed text-[11px]">{item.output}</p>
+                  </div>
+                ))}
+                <div ref={terminalEndRef} />
+              </div>
+
+              {/* Terminal Input */}
+              <form onSubmit={handleCommandSubmit} className="flex items-center gap-2 pt-2 border-t border-slate-800">
+                <span className="text-cyan-400 font-bold">&gt;</span>
+                <input
+                  type="text"
+                  value={terminalInput}
+                  onChange={(e) => setTerminalInput(e.target.value)}
+                  placeholder="type a command (e.g. whoami, bigbang)..."
+                  className="w-full bg-transparent text-slate-100 placeholder:text-slate-600 outline-none text-xs"
+                />
+              </form>
+            </div>
           </motion.div>
 
-          {/* Contact Form */}
+          {/* Right Column: Dispatcher Form */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-7"
           >
-            <form onSubmit={handleSubmit} className="bg-background p-8 rounded-2xl shadow-card relative overflow-hidden">
-              {/* Animated border */}
-              <motion.div
-                className="absolute inset-0 rounded-2xl"
-                style={{
-                  background: 'linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)), hsl(var(--accent)))',
-                  backgroundSize: '200% 100%',
-                  padding: '2px',
-                }}
-                animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
-              >
-                <div className="w-full h-full bg-background rounded-2xl" />
-              </motion.div>
+            <form
+              onSubmit={handleFormSubmit}
+              className="rounded-2xl glass-card border border-slate-800/90 p-6 sm:p-8 space-y-6 relative overflow-hidden"
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div>
+                  <h3 className="font-display text-xl font-bold text-white">
+                    Send Transmission
+                  </h3>
+                  <p className="text-xs font-mono-code text-slate-400 mt-0.5">
+                    Choose preferred dispatch pipe
+                  </p>
+                </div>
 
-              <div className="relative z-10 space-y-6">
-                {/* Name field */}
-                <div className="relative">
-                  <motion.label
-                    htmlFor="name"
-                    className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                      focusedField === 'name' || formData.name
-                        ? '-top-2 text-xs text-accent bg-background px-2'
-                        : 'top-4 text-muted-foreground'
+                {/* Dispatch Mode Selector */}
+                <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-950/80 border border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => setDispatchMethod('telegram')}
+                    className={`px-3 py-1 rounded-lg text-xs font-mono-code transition-all ${
+                      dispatchMethod === 'telegram'
+                        ? 'bg-cyan-500 text-black font-bold shadow-sm'
+                        : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    Your Name
-                  </motion.label>
+                    Telegram Pipe
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDispatchMethod('email')}
+                    className={`px-3 py-1 rounded-lg text-xs font-mono-code transition-all ${
+                      dispatchMethod === 'email'
+                        ? 'bg-violet-500 text-white font-bold shadow-sm'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    Email Mailto
+                  </button>
+                </div>
+              </div>
+
+              {/* Inputs */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-mono-code text-slate-400 mb-1.5">
+                    // YOUR NAME OR ORGANIZATION
+                  </label>
                   <input
                     type="text"
-                    id="name"
+                    required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    onFocus={() => setFocusedField('name')}
-                    onBlur={() => setFocusedField(null)}
-                    className="w-full px-4 py-4 bg-secondary border-2 border-transparent rounded-xl text-foreground focus:border-accent outline-none transition-all"
-                    required
+                    placeholder="e.g. Alex Morgan / CyberTech Lab"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950/60 border border-slate-800 focus:border-cyan-500/60 focus:bg-slate-950/90 text-sm text-slate-100 placeholder:text-slate-600 outline-none transition-all"
                   />
                 </div>
 
-                {/* Email field */}
-                <div className="relative">
-                  <motion.label
-                    htmlFor="email"
-                    className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                      focusedField === 'email' || formData.email
-                        ? '-top-2 text-xs text-accent bg-background px-2'
-                        : 'top-4 text-muted-foreground'
-                    }`}
-                  >
-                    Email Address
-                  </motion.label>
+                <div>
+                  <label className="block text-xs font-mono-code text-slate-400 mb-1.5">
+                    // YOUR CONTACT EMAIL / HANDLE
+                  </label>
                   <input
-                    type="email"
-                    id="email"
+                    type="text"
+                    required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    onFocus={() => setFocusedField('email')}
-                    onBlur={() => setFocusedField(null)}
-                    className="w-full px-4 py-4 bg-secondary border-2 border-transparent rounded-xl text-foreground focus:border-accent outline-none transition-all"
-                    required
+                    placeholder="e.g. alex@enterprise.io or @alex_tg"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950/60 border border-slate-800 focus:border-cyan-500/60 focus:bg-slate-950/90 text-sm text-slate-100 placeholder:text-slate-600 outline-none transition-all"
                   />
                 </div>
 
-                {/* Message field */}
-                <div className="relative">
-                  <motion.label
-                    htmlFor="message"
-                    className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                      focusedField === 'message' || formData.message
-                        ? '-top-2 text-xs text-accent bg-background px-2'
-                        : 'top-4 text-muted-foreground'
-                    }`}
-                  >
-                    Your Message
-                  </motion.label>
+                <div>
+                  <label className="block text-xs font-mono-code text-slate-400 mb-1.5">
+                    // TRANSMISSION PAYLOAD (PROJECT DETAILS)
+                  </label>
                   <textarea
-                    id="message"
-                    rows={5}
+                    rows={4}
+                    required
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    onFocus={() => setFocusedField('message')}
-                    onBlur={() => setFocusedField(null)}
-                    className="w-full px-4 py-4 bg-secondary border-2 border-transparent rounded-xl text-foreground focus:border-accent outline-none transition-all resize-none"
-                    required
+                    placeholder="Describe your architecture requirements, AI pipeline goals, or Web3 gateway scope..."
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950/60 border border-slate-800 focus:border-cyan-500/60 focus:bg-slate-950/90 text-sm text-slate-100 placeholder:text-slate-600 outline-none transition-all resize-none"
                   />
                 </div>
-
-                <motion.button
-                  type="submit"
-                  className="w-full py-4 bg-gradient-primary text-primary-foreground font-semibold rounded-xl relative overflow-hidden group"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  disabled={submitted}
-                >
-                  <motion.span
-                    className="relative z-10 flex items-center justify-center gap-2"
-                    animate={submitted ? { scale: [1, 1.2, 1] } : {}}
-                  >
-                    {submitted ? (
-                      <>
-                        <motion.svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1, rotate: 360 }}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </motion.svg>
-                        Message Sent!
-                      </>
-                    ) : (
-                      <>
-                        Send Message
-                        <motion.svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </motion.svg>
-                      </>
-                    )}
-                  </motion.span>
-                  <motion.div
-                    className="absolute inset-0 bg-accent"
-                    initial={{ x: '-100%' }}
-                    whileHover={{ x: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </motion.button>
               </div>
+
+              {/* Submit CTA */}
+              <button
+                type="submit"
+                className="w-full py-3.5 px-6 rounded-xl font-mono-code text-sm font-bold text-white bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 shadow-[0_0_25px_rgba(6,182,212,0.35)] hover:shadow-[0_0_35px_rgba(6,182,212,0.55)] transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                {submitted ? (
+                  <>
+                    <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                    <span>DISPATCH INITIALIZED!</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 text-cyan-200" />
+                    <span>
+                      {dispatchMethod === 'telegram'
+                        ? 'DISPATCH DIRECTLY TO TELEGRAM'
+                        : 'DISPATCH VIA EMAIL CLIENT'}
+                    </span>
+                  </>
+                )}
+              </button>
             </form>
           </motion.div>
         </div>

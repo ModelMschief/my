@@ -1,95 +1,62 @@
-import { motion } from 'framer-motion';
+import { Terminal, Github, Bot, MessageSquare, Twitter } from 'lucide-react';
 
-const Footer = () => {
+export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#contact', label: 'Contact' },
+  const socialLinks = [
+    { name: 'GitHub', icon: Github, href: 'https://github.com/modelmsschief', color: 'hover:text-white hover:border-slate-600' },
+    { name: 'Telegram', icon: Bot, href: 'https://t.me/gojo16s', color: 'hover:text-cyan-400 hover:border-cyan-500/40' },
+    { name: 'WhatsApp', icon: MessageSquare, href: 'https://wa.me/919037610098', color: 'hover:text-emerald-400 hover:border-emerald-500/40' },
+    { name: 'X (Twitter)', icon: Twitter, href: 'https://x.com/TShebin2920', color: 'hover:text-sky-400 hover:border-sky-500/40' },
   ];
 
   return (
-    <footer className="relative bg-primary text-primary-foreground overflow-hidden">
-      {/* Animated background gradient */}
-      <motion.div
-        className="absolute inset-0 opacity-20"
-        animate={{
-          background: [
-            'radial-gradient(circle at 0% 0%, hsl(var(--accent)) 0%, transparent 50%)',
-            'radial-gradient(circle at 100% 100%, hsl(var(--accent)) 0%, transparent 50%)',
-            'radial-gradient(circle at 0% 0%, hsl(var(--accent)) 0%, transparent 50%)',
-          ],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-      />
-
-      <div className="container mx-auto px-6 py-12 relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Logo and info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center md:text-left"
-          >
-            <motion.a
-              href="#home"
-              className="text-2xl font-bold tracking-tight inline-block"
-              whileHover={{ scale: 1.05 }}
-            >
-              Shebin<span className="text-accent">.</span>
-            </motion.a>
-            <p className="text-primary-foreground/70 text-sm mt-1">
-              Python Developer & ML Engineer
-            </p>
-          </motion.div>
-
-          {/* Navigation links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex items-center gap-6"
-          >
-            {footerLinks.map((link) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors relative group"
-                whileHover={{ y: -2 }}
-              >
-                {link.label}
-                <motion.span
-                  className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"
-                />
-              </motion.a>
-            ))}
-          </motion.div>
-
-          {/* Copyright */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-sm text-primary-foreground/70"
-          >
-            © {currentYear} All rights reserved.
-          </motion.p>
+    <footer className="relative border-t border-slate-800/80 bg-[#030712]/90 backdrop-blur-lg py-12 px-4 sm:px-6 z-10">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Brand & Mission */}
+        <div className="text-center md:text-left space-y-1">
+          <div className="flex items-center justify-center md:justify-start gap-2">
+            <div className="w-6 h-6 rounded-md bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+              <Terminal className="w-3.5 h-3.5" />
+            </div>
+            <span className="font-display text-lg font-bold text-white tracking-tight">
+              SHEBIN<span className="text-cyan-400">.</span>TR
+            </span>
+          </div>
+          <p className="text-xs font-mono-code text-slate-400">
+            AI & RAG Pipeline Architect // Non-Custodial Blockchain Engineer
+          </p>
         </div>
 
-        {/* Bottom decorative line */}
-        <motion.div
-          className="mt-8 pt-8 border-t border-primary-foreground/10 text-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <p className="text-xs text-primary-foreground/50">
-            A first portfolio creation by Me ^_^
+        {/* Verified Social Connects */}
+        <div className="flex items-center gap-3">
+          {socialLinks.map((social) => {
+            const Icon = social.icon;
+            return (
+              <a
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`p-2.5 rounded-xl glass-card border border-slate-800 text-slate-400 ${social.color} transition-all duration-300 shadow-sm`}
+                title={social.name}
+              >
+                <Icon className="w-4 h-4" />
+              </a>
+            );
+          })}
+        </div>
+
+        {/* Copyright & Live Status */}
+        <div className="text-center md:text-right space-y-1">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/40 border border-emerald-500/20 text-[10px] font-mono-code text-emerald-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>ALL SYSTEMS OPERATIONAL</span>
+          </div>
+          <p className="text-[11px] font-mono-code text-slate-500">
+            © {currentYear} Shebin T R. All rights reserved.
           </p>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );
