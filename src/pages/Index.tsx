@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import CosmicBackground from '@/components/CosmicBackground';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
@@ -7,27 +8,39 @@ import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 
 const Index = () => {
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  // If user scrolls before 6 seconds, reveal immediately for convenience
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsRevealed(true);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-transparent text-slate-100 relative selection:bg-cyan-500/30 selection:text-cyan-200">
-      {/* 1. Atmospheric Big Bang Background Engine */}
-      <CosmicBackground />
+      {/* 1. Atmospheric Non-Looping Big Bang Background Engine */}
+      <CosmicBackground onReveal={() => setIsRevealed(true)} />
 
-      {/* 2. Interactive Glassmorphic Navigation */}
-      <Navbar />
+      {/* 2. Interactive Navigation (Slides down at 6s) */}
+      <Navbar isRevealed={isRevealed} />
 
       {/* 3. Main Content Sections */}
       <main className="relative z-10">
-        <HeroSection />
+        <HeroSection isRevealed={isRevealed} />
         <SkillsSection />
         <ProjectsSection />
         <ContactSection />
       </main>
 
-      {/* 4. Cosmic HUD Footer */}
+      {/* 4. Cosmic Footer */}
       <Footer />
     </div>
   );
 };
 
 export default Index;
-

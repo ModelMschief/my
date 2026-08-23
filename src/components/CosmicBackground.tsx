@@ -1,25 +1,62 @@
 import React, { useRef, useEffect } from 'react';
 import bigbangVideo from '@/assets/bigbang.mp4';
 
-export const CosmicBackground: React.FC = () => {
+interface CosmicBackgroundProps {
+  onReveal?: () => void;
+}
+
+export const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ onReveal }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const revealedRef = useRef(false);
+  const slowMoRef = useRef(false);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch((err) => {
-        console.warn('Video auto-play error:', err);
-      });
-    }
-  }, []);
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Start video at normal speed (1.0x) without looping
+    video.playbackRate = 1.0;
+    video.play().catch((err) => {
+      console.warn('Video auto-play error:', err);
+    });
+
+    const handleTimeUpdate = () => {
+      const time = video.currentTime;
+
+      // 1. Milestone at 6.0s: Trigger Left & Right portfolio emergence
+      if (time >= 6.0 && !revealedRef.current) {
+        revealedRef.current = true;
+        if (onReveal) onReveal();
+      }
+
+      // 2. Milestone at 8.0s to end: Full slow-motion (0.35x)
+      if (time >= 8.0 && !slowMoRef.current) {
+        slowMoRef.current = true;
+        video.playbackRate = 0.35;
+      }
+    };
+
+    // When video ends, stay frozen on the final cosmic space frame
+    const handleEnded = () => {
+      video.pause();
+    };
+
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    video.addEventListener('ended', handleEnded);
+
+    return () => {
+      video.removeEventListener('timeupdate', handleTimeUpdate);
+      video.removeEventListener('ended', handleEnded);
+    };
+  }, [onReveal]);
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
-      {/* 100% Guaranteed Vite Asset Imported Video */}
+      {/* Non-looping bigbang video: plays normal, slows down at 8s, stops at end */}
       <video
         ref={videoRef}
         src={bigbangVideo}
         autoPlay
-        loop
         muted
         playsInline
         preload="auto"

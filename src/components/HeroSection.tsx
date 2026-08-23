@@ -9,7 +9,11 @@ const ROLES = [
   'Telegram Bot & Automation Engineer',
 ];
 
-export const HeroSection = () => {
+interface HeroSectionProps {
+  isRevealed?: boolean;
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) => {
   const [roleIndex, setRoleIndex] = useState(0);
 
   useEffect(() => {
@@ -19,42 +23,22 @@ export const HeroSection = () => {
     return () => clearInterval(roleTimer);
   }, []);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 25 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-    },
-  };
-
   return (
     <section
       id="home"
       className="min-h-screen relative flex items-center justify-center pt-28 pb-16 px-4 sm:px-6"
     >
       <div className="max-w-6xl w-full mx-auto relative z-10">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid lg:grid-cols-12 gap-12 items-center"
-        >
-          {/* Left Column: Executive Headline & Narrative */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Glides in from the LEFT at 6s */}
+          <motion.div
+            initial={{ x: -140, opacity: 0 }}
+            animate={isRevealed ? { x: 0, opacity: 1 } : { x: -140, opacity: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 space-y-6 text-left"
+          >
             {/* Status Pill */}
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2">
+            <div className="inline-flex items-center gap-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono-code text-slate-300">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -62,10 +46,10 @@ export const HeroSection = () => {
                 </span>
                 <span>AVAILABLE FOR AI & BLOCKCHAIN ARCHITECTURE</span>
               </div>
-            </motion.div>
+            </div>
 
             {/* Main Headline */}
-            <motion.div variants={itemVariants} className="space-y-2">
+            <div className="space-y-2">
               <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight">
                 Shebin T R
               </h1>
@@ -82,20 +66,17 @@ export const HeroSection = () => {
                   {ROLES[roleIndex]}
                 </motion.span>
               </div>
-            </motion.div>
+            </div>
 
             {/* Narrative Summary */}
-            <motion.p
-              variants={itemVariants}
-              className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed font-light"
-            >
+            <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed font-light">
               Building high-concurrency backend infrastructures, custom{' '}
               <span className="text-white font-medium">RAG intelligence pipelines</span>, and{' '}
               <span className="text-white font-medium">non-custodial blockchain payment gateways</span> on BSC and TON.
-            </motion.p>
+            </p>
 
-            {/* Clean Professional Buttons (Zero Tacky Glow) */}
-            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-3 pt-2">
+            {/* Clean Professional Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href="#projects"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-black bg-white hover:bg-slate-200 transition-all duration-200 shadow-sm"
@@ -111,13 +92,10 @@ export const HeroSection = () => {
                 <Send className="w-4 h-4 text-slate-300" />
                 <span>Get in Touch</span>
               </a>
-            </motion.div>
+            </div>
 
             {/* Minimal Metric Badges */}
-            <motion.div
-              variants={itemVariants}
-              className="pt-6 grid grid-cols-3 gap-4 border-t border-white/10 max-w-lg"
-            >
+            <div className="pt-6 grid grid-cols-3 gap-4 border-t border-white/10 max-w-lg">
               <div>
                 <p className="font-display text-2xl sm:text-3xl font-bold text-white">
                   100%
@@ -136,12 +114,14 @@ export const HeroSection = () => {
                 </p>
                 <p className="text-xs text-slate-400 font-mono-code mt-0.5">Deployments</p>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
-          {/* Right Column: Clean Architecture System Snapshot */}
+          {/* Right Column: Glides in from the RIGHT at 6s */}
           <motion.div
-            variants={itemVariants}
+            initial={{ x: 140, opacity: 0 }}
+            animate={isRevealed ? { x: 0, opacity: 1 } : { x: 140, opacity: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className="lg:col-span-5 relative"
           >
             <div className="rounded-2xl bg-slate-950/70 backdrop-blur-xl border border-white/10 p-6 shadow-2xl space-y-4">
@@ -186,7 +166,7 @@ export const HeroSection = () => {
               </div>
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

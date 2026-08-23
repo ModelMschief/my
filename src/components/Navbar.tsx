@@ -1,8 +1,12 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Terminal, Send, Activity, Menu, X } from 'lucide-react';
+import { Terminal, Send, Menu, X } from 'lucide-react';
 
-const Navbar = () => {
+interface NavbarProps {
+  isRevealed?: boolean;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [timeString, setTimeString] = useState('');
@@ -27,7 +31,7 @@ const Navbar = () => {
   const navBorder = useTransform(
     scrollY,
     [0, 80],
-    ['rgba(255, 255, 255, 0.05)', 'rgba(6, 182, 212, 0.2)']
+    ['rgba(255, 255, 255, 0.05)', 'rgba(255, 255, 255, 0.15)']
   );
 
   // Track active section during scroll
@@ -62,10 +66,10 @@ const Navbar = () => {
 
   return (
     <motion.header
-      className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-3"
-      initial={{ y: -60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
+      className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-3 pointer-events-auto"
+      initial={{ y: -70, opacity: 0 }}
+      animate={isRevealed ? { y: 0, opacity: 1 } : { y: -70, opacity: 0 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
       <motion.nav
         className="max-w-6xl mx-auto rounded-2xl px-5 py-2.5 flex items-center justify-between transition-all duration-300"
@@ -78,30 +82,28 @@ const Navbar = () => {
           boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.4)',
         }}
       >
-        {/* Brand Logo & Live System Beacon */}
+        {/* Brand Logo */}
         <div className="flex items-center gap-4">
           <a
             href="#home"
             className="group flex items-center gap-2 font-display text-lg sm:text-xl font-bold tracking-tight text-white"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-violet-600 p-[1px] flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-shadow">
-              <div className="w-full h-full bg-[#030712] rounded-[7px] flex items-center justify-center">
-                <Terminal className="w-4 h-4 text-cyan-400 group-hover:rotate-12 transition-transform duration-300" />
-              </div>
+            <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
+              <Terminal className="w-4 h-4 text-cyan-400" />
             </div>
             <span className="tracking-wide">
               SHEBIN<span className="text-cyan-400">.</span>TR
             </span>
           </a>
 
-          {/* System Status Pill (Desktop) */}
-          <div className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-950/40 border border-cyan-500/20 text-[11px] font-mono-code text-cyan-300">
+          {/* System Status Pill */}
+          <div className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono-code text-slate-300">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <span>SYSTEM: ONLINE</span>
-            <span className="text-slate-500">|</span>
+            <span className="text-slate-600">|</span>
             <span className="text-slate-400">{timeString}</span>
           </div>
         </div>
@@ -116,18 +118,11 @@ const Navbar = () => {
                 href={link.href}
                 className={`relative px-4 py-1.5 text-xs font-mono-code transition-all duration-200 rounded-lg ${
                   isActive
-                    ? 'text-cyan-300 font-semibold bg-cyan-500/10'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/40'
+                    ? 'text-white font-semibold bg-white/10'
+                    : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
                 }`}
               >
                 {link.label}
-                {isActive && (
-                  <motion.div
-                    layoutId="activeNavTab"
-                    className="absolute inset-0 rounded-lg border border-cyan-500/30 -z-10 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                  />
-                )}
               </a>
             );
           })}
