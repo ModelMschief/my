@@ -232,7 +232,7 @@ export const ProjectsSection = () => {
                     isEven ? 'lg:order-2' : 'lg:order-1'
                   }`}
                 >
-                  <div className="relative rounded-2xl bg-slate-950/80 backdrop-blur-2xl border border-white/10 overflow-hidden shadow-2xl group hover:border-white/20 transition-all duration-300">
+                  <div className="relative rounded-2xl glass-obsidian overflow-hidden shadow-2xl group transition-all duration-300">
                     <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
                     {/* Console Header Bar */}
@@ -295,7 +295,7 @@ export const ProjectsSection = () => {
                   </div>
 
                   {/* Architecture Highlights Pill Box */}
-                  <div className="p-4 rounded-xl bg-slate-950/60 backdrop-blur-xl border border-white/10 space-y-2">
+                  <div className="p-4 rounded-xl glass-obsidian space-y-2">
                     <p className="text-xs font-mono-code text-slate-400 uppercase">
                       // Core Architecture Solution
                     </p>
@@ -373,7 +373,7 @@ export const ProjectsSection = () => {
               initial={{ opacity: 0, scale: 0.96, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 15 }}
-              className="relative max-w-2xl w-full rounded-2xl bg-slate-950 border border-white/15 p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-6"
+              className="relative max-w-2xl w-full rounded-2xl glass-obsidian border border-white/20 p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-6"
             >
               <div className="flex items-start justify-between gap-4 pb-4 border-b border-white/10">
                 <div>

@@ -65,7 +65,7 @@ export const ContactSection = () => {
             transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 space-y-4"
           >
-            <div className="rounded-2xl bg-slate-950/80 backdrop-blur-2xl border border-white/10 p-6 space-y-4 shadow-2xl relative overflow-hidden">
+            <div className="rounded-2xl glass-obsidian p-6 space-y-4 shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
               <h3 className="font-display text-lg font-bold text-white">
@@ -77,7 +77,7 @@ export const ContactSection = () => {
                 href="https://t.me/gojo16s"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3.5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/15 hover:bg-white/[0.05] transition-all"
+                className="group flex items-center justify-between p-3.5 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
@@ -98,7 +98,7 @@ export const ContactSection = () => {
                 href="https://wa.me/919037610098"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3.5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/15 hover:bg-white/[0.05] transition-all"
+                className="group flex items-center justify-between p-3.5 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
@@ -117,7 +117,7 @@ export const ContactSection = () => {
               {/* Email Channel */}
               <a
                 href="mailto:shebinraju2021@gmail.com"
-                className="group flex items-center justify-between p-3.5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/15 hover:bg-white/[0.05] transition-all"
+                className="group flex items-center justify-between p-3.5 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
@@ -145,7 +145,7 @@ export const ContactSection = () => {
           >
             <form
               onSubmit={handleFormSubmit}
-              className="rounded-2xl bg-slate-950/80 backdrop-blur-2xl border border-white/10 p-6 sm:p-8 space-y-5 shadow-2xl relative overflow-hidden"
+              className="rounded-2xl glass-obsidian p-6 sm:p-8 space-y-5 shadow-2xl relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 

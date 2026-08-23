@@ -211,7 +211,7 @@ export const SkillsSection = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="relative rounded-2xl bg-slate-950/80 backdrop-blur-2xl p-6 sm:p-8 border border-white/10 hover:border-white/20 transition-all duration-300 overflow-hidden group shadow-2xl"
+                className="relative rounded-2xl glass-obsidian p-6 sm:p-8 transition-all duration-300 overflow-hidden group shadow-2xl"
               >
                 {/* Subtle top ambient edge line */}
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
@@ -236,7 +236,7 @@ export const SkillsSection = () => {
                   {cluster.items.map((item) => (
                     <div
                       key={item.name}
-                      className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all"
+                      className="p-3.5 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
                     >
                       <div className="flex items-center justify-between gap-2 mb-1">
                         <span className="text-sm font-semibold text-slate-200 font-display flex items-center gap-1.5">

@@ -124,7 +124,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className="lg:col-span-5 relative"
           >
-            <div className="rounded-2xl bg-slate-950/70 backdrop-blur-xl border border-white/10 p-6 shadow-2xl space-y-4">
+            <div className="glass-obsidian rounded-2xl p-6 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono-code text-slate-400">core_architecture.py</span>
                 <span className="text-[11px] font-mono-code text-emerald-400 flex items-center gap-1.5">
@@ -158,7 +158,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
               </div>
 
               {/* Stack Snippet */}
-              <div className="p-3 rounded-xl bg-black/60 border border-white/5 text-[11px] font-mono-code text-slate-300 space-y-1">
+              <div className="p-3 rounded-xl bg-black/40 border border-white/5 text-[11px] font-mono-code text-slate-300 space-y-1">
                 <p className="text-slate-400">// Production Stack Matrix</p>
                 <p className="text-slate-200"><span className="text-cyan-400">backend</span> = ["FastAPI", "Python", "Node.js"]</p>
                 <p className="text-slate-200"><span className="text-violet-400">ai_infra</span> = ["ChromaDB", "LangChain", "RAG"]</p>
