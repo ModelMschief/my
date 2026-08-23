@@ -1,19 +1,11 @@
-import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 import { 
   Layers, 
-  ExternalLink, 
   Github, 
-  Cpu, 
-  ShieldCheck, 
-  Zap, 
-  ArrowUpRight, 
   X, 
-  CheckCircle,
-  Terminal,
   Bot,
-  ArrowRight,
-  Code2
+  ArrowRight
 } from 'lucide-react';
 
 interface Project {
@@ -195,17 +187,16 @@ const PROJECTS: Project[] = [
 ];
 
 export const ProjectsSection = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
 
   return (
-    <section id="projects" ref={sectionRef} className="py-24 relative overflow-hidden">
+    <section id="projects" className="py-28 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        {/* Section Header */}
+        {/* Section Header with Fade In */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
@@ -222,26 +213,28 @@ export const ProjectsSection = () => {
         </motion.div>
 
         {/* Alternating Left-Right-Left-Right Showcase */}
-        <div className="space-y-20 sm:space-y-28">
+        <div className="space-y-24 sm:space-y-32">
           {PROJECTS.map((project, index) => {
             const isEven = index % 2 === 1;
 
             return (
-              <motion.div
+              <div
                 key={project.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className="grid lg:grid-cols-12 gap-8 sm:gap-12 items-center"
               >
                 {/* Visual / Code Console Column */}
-                <div
+                <motion.div
+                  initial={{ opacity: 0, x: isEven ? 90 : -90 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.25 }}
+                  transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
                   className={`lg:col-span-6 ${
                     isEven ? 'lg:order-2' : 'lg:order-1'
                   }`}
                 >
-                  <div className="rounded-2xl bg-slate-950/80 backdrop-blur-xl border border-white/10 overflow-hidden shadow-2xl group hover:border-white/20 transition-all duration-300">
+                  <div className="relative rounded-2xl bg-slate-950/80 backdrop-blur-2xl border border-white/10 overflow-hidden shadow-2xl group hover:border-white/20 transition-all duration-300">
+                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+
                     {/* Console Header Bar */}
                     <div className="flex items-center justify-between px-4 py-3 bg-white/[0.03] border-b border-white/10">
                       <div className="flex items-center gap-2">
@@ -277,10 +270,14 @@ export const ProjectsSection = () => {
                       ))}
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Narrative & Details Column */}
-                <div
+                <motion.div
+                  initial={{ opacity: 0, x: isEven ? -90 : 90 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.25 }}
+                  transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                   className={`lg:col-span-6 space-y-6 ${
                     isEven ? 'lg:order-1' : 'lg:order-2'
                   }`}
@@ -298,7 +295,7 @@ export const ProjectsSection = () => {
                   </div>
 
                   {/* Architecture Highlights Pill Box */}
-                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-2">
+                  <div className="p-4 rounded-xl bg-slate-950/60 backdrop-blur-xl border border-white/10 space-y-2">
                     <p className="text-xs font-mono-code text-slate-400 uppercase">
                       // Core Architecture Solution
                     </p>
@@ -319,7 +316,7 @@ export const ProjectsSection = () => {
                     ))}
                   </div>
 
-                  {/* Action Buttons (Clean & Professional) */}
+                  {/* Action Buttons */}
                   <div className="flex flex-wrap items-center gap-3 pt-2">
                     <button
                       onClick={() => setActiveModalProject(project)}
@@ -353,8 +350,8 @@ export const ProjectsSection = () => {
                       </a>
                     )}
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             );
           })}
         </div>

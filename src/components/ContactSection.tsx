@@ -1,21 +1,18 @@
-import { motion, useInView } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { 
   Send, 
   Mail, 
   MessageSquare, 
   CheckCircle2, 
   ExternalLink,
-  Bot,
-  Terminal as TerminalIcon
+  Bot
 } from 'lucide-react';
 
 export const ContactSection = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [dispatchMethod, setDispatchMethod] = useState<'telegram' | 'email'>('telegram');
   const [submitted, setSubmitted] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,12 +34,13 @@ export const ContactSection = () => {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24 relative overflow-hidden">
+    <section id="contact" className="py-28 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        {/* Section Header */}
+        {/* Section Header with Fade In */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
@@ -59,14 +57,17 @@ export const ContactSection = () => {
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Direct Channels */}
+          {/* Left Column: Slides from LEFT on scroll */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            initial={{ opacity: 0, x: -90 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 space-y-4"
           >
-            <div className="rounded-2xl bg-slate-950/70 backdrop-blur-xl border border-white/10 p-6 space-y-4">
+            <div className="rounded-2xl bg-slate-950/80 backdrop-blur-2xl border border-white/10 p-6 space-y-4 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+
               <h3 className="font-display text-lg font-bold text-white">
                 Direct Channels
               </h3>
@@ -134,17 +135,20 @@ export const ContactSection = () => {
             </div>
           </motion.div>
 
-          {/* Right Column: Clean Form */}
+          {/* Right Column: Slides from RIGHT on scroll */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 0, x: 90 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             className="lg:col-span-7"
           >
             <form
               onSubmit={handleFormSubmit}
-              className="rounded-2xl bg-slate-950/70 backdrop-blur-xl border border-white/10 p-6 sm:p-8 space-y-5"
+              className="rounded-2xl bg-slate-950/80 backdrop-blur-2xl border border-white/10 p-6 sm:p-8 space-y-5 shadow-2xl relative overflow-hidden"
             >
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+
               <div className="flex items-center justify-between pb-4 border-b border-white/10">
                 <div>
                   <h3 className="font-display text-xl font-bold text-white">
@@ -227,7 +231,7 @@ export const ContactSection = () => {
                 </div>
               </div>
 
-              {/* Submit CTA (Clean Solid White Button) */}
+              {/* Submit CTA */}
               <button
                 type="submit"
                 className="w-full py-3.5 px-6 rounded-xl font-mono-code text-sm font-medium text-black bg-white hover:bg-slate-200 transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"

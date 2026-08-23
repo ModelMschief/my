@@ -1,9 +1,8 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { 
   Brain, 
   Cpu, 
-  Layers, 
   Link2, 
   Database, 
   Server, 
@@ -146,8 +145,6 @@ const TECH_BADGES = [
 ];
 
 export const SkillsSection = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
   const [activeTab, setActiveTab] = useState<string>('all');
 
   const filteredClusters = activeTab === 'all' 
@@ -155,12 +152,13 @@ export const SkillsSection = () => {
     : SKILL_CLUSTERS.filter(c => c.id === activeTab);
 
   return (
-    <section id="skills" ref={sectionRef} className="py-24 relative overflow-hidden">
+    <section id="skills" className="py-28 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-        {/* Section Header */}
+        {/* Section Header with Fade In */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
@@ -175,7 +173,7 @@ export const SkillsSection = () => {
             Engineered for high throughput, sub-50ms AI retrieval, and zero-compromise cryptographic security.
           </p>
 
-          {/* Clean Domain Tabs */}
+          {/* Clean Domain Filter Tabs */}
           <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
             {[
               { id: 'all', label: 'All Domains' },
@@ -199,21 +197,28 @@ export const SkillsSection = () => {
           </div>
         </motion.div>
 
-        {/* 4 Clean Architecture Grid Cards */}
+        {/* 4 Architecture Grid Cards with Scroll-Driven Left/Right Slide */}
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
           {filteredClusters.map((cluster, index) => {
             const Icon = cluster.icon;
+            // Even index (0, 2) slides from LEFT (-85px), Odd index (1, 3) slides from RIGHT (+85px)
+            const isLeft = index % 2 === 0;
+
             return (
               <motion.div
                 key={cluster.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="rounded-2xl bg-slate-950/70 backdrop-blur-xl p-6 sm:p-8 border border-white/10 hover:border-white/20 transition-all duration-300"
+                initial={{ opacity: 0, x: isLeft ? -85 : 85 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="relative rounded-2xl bg-slate-950/80 backdrop-blur-2xl p-6 sm:p-8 border border-white/10 hover:border-white/20 transition-all duration-300 overflow-hidden group shadow-2xl"
               >
+                {/* Subtle top ambient edge line */}
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+
                 {/* Header */}
                 <div className="flex items-center gap-3.5 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:scale-105 transition-transform">
                     <Icon className="w-5 h-5 text-cyan-400" />
                   </div>
                   <div>
@@ -231,7 +236,7 @@ export const SkillsSection = () => {
                   {cluster.items.map((item) => (
                     <div
                       key={item.name}
-                      className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors"
+                      className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all"
                     >
                       <div className="flex items-center justify-between gap-2 mb-1">
                         <span className="text-sm font-semibold text-slate-200 font-display flex items-center gap-1.5">
@@ -253,12 +258,13 @@ export const SkillsSection = () => {
           })}
         </div>
 
-        {/* Global Tech Badges */}
+        {/* Global Tech Constellation Pills */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-14 pt-8 border-t border-white/10 text-center"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-16 pt-8 border-t border-white/10 text-center"
         >
           <p className="text-xs font-mono-code text-slate-400 mb-4 tracking-wider uppercase">
             // Full Technology & Tooling Constellation
@@ -267,7 +273,7 @@ export const SkillsSection = () => {
             {TECH_BADGES.map((tech) => (
               <span
                 key={tech}
-                className="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-mono-code text-slate-300 hover:text-white hover:border-white/20 transition-all duration-200 cursor-default"
+                className="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-mono-code text-slate-300 hover:text-white hover:border-white/20 hover:bg-white/10 transition-all duration-200 cursor-default"
               >
                 {tech}
               </span>
