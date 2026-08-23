@@ -14,7 +14,7 @@ export const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ onReveal }) 
     const video = videoRef.current;
     if (!video) return;
 
-    // Start video at normal speed (1.0x) without looping
+    // Start video at normal speed (1.0x)
     video.playbackRate = 1.0;
     video.play().catch((err) => {
       console.warn('Video auto-play error:', err);
@@ -29,30 +29,29 @@ export const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ onReveal }) 
         if (onReveal) onReveal();
       }
 
-      // 2. Milestone at 8.0s to end: Full slow-motion (0.35x)
+      // 2. Milestone at 8.0s: Full slow-motion (0.35x)
       if (time >= 8.0 && !slowMoRef.current) {
         slowMoRef.current = true;
         video.playbackRate = 0.35;
       }
-    };
 
-    // When video ends, stay frozen on the final cosmic space frame
-    const handleEnded = () => {
-      video.pause();
+      // 3. Milestone at 26.5s: Freeze & pause permanently on the starfield frame
+      if (time >= 26.5) {
+        video.pause();
+        video.currentTime = 26.5;
+      }
     };
 
     video.addEventListener('timeupdate', handleTimeUpdate);
-    video.addEventListener('ended', handleEnded);
 
     return () => {
       video.removeEventListener('timeupdate', handleTimeUpdate);
-      video.removeEventListener('ended', handleEnded);
     };
   }, [onReveal]);
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
-      {/* Non-looping bigbang video: plays normal, slows down at 8s, stops at end */}
+      {/* Non-looping bigbang video: plays normal, slows down at 8s, stops at 26.5s */}
       <video
         ref={videoRef}
         src={bigbangVideo}
