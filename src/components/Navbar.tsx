@@ -134,12 +134,10 @@ const Navbar = () => {
 
           <a
             href="#contact"
-            className="ml-3 group relative inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold font-mono-code text-white rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 p-[1px] hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+            className="ml-3 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold font-mono-code text-black bg-white hover:bg-slate-200 rounded-xl transition-all shadow-sm"
           >
-            <span className="px-3.5 py-1.5 rounded-[11px] bg-[#030712]/90 flex items-center gap-1.5 group-hover:bg-transparent transition-colors">
-              <Send className="w-3 h-3 text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              <span>DISPATCH</span>
-            </span>
+            <Send className="w-3 h-3 text-black" />
+            <span>Contact</span>
           </a>
         </div>
 
@@ -147,7 +145,7 @@ const Navbar = () => {
         <div className="md:hidden flex items-center gap-2">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300 hover:text-cyan-400 transition-colors"
+            className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-colors"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -161,7 +159,7 @@ const Navbar = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="md:hidden max-w-6xl mx-auto mt-2 p-4 rounded-2xl glass-dock border border-cyan-500/20 shadow-2xl space-y-2"
+          className="md:hidden max-w-6xl mx-auto mt-2 p-4 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-white/10 shadow-2xl space-y-2"
         >
           {navLinks.map((link) => (
             <a
@@ -170,8 +168,8 @@ const Navbar = () => {
               onClick={() => setMobileOpen(false)}
               className={`block px-4 py-2.5 rounded-xl text-sm font-mono-code transition-colors ${
                 activeSection === link.href.slice(1)
-                  ? 'text-cyan-300 bg-cyan-500/15 border border-cyan-500/30'
-                  : 'text-slate-300 hover:bg-slate-800/60'
+                  ? 'text-white bg-white/10 font-semibold'
+                  : 'text-slate-300 hover:bg-white/5'
               }`}
             >
               {link.label}
@@ -180,9 +178,9 @@ const Navbar = () => {
           <a
             href="#contact"
             onClick={() => setMobileOpen(false)}
-            className="block text-center mt-3 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 text-white font-mono-code text-sm font-semibold shadow-lg shadow-cyan-500/20"
+            className="block text-center mt-3 py-2.5 px-4 rounded-xl bg-white text-black font-mono-code text-sm font-semibold"
           >
-            // INITIALIZE CONTACT
+            Contact
           </a>
         </motion.div>
       )}

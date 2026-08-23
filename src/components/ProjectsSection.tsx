@@ -11,20 +11,23 @@ import {
   X, 
   CheckCircle,
   Terminal,
-  Bot
+  Bot,
+  ArrowRight,
+  Code2
 } from 'lucide-react';
 
 interface Project {
   id: string;
   title: string;
   category: string;
-  categoryTag: 'ai' | 'blockchain' | 'backend';
   shortDesc: string;
   fullDesc: string;
   metrics: { label: string; value: string }[];
   tags: string[];
-  gradient: string;
-  borderGlow: string;
+  consoleSnippet: {
+    filename: string;
+    code: string[];
+  };
   architecture: {
     problem: string;
     solution: string;
@@ -33,7 +36,6 @@ interface Project {
   links: {
     github?: string;
     telegram?: string;
-    demo?: string;
   };
 }
 
@@ -42,7 +44,6 @@ const PROJECTS: Project[] = [
     id: 'bsc-gateway',
     title: 'BSC Non-Custodial Payment Gateway',
     category: 'Blockchain & Cryptography',
-    categoryTag: 'blockchain',
     shortDesc: 'High-throughput, non-custodial Binance Smart Chain payment infrastructure with direct node communication and zero third-party intermediaries.',
     fullDesc: 'Architected a zero-custody BSC payment pipeline directly querying BSC full nodes via raw JSON-RPC. Users retain 100% private key sovereignty while merchant applications receive instantaneous on-chain confirmation webhooks.',
     metrics: [
@@ -51,8 +52,18 @@ const PROJECTS: Project[] = [
       { label: 'Platform', value: 'Telegram Native' },
     ],
     tags: ['Python', 'BSC JSON-RPC', 'Web3.py', 'Telegram API', 'Asyncio'],
-    gradient: 'from-amber-500/20 via-yellow-500/10 to-transparent',
-    borderGlow: 'hover:border-amber-500/50 hover:shadow-[0_0_30px_rgba(245,158,11,0.25)]',
+    consoleSnippet: {
+      filename: 'bsc_gateway_engine.py',
+      code: [
+        '# Direct JSON-RPC Node Subscription',
+        'async def listen_deposits(contract_address):',
+        '    async with bsc_node_session() as node:',
+        '        events = await node.get_transfer_logs(contract_address)',
+        '        for tx in events:',
+        '            if verify_signature(tx.hash) and tx.confirmed:',
+        '                await dispatch_telegram_receipt(tx.recipient, tx.amount)',
+      ],
+    },
     architecture: {
       problem: 'Traditional crypto gateways enforce custody, charge hefty 1-3% fees, and introduce single points of failure via closed-source SaaS APIs.',
       solution: 'Direct RPC node subscription listening to pending block headers, verifying raw tx inputs, and confirming balance state with zero counterparty risk.',
@@ -72,7 +83,6 @@ const PROJECTS: Project[] = [
     id: 'custom-rag',
     title: 'Custom Modular RAG Pipeline',
     category: 'AI & Machine Learning',
-    categoryTag: 'ai',
     shortDesc: 'Production-ready Retrieval-Augmented Generation framework featuring hybrid keyword/vector search, re-ranking, and dynamic citation tracing.',
     fullDesc: 'An enterprise RAG library built for high retrieval fidelity and minimal latency. Implements custom chunking strategies, dense embeddings, BM25 sparse index merging, and context compression before LLM generation.',
     metrics: [
@@ -81,8 +91,18 @@ const PROJECTS: Project[] = [
       { label: 'LLM Support', value: 'Gemini / OpenAI' },
     ],
     tags: ['Python', 'ChromaDB', 'LangChain', 'FastAPI', 'Vector Search'],
-    gradient: 'from-violet-500/20 via-purple-500/10 to-transparent',
-    borderGlow: 'hover:border-violet-500/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.25)]',
+    consoleSnippet: {
+      filename: 'rag_hybrid_retriever.py',
+      code: [
+        '# Hybrid Dense + Sparse BM25 Fusion',
+        'class HybridRetriever:',
+        '    def query(self, text: str, top_k: int = 5):',
+        '        dense_results = self.vector_store.similarity_search(text, k=10)',
+        '        sparse_results = self.bm25_index.search(text, k=10)',
+        '        ranked_docs = reciprocal_rank_fusion(dense_results, sparse_results)',
+        '        return self.cross_encoder.rerank(ranked_docs)[:top_k]',
+      ],
+    },
     architecture: {
       problem: 'Vanilla RAG setups suffer from semantic hallucinations, slow multi-second retrieval times, and context token bloat.',
       solution: 'Multi-stage pipeline: Recursive character chunking -> Dense vector + BM25 sparse retrieval -> Cross-encoder re-ranking -> Citation generation.',
@@ -101,7 +121,6 @@ const PROJECTS: Project[] = [
     id: 'ton-crypto-lib',
     title: 'TON Blockchain Python Library',
     category: 'Web3 & Decentralized Protocols',
-    categoryTag: 'blockchain',
     shortDesc: 'Developer-facing Python SDK for seamless TON transactions, address checksumming, and Telegram Mini App payment integrations.',
     fullDesc: 'Engineered a lightweight, async-first Python client library for TON (The Open Network). Eliminates massive dependency overhead while offering typed helpers for TonConnect payload generation and Bag-of-Cells (BOC) deserialization.',
     metrics: [
@@ -110,8 +129,17 @@ const PROJECTS: Project[] = [
       { label: 'Dependency Size', value: 'Minimal Overhead' },
     ],
     tags: ['Python 3.11', 'TON Network', 'BOC Serialization', 'Asyncio', 'API'],
-    gradient: 'from-cyan-500/20 via-blue-500/10 to-transparent',
-    borderGlow: 'hover:border-cyan-500/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.25)]',
+    consoleSnippet: {
+      filename: 'ton_wallet_client.py',
+      code: [
+        '# TON Async Payload Construction',
+        'async def send_ton_transfer(dest_addr: str, nano_ton: int, memo: str):',
+        '    boc_cell = Cell.create_transfer_payload(dest_addr, nano_ton, memo)',
+        '    serialized = boc_cell.to_boc(has_crc32=True)',
+        '    response = await ton_lite_client.broadcast_message(serialized)',
+        '    return response.tx_hash',
+      ],
+    },
     architecture: {
       problem: 'Existing TON tooling in Python was fragmented, poorly typed, or tied to bloated C-bindings.',
       solution: 'A clean, modern async library supporting TON HTTP API v2/v4, raw message serialization, and TonConnect signature verifications.',
@@ -130,7 +158,6 @@ const PROJECTS: Project[] = [
     id: 'api-platform',
     title: 'High-Concurrency Multi-Tenant API Gateway',
     category: 'Backend & Cloud Systems',
-    categoryTag: 'backend',
     shortDesc: 'Multi-server API gateway prototype hosting 5+ specialized microservices with Flask ML inference nodes and Redis in-memory caching.',
     fullDesc: 'Designed a distributed microservice topology where a FastAPI gateway routes incoming client traffic, enforces rate limiting via Redis token buckets, and dispatches compute-heavy machine learning tasks to dedicated Flask worker nodes.',
     metrics: [
@@ -139,8 +166,18 @@ const PROJECTS: Project[] = [
       { label: 'Topology', value: 'Multi-Server Nodes' },
     ],
     tags: ['FastAPI', 'Flask', 'Redis', 'Machine Learning', 'Docker'],
-    gradient: 'from-emerald-500/20 via-teal-500/10 to-transparent',
-    borderGlow: 'hover:border-emerald-500/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.25)]',
+    consoleSnippet: {
+      filename: 'api_gateway_router.py',
+      code: [
+        '# Redis Token Bucket & ML Proxying',
+        '@app.post("/v1/predict/inference")',
+        '@rate_limit(redis_client, max_requests=100, window_sec=60)',
+        'async def dispatch_ml_inference(payload: PredictRequest):',
+        '    cached_res = await redis_client.get(payload.cache_key)',
+        '    if cached_res: return cached_res',
+        '    return await ml_worker_pool.forward(payload)',
+      ],
+    },
     architecture: {
       problem: 'Monolithic API backends bottleneck when serving compute-heavy ML inferences alongside low-latency CRUD requests.',
       solution: 'Split architecture: Fast non-blocking asynchronous gateway for auth/caching + decoupled horizontal Flask workers for ML inference.',
@@ -155,47 +192,12 @@ const PROJECTS: Project[] = [
       github: 'https://github.com/modelmsschief',
     },
   },
-  {
-    id: 'telegram-automation',
-    title: 'Enterprise Telegram Automation & Bot Engine',
-    category: 'Systems Automation',
-    categoryTag: 'backend',
-    shortDesc: 'Automated notification pipelines, MongoDB persistence layers, dynamic interactive keyboards, and payment state machines on Telegram.',
-    fullDesc: 'End-to-end automation suite running on the Telegram Bot API. Integrates stateful conversational funnels, MongoDB aggregations, and webhook verification to handle thousands of automated user interactions.',
-    metrics: [
-      { label: 'Architecture', value: 'Async Webhook Daemon' },
-      { label: 'Database', value: 'MongoDB Aggregations' },
-      { label: 'Uptime', value: '99.9% Resilient' },
-    ],
-    tags: ['Python', 'Telegram Bot API', 'MongoDB', 'Redis', 'Webhooks'],
-    gradient: 'from-sky-500/20 via-cyan-500/10 to-transparent',
-    borderGlow: 'hover:border-sky-500/50 hover:shadow-[0_0_30px_rgba(14,165,233,0.25)]',
-    architecture: {
-      problem: 'Standard polling Telegram bots drop updates under load and suffer from race conditions in payment workflows.',
-      solution: 'Webhook-driven architecture with idempotent event processing, distributed Redis locks, and ACID MongoDB session states.',
-      flow: [
-        'Telegram webhook dispatches encrypted update payload',
-        'State machine resolves current user step and context',
-        'MongoDB atomic transaction updates user balance or state',
-        'Instantaneous rich response rendered to Telegram chat',
-      ],
-    },
-    links: {
-      github: 'https://github.com/modelmsschief',
-      telegram: 'https://t.me/gojo16s',
-    },
-  },
 ];
 
 export const ProjectsSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'ai' | 'blockchain' | 'backend'>('all');
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
-
-  const filteredProjects = selectedFilter === 'all'
-    ? PROJECTS
-    : PROJECTS.filter(p => p.categoryTag === selectedFilter);
 
   return (
     <section id="projects" ref={sectionRef} className="py-24 relative overflow-hidden">
@@ -205,172 +207,180 @@ export const ProjectsSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border-cyan-500/30 text-xs font-mono-code text-cyan-300 mb-4 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
-            <Layers className="w-3.5 h-3.5" />
-            <span>MISSION ARCHIVES</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono-code text-slate-300 mb-4">
+            <Layers className="w-3.5 h-3.5 text-cyan-400" />
+            <span>FEATURED SHOWCASE</span>
           </div>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Featured <span className="text-gradient-cyan">Architectures</span>
+            Production <span className="text-slate-200">Architectures</span>
           </h2>
           <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg mt-3 font-light">
-            Real-world systems engineered for non-custodial blockchain execution, sub-50ms RAG retrieval, and scalable backend automation.
+            Engineered for zero-custody blockchain execution, sub-50ms AI retrieval, and scalable backend automation.
           </p>
-
-          {/* Filter Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
-            {[
-              { id: 'all', label: '// ALL PROJECTS' },
-              { id: 'blockchain', label: '// BLOCKCHAIN & WEB3' },
-              { id: 'ai', label: '// AI & RAG' },
-              { id: 'backend', label: '// BACKEND & AUTOMATION' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setSelectedFilter(tab.id as any)}
-                className={`px-4 py-2 rounded-xl text-xs font-mono-code transition-all duration-200 ${
-                  selectedFilter === tab.id
-                    ? 'bg-cyan-500 text-black font-bold shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-                    : 'glass-card text-slate-300 hover:text-white hover:border-slate-600'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
         </motion.div>
 
-        {/* Project Cards Grid */}
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`group rounded-2xl glass-card border border-slate-800/90 ${project.borderGlow} transition-all duration-500 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden`}
-            >
-              {/* Subtle top ambient glow */}
-              <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${project.gradient}`} />
+        {/* Alternating Left-Right-Left-Right Showcase */}
+        <div className="space-y-20 sm:space-y-28">
+          {PROJECTS.map((project, index) => {
+            const isEven = index % 2 === 1;
 
-              <div>
-                {/* Top Row: Category & Blueprint Trigger */}
-                <div className="flex items-center justify-between gap-4 mb-4">
-                  <span className="text-[11px] font-mono-code text-cyan-400 uppercase tracking-wider px-2.5 py-1 rounded-md bg-cyan-950/40 border border-cyan-500/20">
-                    {project.category}
-                  </span>
-                  <button
-                    onClick={() => setActiveModalProject(project)}
-                    className="inline-flex items-center gap-1.5 text-xs font-mono-code text-slate-400 group-hover:text-cyan-300 transition-colors"
-                  >
-                    <span>[BLUEPRINT]</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </button>
-                </div>
-
-                {/* Title */}
-                <h3 
-                  onClick={() => setActiveModalProject(project)}
-                  className="font-display text-2xl font-bold text-white group-hover:text-cyan-200 transition-colors cursor-pointer mb-3"
+            return (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="grid lg:grid-cols-12 gap-8 sm:gap-12 items-center"
+              >
+                {/* Visual / Code Console Column */}
+                <div
+                  className={`lg:col-span-6 ${
+                    isEven ? 'lg:order-2' : 'lg:order-1'
+                  }`}
                 >
-                  {project.title}
-                </h3>
-
-                {/* Short Description */}
-                <p className="text-sm text-slate-300 leading-relaxed font-light mb-6">
-                  {project.shortDesc}
-                </p>
-
-                {/* Architecture Metric Badges */}
-                <div className="grid grid-cols-3 gap-2 mb-6 p-3 rounded-xl bg-slate-950/50 border border-slate-800/80">
-                  {project.metrics.map((m) => (
-                    <div key={m.label} className="text-center">
-                      <p className="text-xs font-bold text-white font-mono-code truncate">{m.value}</p>
-                      <p className="text-[10px] text-slate-400 font-mono-code truncate">{m.label}</p>
+                  <div className="rounded-2xl bg-slate-950/80 backdrop-blur-xl border border-white/10 overflow-hidden shadow-2xl group hover:border-white/20 transition-all duration-300">
+                    {/* Console Header Bar */}
+                    <div className="flex items-center justify-between px-4 py-3 bg-white/[0.03] border-b border-white/10">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
+                        <span className="text-xs font-mono-code text-slate-400 ml-2">
+                          {project.consoleSnippet.filename}
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono-code text-slate-500">PRODUCTION</span>
                     </div>
-                  ))}
-                </div>
-              </div>
 
-              <div>
-                {/* Tech Tags */}
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-1 rounded-md bg-slate-900/80 border border-slate-800 text-[11px] font-mono-code text-slate-300"
-                    >
-                      {tag}
+                    {/* Console Code Body */}
+                    <div className="p-5 font-mono-code text-xs leading-relaxed text-slate-300 overflow-x-auto space-y-1">
+                      {project.consoleSnippet.code.map((line, i) => (
+                        <div key={i} className="flex">
+                          <span className="text-slate-600 select-none w-6 shrink-0">{i + 1}</span>
+                          <span className={`${line.startsWith('#') ? 'text-slate-500 italic' : line.includes('def ') || line.includes('class ') ? 'text-cyan-400 font-semibold' : 'text-slate-200'}`}>
+                            {line}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Console Bottom Verification Metrics Bar */}
+                    <div className="grid grid-cols-3 gap-2 px-4 py-3 bg-white/[0.02] border-t border-white/10 text-center">
+                      {project.metrics.map((m) => (
+                        <div key={m.label}>
+                          <p className="text-xs font-bold text-white font-mono-code truncate">{m.value}</p>
+                          <p className="text-[10px] text-slate-400 font-mono-code truncate">{m.label}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Narrative & Details Column */}
+                <div
+                  className={`lg:col-span-6 space-y-6 ${
+                    isEven ? 'lg:order-1' : 'lg:order-2'
+                  }`}
+                >
+                  <div className="space-y-3">
+                    <span className="text-xs font-mono-code text-cyan-400 uppercase tracking-wider px-3 py-1 rounded-md bg-white/[0.04] border border-white/10 inline-block">
+                      {project.category}
                     </span>
-                  ))}
-                </div>
+                    <h3 className="font-display text-3xl sm:text-4xl font-bold text-white">
+                      {project.title}
+                    </h3>
+                    <p className="text-base text-slate-300 leading-relaxed font-light">
+                      {project.fullDesc}
+                    </p>
+                  </div>
 
-                {/* Card Actions */}
-                <div className="flex items-center justify-between pt-4 border-t border-slate-800/80">
-                  <button
-                    onClick={() => setActiveModalProject(project)}
-                    className="text-xs font-mono-code text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 font-semibold"
-                  >
-                    <span>VIEW ARCHITECTURE</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </button>
+                  {/* Architecture Highlights Pill Box */}
+                  <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-2">
+                    <p className="text-xs font-mono-code text-slate-400 uppercase">
+                      // Core Architecture Solution
+                    </p>
+                    <p className="text-xs text-slate-200 leading-relaxed font-light">
+                      {project.architecture.solution}
+                    </p>
+                  </div>
 
-                  <div className="flex items-center gap-3">
+                  {/* Tech Stack Pills */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-xs font-mono-code text-slate-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Action Buttons (Clean & Professional) */}
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
+                    <button
+                      onClick={() => setActiveModalProject(project)}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-medium text-black bg-white hover:bg-slate-200 transition-all shadow-sm font-mono-code"
+                    >
+                      <span>Architecture Details</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-black" />
+                    </button>
+
                     {project.links.github && (
                       <a
                         href={project.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-colors"
-                        title="GitHub Profile & Repository"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all font-mono-code"
                       >
-                        <Github className="w-4 h-4" />
+                        <Github className="w-3.5 h-3.5" />
+                        <span>GitHub</span>
                       </a>
                     )}
+
                     {project.links.telegram && (
                       <a
                         href={project.links.telegram}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors"
-                        title="Telegram Integration"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all font-mono-code"
                       >
-                        <Bot className="w-4 h-4" />
+                        <Bot className="w-3.5 h-3.5" />
+                        <span>Telegram Bot</span>
                       </a>
                     )}
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
-      {/* Deep-Dive Architecture Blueprint Modal */}
+      {/* Architecture Deep-Dive Modal */}
       <AnimatePresence>
         {activeModalProject && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveModalProject(null)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-md"
+              className="fixed inset-0 bg-black/85 backdrop-blur-md"
             />
 
-            {/* Modal Window */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.96, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative max-w-2xl w-full rounded-2xl glass-card border border-cyan-500/40 p-6 sm:p-8 shadow-2xl shadow-cyan-950/60 z-10 max-h-[90vh] overflow-y-auto"
+              exit={{ opacity: 0, scale: 0.96, y: 15 }}
+              className="relative max-w-2xl w-full rounded-2xl bg-slate-950 border border-white/15 p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-6"
             >
-              {/* Modal Header */}
-              <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-800">
+              <div className="flex items-start justify-between gap-4 pb-4 border-b border-white/10">
                 <div>
-                  <span className="text-xs font-mono-code text-cyan-400 uppercase tracking-wider">
+                  <span className="text-xs font-mono-code text-cyan-400 uppercase">
                     // ARCHITECTURE BLUEPRINT
                   </span>
                   <h3 className="font-display text-2xl font-bold text-white mt-1">
@@ -379,104 +389,69 @@ export const ProjectsSection = () => {
                 </div>
                 <button
                   onClick={() => setActiveModalProject(null)}
-                  className="p-2 rounded-lg bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 transition-colors"
+                  className="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/10 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Modal Body */}
-              <div className="mt-6 space-y-6">
-                {/* Full Description */}
-                <div>
-                  <h4 className="text-xs font-mono-code text-slate-400 uppercase mb-2">
-                    // Overview & Technical Scope
-                  </h4>
-                  <p className="text-sm text-slate-200 leading-relaxed font-light">
-                    {activeModalProject.fullDesc}
+              {/* Problem vs Solution */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
+                  <p className="text-xs font-mono-code text-red-400 font-bold mb-1">
+                    [THE BOTTLENECK]
+                  </p>
+                  <p className="text-xs text-slate-300 leading-relaxed font-light">
+                    {activeModalProject.architecture.problem}
                   </p>
                 </div>
-
-                {/* Problem vs Solution */}
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl bg-red-950/20 border border-red-500/20">
-                    <p className="text-xs font-mono-code text-red-400 font-bold mb-1">
-                      [THE BOTTLENECK]
-                    </p>
-                    <p className="text-xs text-slate-300 leading-relaxed">
-                      {activeModalProject.architecture.problem}
-                    </p>
-                  </div>
-                  <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/20">
-                    <p className="text-xs font-mono-code text-cyan-400 font-bold mb-1">
-                      [THE ARCHITECTURE]
-                    </p>
-                    <p className="text-xs text-slate-300 leading-relaxed">
-                      {activeModalProject.architecture.solution}
-                    </p>
-                  </div>
+                <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
+                  <p className="text-xs font-mono-code text-cyan-400 font-bold mb-1">
+                    [THE ARCHITECTURE]
+                  </p>
+                  <p className="text-xs text-slate-300 leading-relaxed font-light">
+                    {activeModalProject.architecture.solution}
+                  </p>
                 </div>
+              </div>
 
-                {/* Data Flow Execution Steps */}
-                <div>
-                  <h4 className="text-xs font-mono-code text-slate-400 uppercase mb-3">
-                    // Data Flow Pipeline
-                  </h4>
-                  <div className="space-y-2 font-mono-code text-xs">
-                    {activeModalProject.architecture.flow.map((step, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-start gap-3 p-2.5 rounded-lg bg-slate-950/60 border border-slate-800/80 text-slate-300"
-                      >
-                        <span className="text-cyan-400 font-bold shrink-0">
-                          0{idx + 1}.
-                        </span>
-                        <span>{step}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Metrics */}
-                <div className="p-4 rounded-xl glass-card border border-slate-800">
-                  <h4 className="text-xs font-mono-code text-slate-400 uppercase mb-3">
-                    // Key Engineering Verification
-                  </h4>
-                  <div className="grid grid-cols-3 gap-2">
-                    {activeModalProject.metrics.map((m) => (
-                      <div key={m.label} className="text-center p-2 rounded-lg bg-black/40">
-                        <p className="text-sm font-bold text-cyan-300 font-mono-code">{m.value}</p>
-                        <p className="text-[10px] text-slate-400 font-mono-code mt-0.5">{m.label}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Action Links */}
-                <div className="flex flex-wrap items-center justify-end gap-3 pt-4 border-t border-slate-800">
-                  {activeModalProject.links.github && (
-                    <a
-                      href={activeModalProject.links.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl glass-card hover:bg-slate-800 text-xs font-mono-code text-white border-slate-700"
+              {/* Data Flow Pipeline */}
+              <div>
+                <h4 className="text-xs font-mono-code text-slate-400 uppercase mb-3">
+                  // Data Flow Pipeline
+                </h4>
+                <div className="space-y-2 font-mono-code text-xs">
+                  {activeModalProject.architecture.flow.map((step, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-start gap-3 p-3 rounded-lg bg-white/[0.03] border border-white/5 text-slate-300"
                     >
-                      <Github className="w-4 h-4" />
-                      <span>GITHUB PROFILE</span>
-                    </a>
-                  )}
-                  {activeModalProject.links.telegram && (
-                    <a
-                      href={activeModalProject.links.telegram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 text-xs font-mono-code font-bold text-white shadow-lg shadow-cyan-500/20"
-                    >
-                      <Bot className="w-4 h-4" />
-                      <span>DISPATCH VIA TELEGRAM</span>
-                    </a>
-                  )}
+                      <span className="text-cyan-400 font-bold shrink-0">0{idx + 1}.</span>
+                      <span>{step}</span>
+                    </div>
+                  ))}
                 </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+                <button
+                  onClick={() => setActiveModalProject(null)}
+                  className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-mono-code text-white transition-colors"
+                >
+                  Close
+                </button>
+                {activeModalProject.links.github && (
+                  <a
+                    href={activeModalProject.links.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-black hover:bg-slate-200 text-xs font-mono-code font-semibold transition-colors"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                    <span>View Repository</span>
+                  </a>
+                )}
               </div>
             </motion.div>
           </div>

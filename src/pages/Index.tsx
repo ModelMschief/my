@@ -8,8 +8,8 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 relative selection:bg-cyan-500/30 selection:text-cyan-200">
-      {/* 1. Atmospheric Big Bang & Gravitational Starfield Engine */}
+    <div className="min-h-screen bg-transparent text-slate-100 relative selection:bg-cyan-500/30 selection:text-cyan-200">
+      {/* 1. Atmospheric Big Bang Background Engine */}
       <CosmicBackground />
 
       {/* 2. Interactive Glassmorphic Navigation */}
