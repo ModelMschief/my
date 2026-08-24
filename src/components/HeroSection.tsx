@@ -130,15 +130,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
             </div>
           </motion.div>
 
-          {/* Right Column: Interactive 60 FPS ASCII Particle Physics Portrait */}
-          <motion.div
-            initial={{ x: 140, opacity: 0 }}
-            animate={isRevealed ? { x: 0, opacity: 1 } : { x: 140, opacity: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="lg:col-span-5 flex justify-center lg:justify-end lg:pt-1"
-          >
-            <AsciiParticleCanvas />
-          </motion.div>
+          {/* Right Column: Interactive 60 FPS ASCII Particle Physics Portrait (Streams in from the right) */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end lg:pt-1">
+            <AsciiParticleCanvas isRevealed={isRevealed} />
+          </div>
         </div>
       </div>
     </section>

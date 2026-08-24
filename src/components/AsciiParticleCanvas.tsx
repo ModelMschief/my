@@ -14,21 +14,38 @@ interface Particle {
   friction: number;
   blastMultiplier: number;
   driftPhase: number;
+  spawnDelay: number;
+  hasStartedTravel: boolean;
+  alpha: number;
 }
 
 interface AsciiParticleCanvasProps {
   className?: string;
+  isRevealed?: boolean;
 }
 
-export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ className = '' }) => {
+export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ 
+  className = '', 
+  isRevealed = true 
+}) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const anchorRef = useRef<HTMLDivElement | null>(null);
+  const isRevealedRef = useRef(isRevealed);
+  const revealStartTimeRef = useRef<number | null>(null);
+
   const mouseRef = useRef<{ x: number; y: number; radius: number; isHovering: boolean }>({
     x: -9999,
     y: -9999,
     radius: 95,
     isHovering: false,
   });
+
+  useEffect(() => {
+    isRevealedRef.current = isRevealed;
+    if (isRevealed && revealStartTimeRef.current === null) {
+      revealStartTimeRef.current = performance.now();
+    }
+  }, [isRevealed]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -67,8 +84,12 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
         for (let c = 0; c < line.length; c++) {
           const char = line[c];
           if (char && char !== ' ') {
-            const startX = anchorRect.left + c * cellWidth + cellWidth / 2;
-            const startY = anchorRect.top + r * cellHeight + cellHeight / 2;
+            const targetX = anchorRect.left + c * cellWidth + cellWidth / 2;
+            const targetY = anchorRect.top + r * cellHeight + cellHeight / 2;
+
+            // Start off-screen to the right with random staggered distances and vertical spread
+            const startX = targetX + 280 + Math.random() * 450;
+            const startY = targetY + (Math.random() - 0.5) * 220;
 
             particles.push({
               x: startX,
@@ -79,10 +100,13 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
               vy: 0,
               char,
               size: fontSize,
-              ease: 0.008 + Math.random() * 0.010, // Majestic, leisurely return drift across site
+              ease: 0.009 + Math.random() * 0.009, // Smooth graceful travel speed
               friction: 0.94 + Math.random() * 0.02,
               blastMultiplier: 1.0 + Math.random() * 0.7,
               driftPhase: Math.random() * Math.PI * 2,
+              spawnDelay: Math.random() * 1.6, // Staggered stream-in delay (0 - 1.6s)
+              hasStartedTravel: false,
+              alpha: 0,
             });
           }
         }
@@ -132,7 +156,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('touchend', handleMouseLeave);
 
-    // 60 FPS Dynamic Tracking & Physics Loop
+    // 60 FPS Particle Physics & Assembly Engine
     let timeTick = 0;
     const render = () => {
       timeTick += 0.015;
@@ -146,8 +170,12 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
 
       const mouse = mouseRef.current;
       const radius = mouse.radius;
+      const now = performance.now();
+      const isRev = isRevealedRef.current;
+      const startTime = revealStartTimeRef.current || now;
+      const timeSinceRevealSec = (now - startTime) / 1000;
 
-      // Real-time anchor tracking (adapts dynamically to scroll, resize, entrance animation)
+      // Real-time anchor tracking (adapts dynamically to scroll, resize)
       const anchorRect = anchor.getBoundingClientRect();
       const anchorWidth = anchorRect.width;
       const anchorHeight = (anchorWidth * rowCount) / (maxColCount * CHAR_ASPECT_RATIO);
@@ -157,19 +185,34 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
 
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-      ctx.shadowColor = 'rgba(255, 255, 255, 0.55)';
       ctx.shadowBlur = 6;
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.size = fontSize;
 
-        // Dynamic target home coordinates following anchor position in real time
+        // Dynamic home coordinates following anchor position in real time
         const originX = anchorRect.left + p.col * cellWidth + cellWidth / 2;
         const originY = anchorRect.top + p.row * cellHeight + cellHeight / 2;
 
-        // 1. High-Velocity Scatter on Cursor Contact
+        // Check if particle should start streaming in from the right
+        if (isRev && !p.hasStartedTravel) {
+          if (timeSinceRevealSec >= p.spawnDelay) {
+            p.hasStartedTravel = true;
+          }
+        }
+
+        if (!p.hasStartedTravel) {
+          // Keep floating off-screen to the right until staggered turn arrives
+          continue;
+        }
+
+        // Fade particle in as it travels
+        if (p.alpha < 1.0) {
+          p.alpha = Math.min(1.0, p.alpha + 0.035);
+        }
+
+        // 1. High-Velocity Scatter on Cursor Contact (Unchanged Hover Engine)
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -185,9 +228,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
           p.y += Math.sin(angle) * (push * 0.4);
         }
 
-        // 2. Two-Phase Precision Return:
-        // - Phase A (Far > 35px): Slow, majestic cosmic drift across the site
-        // - Phase B (Near <= 35px): Decisive, clean convergence locking straight into target without stalling
+        // 2. Two-Phase Precision Return & Stream-In Assembly
         const homeDx = originX - p.x;
         const homeDy = originY - p.y;
         const homeDist = Math.sqrt(homeDx * homeDx + homeDy * homeDy);
@@ -196,7 +237,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
           p.vx += homeDx * p.ease;
           p.vy += homeDy * p.ease;
 
-          // Zero-gravity atmospheric wave drift while far away
+          // Gentle zero-gravity atmospheric drift while traveling
           p.vx += Math.cos(p.driftPhase + timeTick) * 0.16;
           p.vy += Math.sin(p.driftPhase + timeTick) * 0.16;
 
@@ -206,7 +247,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
           p.x += p.vx;
           p.y += p.vy;
         } else if (homeDist > 0.4) {
-          // Decisive smooth convergence when close to home (no stalling or lingering)
+          // Decisive smooth convergence straight into position
           const lerpSpeed = Math.min(0.22, 0.10 + ((35 - homeDist) / 35) * 0.12);
           p.x += homeDx * lerpSpeed;
           p.y += homeDy * lerpSpeed;
@@ -220,7 +261,9 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
           p.vy = 0;
         }
 
-        // 3. Render Character Particle
+        // 3. Render Character Particle with Alpha Fade
+        ctx.fillStyle = `rgba(255, 255, 255, ${0.95 * p.alpha})`;
+        ctx.shadowColor = `rgba(255, 255, 255, ${0.55 * p.alpha})`;
         ctx.font = `${p.size}px "JetBrains Mono", ui-monospace, SFMono-Regular, monospace`;
         ctx.fillText(p.char, p.x, p.y);
       }
@@ -250,7 +293,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({ classN
         aria-hidden="true"
       />
 
-      {/* 2. Full-Screen Fixed Canvas allowing particles to disperse across the entire website */}
+      {/* 2. Full-Screen Fixed Canvas allowing particles to stream in and disperse */}
       <canvas 
         ref={canvasRef} 
         className="fixed inset-0 w-screen h-screen pointer-events-none z-20 block touch-none"
