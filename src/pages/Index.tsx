@@ -6,11 +6,12 @@ import SkillsSection from '@/components/SkillsSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
+import AmbientAudio from '@/components/AmbientAudio';
 
 const Index = () => {
   const [isRevealed, setIsRevealed] = useState(false);
 
-  // If user scrolls before 6 seconds, reveal immediately for convenience
+  // If user scrolls before 5 seconds, reveal immediately for convenience
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -26,7 +27,7 @@ const Index = () => {
       {/* 1. Atmospheric Non-Looping Big Bang Background Engine */}
       <CosmicBackground onReveal={() => setIsRevealed(true)} />
 
-      {/* 2. Interactive Navigation (Slides down at 6s) */}
+      {/* 2. Interactive Navigation (Slides down at 5s) */}
       <Navbar isRevealed={isRevealed} />
 
       {/* 3. Main Content Sections */}
@@ -37,7 +38,10 @@ const Index = () => {
         <ContactSection />
       </main>
 
-      {/* 4. Cosmic Footer */}
+      {/* 4. Looped Background Ambient Audio (Low volume with HUD control) */}
+      <AmbientAudio isRevealed={isRevealed} />
+
+      {/* 5. Cosmic Footer */}
       <Footer />
     </div>
   );

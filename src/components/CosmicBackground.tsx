@@ -23,8 +23,8 @@ export const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ onReveal }) 
     const handleTimeUpdate = () => {
       const time = video.currentTime;
 
-      // 1. Milestone at 6.0s: Trigger Left & Right portfolio emergence
-      if (time >= 6.0 && !revealedRef.current) {
+      // 1. Milestone at 5.0s: Trigger Left & Right portfolio emergence
+      if (time >= 5.0 && !revealedRef.current) {
         revealedRef.current = true;
         if (onReveal) onReveal();
       }
