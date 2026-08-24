@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { ArrowRight, Send, Github, Linkedin, Briefcase } from 'lucide-react';
-import AsciiPortrait from '@/components/AsciiPortrait';
+import AsciiParticleCanvas from '@/components/AsciiParticleCanvas';
 
 const ROLES = [
   'AI & RAG Pipeline Architect',
@@ -27,10 +27,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
   return (
     <section
       id="home"
-      className="min-h-screen relative flex items-center justify-center pt-28 pb-16 px-4 sm:px-6"
+      className="min-h-screen relative flex items-start justify-center pt-20 sm:pt-24 lg:pt-28 pb-12 px-4 sm:px-6"
     >
       <div className="max-w-6xl w-full mx-auto relative z-10">
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Column: Glides in from the LEFT at 5s */}
           <motion.div
             initial={{ x: -140, opacity: 0 }}
@@ -130,14 +130,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
             </div>
           </motion.div>
 
-          {/* Right Column: Custom Holographic ASCII Portrait Photo Frame */}
+          {/* Right Column: Interactive 60 FPS ASCII Particle Physics Portrait */}
           <motion.div
             initial={{ x: 140, opacity: 0 }}
             animate={isRevealed ? { x: 0, opacity: 1 } : { x: 140, opacity: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="lg:col-span-5 flex justify-center lg:justify-end"
+            className="lg:col-span-5 flex justify-center lg:justify-end lg:pt-1"
           >
-            <AsciiPortrait />
+            <AsciiParticleCanvas />
           </motion.div>
         </div>
       </div>
