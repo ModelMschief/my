@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Terminal, Send, Menu, X } from 'lucide-react';
+import { Terminal, Send, Menu, X, Github, Linkedin } from 'lucide-react';
 
 interface NavbarProps {
   isRevealed?: boolean;
@@ -9,22 +9,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const [timeString, setTimeString] = useState('');
   const { scrollY } = useScroll();
-
-  // Real-time HUD Clock (UTC/Local)
-  useEffect(() => {
-    const updateClock = () => {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const mins = String(now.getMinutes()).padStart(2, '0');
-      const secs = String(now.getSeconds()).padStart(2, '0');
-      setTimeString(`${hours}:${mins}:${secs}`);
-    };
-    updateClock();
-    const interval = setInterval(updateClock, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   const navOpacity = useTransform(scrollY, [0, 80], [0.8, 0.95]);
   const navBlur = useTransform(scrollY, [0, 80], ['12px', '20px']);
@@ -95,20 +80,9 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
               SHEBIN<span className="text-cyan-400">.</span>TR
             </span>
           </a>
-
-          {/* System Status Pill */}
-          <div className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono-code text-slate-300">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span>SYSTEM: ONLINE</span>
-            <span className="text-slate-600">|</span>
-            <span className="text-slate-400">{timeString}</span>
-          </div>
         </div>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links & Socials */}
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.slice(1);
@@ -127,9 +101,32 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
             );
           })}
 
+          <div className="flex items-center gap-1 ml-2 pl-2 border-l border-white/10">
+            <a
+              href="https://github.com/modelmschief"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              title="GitHub Profile"
+              aria-label="GitHub Profile"
+            >
+              <Github className="w-4 h-4" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/shebin-t-r"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-xl text-slate-400 hover:text-cyan-400 hover:bg-white/10 transition-colors"
+              title="LinkedIn Profile"
+              aria-label="LinkedIn Profile"
+            >
+              <Linkedin className="w-4 h-4" />
+            </a>
+          </div>
+
           <a
             href="#contact"
-            className="ml-3 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold font-mono-code text-black bg-white hover:bg-slate-200 rounded-xl transition-all shadow-sm"
+            className="ml-2 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold font-mono-code text-black bg-white hover:bg-slate-200 rounded-xl transition-all shadow-sm"
           >
             <Send className="w-3 h-3 text-black" />
             <span>Contact</span>
@@ -170,10 +167,30 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
               {link.label}
             </a>
           ))}
+          <div className="flex items-center justify-center gap-4 py-2 border-t border-white/10">
+            <a
+              href="https://github.com/modelmschief"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs font-mono-code text-slate-300 hover:text-white"
+            >
+              <Github className="w-4 h-4" />
+              <span>GitHub</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/shebin-t-r"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs font-mono-code text-cyan-400"
+            >
+              <Linkedin className="w-4 h-4" />
+              <span>LinkedIn</span>
+            </a>
+          </div>
           <a
             href="#contact"
             onClick={() => setMobileOpen(false)}
-            className="block text-center mt-3 py-2.5 px-4 rounded-xl bg-white text-black font-mono-code text-sm font-semibold"
+            className="block text-center mt-2 py-2.5 px-4 rounded-xl bg-white text-black font-mono-code text-sm font-semibold"
           >
             Contact
           </a>

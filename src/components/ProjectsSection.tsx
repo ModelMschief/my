@@ -5,7 +5,8 @@ import {
   Github, 
   X, 
   Bot,
-  ArrowRight
+  ArrowRight,
+  ExternalLink
 } from 'lucide-react';
 
 interface Project {
@@ -27,6 +28,7 @@ interface Project {
   };
   links: {
     github?: string;
+    live?: string;
     telegram?: string;
   };
 }
@@ -36,24 +38,27 @@ const PROJECTS: Project[] = [
     id: 'bsc-gateway',
     title: 'BSC Non-Custodial Payment Gateway',
     category: 'Blockchain & Cryptography',
-    shortDesc: 'High-throughput, non-custodial Binance Smart Chain payment infrastructure with direct node communication and zero third-party intermediaries.',
+    shortDesc: 'Fully non-custodial Binance Smart Chain payment infrastructure with direct node communication and zero third-party intermediaries.',
     fullDesc: 'Architected a zero-custody BSC payment pipeline directly querying BSC full nodes via raw JSON-RPC. Users retain 100% private key sovereignty while merchant applications receive instantaneous on-chain confirmation webhooks.',
     metrics: [
       { label: 'Security Model', value: '100% Non-Custodial' },
       { label: 'Intermediaries', value: '0 Third-Party APIs' },
       { label: 'Platform', value: 'Telegram Native' },
     ],
-    tags: ['Python', 'BSC JSON-RPC', 'Web3.py', 'Telegram API', 'Asyncio'],
+    tags: ['Node.js', 'BSC JSON-RPC', 'Express', 'MongoDB', 'Telegram API'],
     consoleSnippet: {
-      filename: 'bsc_gateway_engine.py',
+      filename: 'bsc_gateway_engine.js',
       code: [
-        '# Direct JSON-RPC Node Subscription',
-        'async def listen_deposits(contract_address):',
-        '    async with bsc_node_session() as node:',
-        '        events = await node.get_transfer_logs(contract_address)',
-        '        for tx in events:',
-        '            if verify_signature(tx.hash) and tx.confirmed:',
-        '                await dispatch_telegram_receipt(tx.recipient, tx.amount)',
+        '// Direct JSON-RPC Node Subscription',
+        'async function listenDeposits(contractAddress) {',
+        '  const node = await getBscRpcSession();',
+        '  const events = await node.getTransferLogs(contractAddress);',
+        '  for (const tx of events) {',
+        '    if (verifySignature(tx.hash) && tx.confirmed) {',
+        '      await dispatchTelegramReceipt(tx.recipient, tx.amount);',
+        '    }',
+        '  }',
+        '}',
       ],
     },
     architecture: {
@@ -67,7 +72,7 @@ const PROJECTS: Project[] = [
       ],
     },
     links: {
-      github: 'https://github.com/modelmsschief',
+      github: 'https://github.com/ModelMschief/GateWays',
       telegram: 'https://t.me/gojo16s',
     },
   },
@@ -76,11 +81,11 @@ const PROJECTS: Project[] = [
     title: 'Custom Modular RAG Pipeline',
     category: 'AI & Machine Learning',
     shortDesc: 'Production-ready Retrieval-Augmented Generation framework featuring hybrid keyword/vector search, re-ranking, and dynamic citation tracing.',
-    fullDesc: 'An enterprise RAG library built for high retrieval fidelity and minimal latency. Implements custom chunking strategies, dense embeddings, BM25 sparse index merging, and context compression before LLM generation.',
+    fullDesc: 'A custom modular RAG library built for high retrieval fidelity and minimal latency. Implements custom chunking strategies, dense embeddings, BM25 sparse index merging, and context compression before LLM generation.',
     metrics: [
       { label: 'Retrieval Speed', value: '< 40ms P95' },
       { label: 'Search Method', value: 'Hybrid Dense+BM25' },
-      { label: 'LLM Support', value: 'Gemini / OpenAI' },
+      { label: 'LLM Support', value: 'Gemini / Claude / OpenAI' },
     ],
     tags: ['Python', 'ChromaDB', 'LangChain', 'FastAPI', 'Vector Search'],
     consoleSnippet: {
@@ -106,19 +111,19 @@ const PROJECTS: Project[] = [
       ],
     },
     links: {
-      github: 'https://github.com/modelmsschief',
+      github: 'https://github.com/ModelMschief/Mini-Project-Colab',
     },
   },
   {
     id: 'ton-crypto-lib',
-    title: 'TON Blockchain Python Library',
+    title: 'TON Blockchain Python SDK',
     category: 'Web3 & Decentralized Protocols',
     shortDesc: 'Developer-facing Python SDK for seamless TON transactions, address checksumming, and Telegram Mini App payment integrations.',
     fullDesc: 'Engineered a lightweight, async-first Python client library for TON (The Open Network). Eliminates massive dependency overhead while offering typed helpers for TonConnect payload generation and Bag-of-Cells (BOC) deserialization.',
     metrics: [
       { label: 'Architecture', value: 'Pure Async Python' },
       { label: 'Target', value: 'Telegram Mini Apps' },
-      { label: 'Dependency Size', value: 'Minimal Overhead' },
+      { label: 'Dependency Size', value: 'Zero Bloat' },
     ],
     tags: ['Python 3.11', 'TON Network', 'BOC Serialization', 'Asyncio', 'API'],
     consoleSnippet: {
@@ -143,19 +148,19 @@ const PROJECTS: Project[] = [
       ],
     },
     links: {
-      github: 'https://github.com/modelmsschief',
+      github: 'https://github.com/ModelMschief/Ton-Crypto-Lib',
     },
   },
   {
     id: 'api-platform',
-    title: 'High-Concurrency Multi-Tenant API Gateway',
+    title: 'Multi-Provider API Gateway Platform',
     category: 'Backend & Cloud Systems',
     shortDesc: 'Multi-server API gateway prototype hosting 5+ specialized microservices with Flask ML inference nodes and Redis in-memory caching.',
     fullDesc: 'Designed a distributed microservice topology where a FastAPI gateway routes incoming client traffic, enforces rate limiting via Redis token buckets, and dispatches compute-heavy machine learning tasks to dedicated Flask worker nodes.',
     metrics: [
       { label: 'Cache Latency', value: 'Sub-5ms' },
       { label: 'Rate Limiter', value: 'Redis Token Bucket' },
-      { label: 'Topology', value: 'Multi-Server Nodes' },
+      { label: 'Live Prototype', value: 'botfusion.kesug.com' },
     ],
     tags: ['FastAPI', 'Flask', 'Redis', 'Machine Learning', 'Docker'],
     consoleSnippet: {
@@ -181,7 +186,85 @@ const PROJECTS: Project[] = [
       ],
     },
     links: {
-      github: 'https://github.com/modelmsschief',
+      live: 'https://botfusion.kesug.com/',
+      github: 'https://github.com/ModelMschief/reactbotfuse',
+    },
+  },
+  {
+    id: 'orchestra-ai',
+    title: 'OrchestraAI — Developer AI Agent OS',
+    category: 'Applied AI & Orchestration',
+    shortDesc: 'An AI Operating System for developers—build production-ready AI agents with automated memory, knowledge, tools, and intelligent model routing.',
+    fullDesc: 'A framework providing developer primitives for multi-agent autonomous orchestration. Features persistent session memory, dynamic tool execution, streaming LLM outputs, and automated prompt optimization.',
+    metrics: [
+      { label: 'Model Support', value: 'Multi-LLM Unified' },
+      { label: 'Memory Engine', value: 'Episodic & Vector' },
+      { label: 'Status', value: 'Active Engine' },
+    ],
+    tags: ['Python', 'Agentic AI', 'Memory Systems', 'Tool Routing', 'FastAPI'],
+    consoleSnippet: {
+      filename: 'orchestra_agent_engine.py',
+      code: [
+        '# OrchestraAI Dynamic Tool Dispatcher',
+        'class AgentRuntime:',
+        '    async def step(self, prompt: str, session_id: str):',
+        '        memory = await self.memory_store.retrieve(session_id)',
+        '        plan = await self.planner.generate(prompt, memory)',
+        '        execution = await self.tool_runner.execute(plan.tools)',
+        '        return await self.synthesizer.emit(execution)',
+      ],
+    },
+    architecture: {
+      problem: 'Building autonomous agents requires stitching fragmented libraries for memory, function execution, and state persistence.',
+      solution: 'A unified single-runtime API providing long-term vector memory, automatic tool sandboxing, and reliable output schemas.',
+      flow: [
+        'Developer defines tools & memory retention window',
+        'Agent intercepts prompt and fetches relevant historical vectors',
+        'Executes required tool calls with sandboxed parameters',
+        'Emits validated typed response payload to client',
+      ],
+    },
+    links: {
+      github: 'https://github.com/ModelMschief/OrchestraAI',
+    },
+  },
+  {
+    id: 'telegram-automation',
+    title: 'Telegram Payment & Automation Engine',
+    category: 'Automation & Webhooks',
+    shortDesc: 'Comprehensive automation systems built on the Telegram Bot API handling notification pipelines, MongoDB integrations, and automated payment workflows.',
+    fullDesc: 'Production daemon handling real-time Telegram webhook dispatching, persistent MongoDB user state synchronization, and automated subscription status updates for high-volume channels.',
+    metrics: [
+      { label: 'Response Time', value: '< 60ms Webhooks' },
+      { label: 'Database', value: 'MongoDB ACID' },
+      { label: 'Platform', value: 'Telegram Bot API' },
+    ],
+    tags: ['Python', 'Telegram API', 'MongoDB', 'Asyncio', 'Webhooks'],
+    consoleSnippet: {
+      filename: 'tg_payment_daemon.py',
+      code: [
+        '# Async Telegram Webhook & State Updater',
+        '@dp.message_handler(commands=["verify_payment"])',
+        'async def verify_user_subscription(message: types.Message):',
+        '    user_id = message.from_user.id',
+        '    status = await mongo_db.payments.find_one({"user_id": user_id})',
+        '    if status and status["is_valid"]:',
+        '        await bot.send_message(user_id, "Access Granted ✅")',
+      ],
+    },
+    architecture: {
+      problem: 'Handling high-concurrency Telegram bot webhooks with synchronous database drivers leads to worker exhaustion and dropped messages.',
+      solution: 'Asyncio event loops with Motor (async MongoDB) and decoupled webhook receivers guaranteeing zero dropped updates.',
+      flow: [
+        'Telegram server pushes webhook payload',
+        'Async handler parses transaction signature',
+        'Updates MongoDB atomic record',
+        'Dispatches customized user response in < 60ms',
+      ],
+    },
+    links: {
+      github: 'https://github.com/ModelMschief/premium',
+      telegram: 'https://t.me/gojo16s',
     },
   },
 ];
@@ -253,7 +336,7 @@ export const ProjectsSection = () => {
                       {project.consoleSnippet.code.map((line, i) => (
                         <div key={i} className="flex">
                           <span className="text-slate-600 select-none w-6 shrink-0">{i + 1}</span>
-                          <span className={`${line.startsWith('#') ? 'text-slate-500 italic' : line.includes('def ') || line.includes('class ') ? 'text-cyan-400 font-semibold' : 'text-slate-200'}`}>
+                          <span className={`${line.startsWith('//') || line.startsWith('#') ? 'text-slate-500 italic' : line.includes('def ') || line.includes('class ') || line.includes('function ') ? 'text-cyan-400 font-semibold' : 'text-slate-200'}`}>
                             {line}
                           </span>
                         </div>
@@ -335,6 +418,18 @@ export const ProjectsSection = () => {
                       >
                         <Github className="w-3.5 h-3.5" />
                         <span>GitHub</span>
+                      </a>
+                    )}
+
+                    {project.links.live && (
+                      <a
+                        href={project.links.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/20 transition-all font-mono-code"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Live Demo</span>
                       </a>
                     )}
 
@@ -447,6 +542,17 @@ export const ProjectsSection = () => {
                   >
                     <Github className="w-3.5 h-3.5" />
                     <span>View Repository</span>
+                  </a>
+                )}
+                {activeModalProject.links.live && (
+                  <a
+                    href={activeModalProject.links.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-400 text-black hover:bg-cyan-300 text-xs font-mono-code font-semibold transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Open Live Demo</span>
                   </a>
                 )}
               </div>

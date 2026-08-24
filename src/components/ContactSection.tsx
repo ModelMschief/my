@@ -6,7 +6,9 @@ import {
   MessageSquare, 
   CheckCircle2, 
   ExternalLink,
-  Bot
+  Bot,
+  Linkedin,
+  Github
 } from 'lucide-react';
 
 export const ContactSection = () => {
@@ -65,7 +67,7 @@ export const ContactSection = () => {
             transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 space-y-4"
           >
-            <div className="rounded-2xl glass-obsidian p-6 space-y-4 shadow-2xl relative overflow-hidden">
+            <div className="rounded-2xl glass-obsidian p-6 space-y-3.5 shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
               <h3 className="font-display text-lg font-bold text-white">
@@ -77,20 +79,41 @@ export const ContactSection = () => {
                 href="https://t.me/gojo16s"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3.5 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
-                    <Bot className="w-5 h-5" />
+                  <div className="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+                    <Bot className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-400 font-mono-code">Telegram</p>
-                    <p className="text-sm font-medium text-white group-hover:text-cyan-300 transition-colors">
+                    <p className="text-[11px] text-slate-400 font-mono-code">Telegram</p>
+                    <p className="text-xs font-medium text-white group-hover:text-cyan-300 transition-colors">
                       @gojo16s
                     </p>
                   </div>
                 </div>
-                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
+              </a>
+
+              {/* LinkedIn Channel */}
+              <a
+                href="https://www.linkedin.com/in/shebin-t-r"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                    <Linkedin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] text-slate-400 font-mono-code">LinkedIn</p>
+                    <p className="text-xs font-medium text-white group-hover:text-cyan-300 transition-colors">
+                      in/shebin-t-r
+                    </p>
+                  </div>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
               </a>
 
               {/* WhatsApp Channel */}
@@ -98,39 +121,60 @@ export const ContactSection = () => {
                 href="https://wa.me/919037610098"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3.5 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                    <MessageSquare className="w-5 h-5" />
+                  <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                    <MessageSquare className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-400 font-mono-code">WhatsApp</p>
-                    <p className="text-sm font-medium text-white group-hover:text-emerald-300 transition-colors">
+                    <p className="text-[11px] text-slate-400 font-mono-code">WhatsApp</p>
+                    <p className="text-xs font-medium text-white group-hover:text-emerald-300 transition-colors">
                       +91 9037610098
                     </p>
                   </div>
                 </div>
-                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
               </a>
 
               {/* Email Channel */}
               <a
                 href="mailto:shebinraju2021@gmail.com"
-                className="group flex items-center justify-between p-3.5 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-                    <Mail className="w-5 h-5" />
+                  <div className="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                    <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-400 font-mono-code">Email</p>
-                    <p className="text-sm font-medium text-white group-hover:text-blue-300 transition-colors">
+                    <p className="text-[11px] text-slate-400 font-mono-code">Email</p>
+                    <p className="text-xs font-medium text-white group-hover:text-blue-300 transition-colors">
                       shebinraju2021@gmail.com
                     </p>
                   </div>
                 </div>
-                <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
+              </a>
+
+              {/* GitHub Profile Card */}
+              <a
+                href="https://github.com/modelmschief"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white">
+                    <Github className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] text-slate-400 font-mono-code">GitHub</p>
+                    <p className="text-xs font-medium text-white group-hover:text-slate-200 transition-colors">
+                      github.com/modelmschief
+                    </p>
+                  </div>
+                </div>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
               </a>
             </div>
           </motion.div>
@@ -198,7 +242,7 @@ export const ContactSection = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Alex Morgan"
-                    className="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/10 focus:border-white/30 focus:bg-white/[0.04] text-sm text-white placeholder:text-slate-600 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-white/30 focus:bg-black/60 text-sm text-white placeholder:text-slate-600 outline-none transition-all"
                   />
                 </div>
 
@@ -212,7 +256,7 @@ export const ContactSection = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="e.g. alex@company.com or @alex_tg"
-                    className="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/10 focus:border-white/30 focus:bg-white/[0.04] text-sm text-white placeholder:text-slate-600 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-white/30 focus:bg-black/60 text-sm text-white placeholder:text-slate-600 outline-none transition-all"
                   />
                 </div>
 
@@ -226,7 +270,7 @@ export const ContactSection = () => {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Describe your backend requirement, RAG pipeline goals, or Web3 scope..."
-                    className="w-full px-4 py-3 rounded-xl bg-white/[0.02] border border-white/10 focus:border-white/30 focus:bg-white/[0.04] text-sm text-white placeholder:text-slate-600 outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-white/30 focus:bg-black/60 text-sm text-white placeholder:text-slate-600 outline-none transition-all resize-none"
                   />
                 </div>
               </div>

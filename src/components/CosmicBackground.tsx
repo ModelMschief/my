@@ -2,22 +2,34 @@ import React, { useRef, useEffect } from 'react';
 import bigbangVideo from '@/assets/bigbang.mp4';
 
 interface CosmicBackgroundProps {
+  hasStarted?: boolean;
   onReveal?: () => void;
 }
 
-export const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ onReveal }) => {
+export const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ 
+  hasStarted = true, 
+  onReveal 
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const revealedRef = useRef(false);
   const slowMoRef = useRef(false);
+  const onRevealRef = useRef(onReveal);
+  const isInitializedRef = useRef(false);
+
+  // Keep latest onReveal callback reference without triggering re-render effects
+  useEffect(() => {
+    onRevealRef.current = onReveal;
+  }, [onReveal]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !hasStarted || isInitializedRef.current) return;
 
-    // Start video at normal speed (1.0x)
+    isInitializedRef.current = true;
+    video.currentTime = 0;
     video.playbackRate = 1.0;
     video.play().catch((err) => {
-      console.warn('Video auto-play error:', err);
+      console.warn('Video playback error:', err);
     });
 
     const handleTimeUpdate = () => {
@@ -26,7 +38,9 @@ export const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ onReveal }) 
       // 1. Milestone at 5.0s: Trigger Left & Right portfolio emergence
       if (time >= 5.0 && !revealedRef.current) {
         revealedRef.current = true;
-        if (onReveal) onReveal();
+        if (onRevealRef.current) {
+          onRevealRef.current();
+        }
       }
 
       // 2. Milestone at 8.0s: Full slow-motion (0.35x)
@@ -47,15 +61,14 @@ export const CosmicBackground: React.FC<CosmicBackgroundProps> = ({ onReveal }) 
     return () => {
       video.removeEventListener('timeupdate', handleTimeUpdate);
     };
-  }, [onReveal]);
+  }, [hasStarted]);
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
-      {/* Non-looping bigbang video: plays normal, slows down at 8s, stops at 26.5s */}
+      {/* Big bang video starts once and never resets on re-renders */}
       <video
         ref={videoRef}
         src={bigbangVideo}
-        autoPlay
         muted
         playsInline
         preload="auto"

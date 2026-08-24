@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { ArrowRight, Terminal, Cpu, ShieldCheck, Layers, Bot, Send } from 'lucide-react';
+import { ArrowRight, Cpu, ShieldCheck, Layers, Bot, Send, Github, Linkedin, Briefcase } from 'lucide-react';
 
 const ROLES = [
   'AI & RAG Pipeline Architect',
+  'Backend & Systems Engineer',
   'Non-Custodial Blockchain Engineer',
-  'High-Throughput Backend Specialist',
-  'Telegram Bot & Automation Engineer',
+  'Telegram Bot & Automation Specialist',
 ];
 
 interface HeroSectionProps {
@@ -30,24 +30,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
     >
       <div className="max-w-6xl w-full mx-auto relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Glides in from the LEFT at 6s */}
+          {/* Left Column: Glides in from the LEFT at 5s */}
           <motion.div
             initial={{ x: -140, opacity: 0 }}
             animate={isRevealed ? { x: 0, opacity: 1 } : { x: -140, opacity: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-7 space-y-6 text-left"
           >
-            {/* Status Pill */}
-            <div className="inline-flex items-center gap-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono-code text-slate-300">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span>AVAILABLE FOR AI & BLOCKCHAIN ARCHITECTURE</span>
-              </div>
-            </div>
-
             {/* Main Headline */}
             <div className="space-y-2">
               <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight">
@@ -68,9 +57,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
               </div>
             </div>
 
-            {/* Narrative Summary */}
+            {/* Narrative Summary with Real Background */}
             <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed font-light">
-              Building high-concurrency backend infrastructures, custom{' '}
+              Studying AI & Data Science Engineering. Building high-concurrency backend infrastructures, custom{' '}
               <span className="text-white font-medium">RAG intelligence pipelines</span>, and{' '}
               <span className="text-white font-medium">non-custodial blockchain payment gateways</span> on BSC and TON.
             </p>
@@ -79,7 +68,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-black bg-white hover:bg-slate-200 transition-all duration-200 shadow-sm"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-black bg-white hover:bg-slate-200 transition-all duration-200 shadow-sm font-mono-code"
               >
                 <span>View Projects</span>
                 <ArrowRight className="w-4 h-4 text-black" />
@@ -87,15 +76,44 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
 
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-slate-200 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium text-slate-200 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 font-mono-code"
               >
                 <Send className="w-4 h-4 text-slate-300" />
                 <span>Get in Touch</span>
               </a>
+
+              <a
+                href="https://github.com/modelmschief"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white transition-colors"
+                title="GitHub Profile"
+                aria-label="GitHub Profile"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/shebin-t-r"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-slate-300 hover:text-cyan-400 transition-colors"
+                title="LinkedIn Profile"
+                aria-label="LinkedIn Profile"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
             </div>
 
-            {/* Minimal Metric Badges */}
+            {/* Verified Metrics Badges from GitHub Profile */}
             <div className="pt-6 grid grid-cols-3 gap-4 border-t border-white/10 max-w-lg">
+              <div>
+                <p className="font-display text-2xl sm:text-3xl font-bold text-white flex items-center gap-1">
+                  <span>4</span>
+                  <Briefcase className="w-4 h-4 text-cyan-400" />
+                </p>
+                <p className="text-xs text-slate-400 font-mono-code mt-0.5">Internships Completed</p>
+              </div>
               <div>
                 <p className="font-display text-2xl sm:text-3xl font-bold text-white">
                   100%
@@ -108,16 +126,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
                 </p>
                 <p className="text-xs text-slate-400 font-mono-code mt-0.5">RAG Query Latency</p>
               </div>
-              <div>
-                <p className="font-display text-2xl sm:text-3xl font-bold text-white">
-                  20+
-                </p>
-                <p className="text-xs text-slate-400 font-mono-code mt-0.5">Deployments</p>
-              </div>
             </div>
           </motion.div>
 
-          {/* Right Column: Glides in from the RIGHT at 6s */}
+          {/* Right Column: Glides in from the RIGHT at 5s */}
           <motion.div
             initial={{ x: 140, opacity: 0 }}
             animate={isRevealed ? { x: 0, opacity: 1 } : { x: 140, opacity: 0 }}
@@ -160,8 +172,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
               {/* Stack Snippet */}
               <div className="p-3 rounded-xl bg-black/40 border border-white/5 text-[11px] font-mono-code text-slate-300 space-y-1">
                 <p className="text-slate-400">// Production Stack Matrix</p>
-                <p className="text-slate-200"><span className="text-cyan-400">backend</span> = ["FastAPI", "Python", "Node.js"]</p>
-                <p className="text-slate-200"><span className="text-violet-400">ai_infra</span> = ["ChromaDB", "LangChain", "RAG"]</p>
+                <p className="text-slate-200"><span className="text-cyan-400">backend</span> = ["FastAPI", "Go", "Node.js", "Python"]</p>
+                <p className="text-slate-200"><span className="text-violet-400">ai_infra</span> = ["LangChain", "Vector DBs", "RAG"]</p>
                 <p className="text-slate-200"><span className="text-amber-400">web3</span> = ["BSC JSON-RPC", "TON SDK"]</p>
               </div>
             </div>

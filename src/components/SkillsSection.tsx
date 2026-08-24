@@ -6,6 +6,7 @@ import {
   Link2, 
   Database, 
   Server, 
+  Cloud,
   CheckCircle2 
 } from 'lucide-react';
 
@@ -27,7 +28,7 @@ const SKILL_CLUSTERS: SkillCluster[] = [
   {
     id: 'ai-rag',
     title: 'AI & Neural Systems',
-    subtitle: 'RAG Pipelines & LLM Orchestration',
+    subtitle: 'RAG Pipelines & Autonomous Agents',
     icon: Brain,
     items: [
       {
@@ -36,8 +37,8 @@ const SKILL_CLUSTERS: SkillCluster[] = [
         desc: 'Hybrid retrieval pipelines combining dense vector embeddings with BM25 keyword search.',
       },
       {
-        name: 'LangChain & Agentic Workflows',
-        badge: 'Production',
+        name: 'Agentic AI & Tool Routing',
+        badge: 'Orchestration',
         desc: 'Autonomous multi-step agents with tool routing and long-term memory retrieval.',
       },
       {
@@ -64,7 +65,12 @@ const SKILL_CLUSTERS: SkillCluster[] = [
         desc: 'Asynchronous microservices with auto OpenAPI specs, dependency injection, and Pydantic.',
       },
       {
-        name: 'Node.js & Express / Bun',
+        name: 'Go (Golang)',
+        badge: 'High-Concurrency',
+        desc: 'Ultra-fast concurrent routines, channel communication, and compiled low-latency microservices.',
+      },
+      {
+        name: 'Node.js & Express',
         badge: 'Runtime',
         desc: 'High-concurrency event loops, worker threads, and streaming response endpoints.',
       },
@@ -72,11 +78,6 @@ const SKILL_CLUSTERS: SkillCluster[] = [
         name: 'RESTful Gateways & WebSockets',
         badge: 'Real-Time',
         desc: 'Bi-directional live feeds, low-overhead binary frames, and structured JSON-RPC.',
-      },
-      {
-        name: 'Async Workers & Task Queues',
-        badge: 'Resilient',
-        desc: 'Background job dispatching, failure recovery, and distributed worker orchestration.',
       },
     ],
   },
@@ -92,7 +93,7 @@ const SKILL_CLUSTERS: SkillCluster[] = [
         desc: 'Non-custodial payment processing via raw JSON-RPC node calls with zero middleman dependencies.',
       },
       {
-        name: 'TON Blockchain Libraries',
+        name: 'TON Blockchain SDKs',
         badge: 'Telegram Native',
         desc: 'Custom Python client libraries for frictionless TON transactions inside Telegram Mini Apps.',
       },
@@ -110,9 +111,9 @@ const SKILL_CLUSTERS: SkillCluster[] = [
   },
   {
     id: 'data-infra',
-    title: 'Data Infrastructure & Cache',
-    subtitle: 'Persistence, Caching & Vector Storage',
-    icon: Database,
+    title: 'Data, Cloud & DevOps',
+    subtitle: 'Persistence, Caching & Cloud Platforms',
+    icon: Cloud,
     items: [
       {
         name: 'Redis In-Memory & Pub/Sub',
@@ -120,28 +121,29 @@ const SKILL_CLUSTERS: SkillCluster[] = [
         desc: 'Distributed caching, session persistence, rate limiting, and real-time message broadcasting.',
       },
       {
-        name: 'MongoDB Document Engine',
-        badge: 'Aggregation',
-        desc: 'Complex aggregation pipelines, multi-document ACID transactions, and indexed query routing.',
+        name: 'MongoDB & PostgreSQL',
+        badge: 'ACID / NoSQL',
+        desc: 'Complex aggregation pipelines, multi-document transactions, and relational modeling.',
       },
       {
-        name: 'PostgreSQL Relational DB',
-        badge: 'ACID',
-        desc: 'Normalized schema modeling, connection pooling, and pgvector extension integrations.',
+        name: 'Cloud Platforms (GCP, AWS, Azure)',
+        badge: 'Cloud Infra',
+        desc: 'Serverless functions, container compute, object storage, and cloud deployment pipelines.',
       },
       {
-        name: 'Linux & Docker Deployments',
+        name: 'Docker & Linux Environments',
         badge: 'DevOps',
-        desc: 'Containerized microservice packaging, systemd daemon setups, and reverse proxying.',
+        desc: 'Containerized packaging, systemd daemons, networking, and reverse proxying.',
       },
     ],
   },
 ];
 
 const TECH_BADGES = [
-  'Python', 'FastAPI', 'Node.js', 'Flask', 'LangChain', 'RAG Pipelines',
-  'Vector DBs', 'BSC Network', 'TON Blockchain', 'Redis', 'MongoDB',
-  'PostgreSQL', 'Telegram API', 'Docker', 'Linux', 'REST APIs', 'WebSockets', 'Scikit-Learn'
+  'Python', 'Go', 'FastAPI', 'Flask', 'Node.js', 'Express', 'React', 'JavaScript',
+  'PostgreSQL', 'MongoDB', 'Redis', 'SQL', 'Linux', 'Docker', 'Google Cloud',
+  'AWS', 'Azure', 'RAG Systems', 'LLM Integration', 'Machine Learning', 'BSC Blockchain',
+  'TON Blockchain', 'Telegram API', 'R', 'Git', 'GitHub'
 ];
 
 export const SkillsSection = () => {
@@ -180,7 +182,7 @@ export const SkillsSection = () => {
               { id: 'ai-rag', label: 'AI & RAG' },
               { id: 'backend-apis', label: 'Backend & APIs' },
               { id: 'blockchain-web3', label: 'Blockchain & Web3' },
-              { id: 'data-infra', label: 'Databases & Cache' },
+              { id: 'data-infra', label: 'Cloud & Databases' },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -201,7 +203,6 @@ export const SkillsSection = () => {
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
           {filteredClusters.map((cluster, index) => {
             const Icon = cluster.icon;
-            // Even index (0, 2) slides from LEFT (-85px), Odd index (1, 3) slides from RIGHT (+85px)
             const isLeft = index % 2 === 0;
 
             return (
@@ -267,7 +268,7 @@ export const SkillsSection = () => {
           className="mt-16 pt-8 border-t border-white/10 text-center"
         >
           <p className="text-xs font-mono-code text-slate-400 mb-4 tracking-wider uppercase">
-            // Full Technology & Tooling Constellation
+            // Full Technology & Tooling Constellation (Synced with GitHub Profile)
           </p>
           <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
             {TECH_BADGES.map((tech) => (
