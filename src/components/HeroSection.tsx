@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { ArrowRight, Cpu, ShieldCheck, Layers, Bot, Send, Github, Linkedin, Briefcase } from 'lucide-react';
+import { ArrowRight, Send, Github, Linkedin, Briefcase } from 'lucide-react';
+import AsciiPortrait from '@/components/AsciiPortrait';
 
 const ROLES = [
   'AI & RAG Pipeline Architect',
@@ -29,7 +30,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
       className="min-h-screen relative flex items-center justify-center pt-28 pb-16 px-4 sm:px-6"
     >
       <div className="max-w-6xl w-full mx-auto relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left Column: Glides in from the LEFT at 5s */}
           <motion.div
             initial={{ x: -140, opacity: 0 }}
@@ -129,54 +130,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
             </div>
           </motion.div>
 
-          {/* Right Column: Glides in from the RIGHT at 5s */}
+          {/* Right Column: Custom Holographic ASCII Portrait Photo Frame */}
           <motion.div
             initial={{ x: 140, opacity: 0 }}
             animate={isRevealed ? { x: 0, opacity: 1 } : { x: 140, opacity: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="lg:col-span-5 relative"
+            className="lg:col-span-5 flex justify-center lg:justify-end"
           >
-            <div className="glass-obsidian rounded-2xl p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <span className="text-xs font-mono-code text-slate-400">core_architecture.py</span>
-                <span className="text-[11px] font-mono-code text-emerald-400 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  SYSTEM SYNCED
-                </span>
-              </div>
-
-              {/* Clean Architectural Capabilities Grid */}
-              <div className="grid grid-cols-2 gap-3 pt-1">
-                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-                  <Cpu className="w-4 h-4 text-cyan-400" />
-                  <p className="text-[11px] text-slate-400 font-mono-code">RAG Architecture</p>
-                  <p className="text-xs font-semibold text-white">Hybrid Vector + BM25</p>
-                </div>
-                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <p className="text-[11px] text-slate-400 font-mono-code">Blockchain Gateway</p>
-                  <p className="text-xs font-semibold text-white">Direct BSC/TON Nodes</p>
-                </div>
-                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-                  <Layers className="w-4 h-4 text-violet-400" />
-                  <p className="text-[11px] text-slate-400 font-mono-code">Cache & Messaging</p>
-                  <p className="text-xs font-semibold text-white">Redis Pub/Sub & Memory</p>
-                </div>
-                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-                  <Bot className="w-4 h-4 text-amber-400" />
-                  <p className="text-[11px] text-slate-400 font-mono-code">Telegram Automation</p>
-                  <p className="text-xs font-semibold text-white">Async Webhook Daemons</p>
-                </div>
-              </div>
-
-              {/* Stack Snippet */}
-              <div className="p-3 rounded-xl bg-black/40 border border-white/5 text-[11px] font-mono-code text-slate-300 space-y-1">
-                <p className="text-slate-400">// Production Stack Matrix</p>
-                <p className="text-slate-200"><span className="text-cyan-400">backend</span> = ["FastAPI", "Go", "Node.js", "Python"]</p>
-                <p className="text-slate-200"><span className="text-violet-400">ai_infra</span> = ["LangChain", "Vector DBs", "RAG"]</p>
-                <p className="text-slate-200"><span className="text-amber-400">web3</span> = ["BSC JSON-RPC", "TON SDK"]</p>
-              </div>
-            </div>
+            <AsciiPortrait />
           </motion.div>
         </div>
       </div>
