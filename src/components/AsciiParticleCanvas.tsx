@@ -31,7 +31,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const isRevealedRef = useRef(isRevealed);
-  const revealStartTimeRef = useRef<number | null>(null);
+  const revealStartTimeRef = useRef<number | null>(isRevealed ? performance.now() : null);
 
   const mouseRef = useRef<{ x: number; y: number; radius: number; isHovering: boolean }>({
     x: -9999,
@@ -87,9 +87,9 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
             const targetX = anchorRect.left + c * cellWidth + cellWidth / 2;
             const targetY = anchorRect.top + r * cellHeight + cellHeight / 2;
 
-            // Start off-screen to the right with random staggered distances and vertical spread
-            const startX = targetX + 280 + Math.random() * 450;
-            const startY = targetY + (Math.random() - 0.5) * 220;
+            // Start slightly off-screen to the right with random staggered distances
+            const startX = targetX + 220 + Math.random() * 380;
+            const startY = targetY + (Math.random() - 0.5) * 180;
 
             particles.push({
               x: startX,
@@ -100,11 +100,11 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
               vy: 0,
               char,
               size: fontSize,
-              ease: 0.009 + Math.random() * 0.009, // Smooth graceful travel speed
-              friction: 0.94 + Math.random() * 0.02,
+              ease: 0.010 + Math.random() * 0.010,
+              friction: 0.93 + Math.random() * 0.02,
               blastMultiplier: 1.0 + Math.random() * 0.7,
               driftPhase: Math.random() * Math.PI * 2,
-              spawnDelay: Math.random() * 1.6, // Staggered stream-in delay (0 - 1.6s)
+              spawnDelay: Math.random() * 1.2, // Staggered stream-in delay (0 - 1.2s)
               hasStartedTravel: false,
               alpha: 0,
             });
@@ -151,12 +151,12 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
       mouseRef.current.isHovering = false;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('mouseleave', handleMouseLeave);
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('touchend', handleMouseLeave);
 
-    // 60 FPS Particle Physics & Assembly Engine
+    // 60 FPS Particle Physics & Assembly Engine Loop
     let timeTick = 0;
     const render = () => {
       timeTick += 0.015;
@@ -203,24 +203,23 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
         }
 
         if (!p.hasStartedTravel) {
-          // Keep floating off-screen to the right until staggered turn arrives
           continue;
         }
 
         // Fade particle in as it travels
         if (p.alpha < 1.0) {
-          p.alpha = Math.min(1.0, p.alpha + 0.035);
+          p.alpha = Math.min(1.0, p.alpha + 0.04);
         }
 
-        // 1. High-Velocity Scatter on Cursor Contact (Unchanged Hover Engine)
+        // 1. High-Velocity Scatter on Cursor Contact (Hover Engine)
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < radius) {
           const force = (radius - dist) / radius;
-          const angle = Math.atan2(dy, dx) + (Math.sin(p.driftPhase + timeTick) * 0.4);
-          const push = force * (30 * p.blastMultiplier);
+          const angle = Math.atan2(dy, dx) + (Math.sin(p.driftPhase + timeTick) * 0.35);
+          const push = force * (28 * p.blastMultiplier);
           
           p.vx += Math.cos(angle) * push;
           p.vy += Math.sin(angle) * push;
@@ -237,7 +236,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
           p.vx += homeDx * p.ease;
           p.vy += homeDy * p.ease;
 
-          // Gentle zero-gravity atmospheric drift while traveling
+          // Zero-gravity atmospheric drift while traveling across site
           p.vx += Math.cos(p.driftPhase + timeTick) * 0.16;
           p.vy += Math.sin(p.driftPhase + timeTick) * 0.16;
 
