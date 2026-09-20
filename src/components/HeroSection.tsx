@@ -27,20 +27,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
   return (
     <section
       id="home"
-      className="min-h-screen relative flex items-start justify-center pt-20 sm:pt-24 lg:pt-28 pb-12 px-4 sm:px-6"
+      className="min-h-screen relative flex items-start justify-center pt-16 sm:pt-24 lg:pt-28 pb-10 sm:pb-12 px-4 sm:px-6 overflow-x-hidden"
     >
       <div className="max-w-6xl w-full mx-auto relative z-10">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-start">
           {/* Left Column: Glides in from the LEFT at 5s */}
           <motion.div
-            initial={{ x: -140, opacity: 0 }}
-            animate={isRevealed ? { x: 0, opacity: 1 } : { x: -140, opacity: 0 }}
+            initial={{ x: -60, opacity: 0 }}
+            animate={isRevealed ? { x: 0, opacity: 1 } : { x: -60, opacity: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 space-y-6 text-left"
+            className="lg:col-span-7 space-y-4 sm:space-y-6 text-left"
           >
             {/* Main Headline */}
-            <div className="space-y-2">
-              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight">
+            <div className="space-y-1.5 sm:space-y-2">
+              <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight">
                 Shebin T R
               </h1>
               <div className="h-9 flex items-center">

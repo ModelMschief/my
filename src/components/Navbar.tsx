@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Terminal, Send, Menu, X, Github, Linkedin } from 'lucide-react';
 
@@ -9,36 +9,39 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const { scrollY } = useScroll();
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const navOpacity = useTransform(scrollY, [0, 80], [0.8, 0.95]);
-  const navBlur = useTransform(scrollY, [0, 80], ['12px', '20px']);
-  const navBorder = useTransform(
-    scrollY,
-    [0, 80],
-    ['rgba(255, 255, 255, 0.05)', 'rgba(255, 255, 255, 0.15)']
-  );
-
-  // Track active section during scroll
+  // RAF-Throttled Scroll Tracking: prevents UI thread lock during touch momentum scrolling
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const sections = ['home', 'skills', 'projects', 'contact'];
-      const scrollPosition = window.scrollY + 220;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          setIsScrolled(scrollY > 25);
 
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetHeight = element.offsetHeight;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
+          const sections = ['home', 'skills', 'projects', 'contact'];
+          const scrollPosition = scrollY + 200;
+
+          for (const section of sections) {
+            const element = document.getElementById(section);
+            if (element) {
+              const offsetTop = element.offsetTop;
+              const offsetHeight = element.offsetHeight;
+              if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                setActiveSection(section);
+                break;
+              }
+            }
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -57,15 +60,11 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
       <motion.nav
-        className="max-w-6xl mx-auto rounded-2xl px-5 py-2.5 flex items-center justify-between transition-all duration-300"
-        style={{
-          backgroundColor: `rgba(3, 7, 18, ${navOpacity})`,
-          backdropFilter: `blur(${navBlur})`,
-          WebkitBackdropFilter: `blur(${navBlur})`,
-          borderColor: navBorder,
-          borderWidth: 1,
-          boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.4)',
-        }}
+        className={`max-w-6xl mx-auto rounded-2xl px-5 py-2.5 flex items-center justify-between transition-all duration-300 border ${
+          isScrolled 
+            ? 'bg-[#030712]/85 backdrop-blur-xl border-white/15 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]' 
+            : 'bg-[#030712]/60 backdrop-blur-md border-white/10 shadow-lg'
+        }`}
       >
         {/* Brand Logo */}
         <div className="flex items-center gap-4">

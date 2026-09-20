@@ -56,6 +56,8 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
     if (!ctx) return;
 
     let animationFrameId: number;
+    let isLoopRunning = false;
+    let isIntersecting = true;
     let particles: Particle[] = [];
 
     // Parse ASCII Matrix lines & columns
@@ -68,10 +70,19 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
 
     const CHAR_ASPECT_RATIO = 0.52;
 
+    // Layout Cache: eliminates getBoundingClientRect() from 60 FPS RAF loop
+    let cachedAnchorRect = anchor.getBoundingClientRect();
+    const updateAnchorRect = () => {
+      if (anchor) {
+        cachedAnchorRect = anchor.getBoundingClientRect();
+      }
+    };
+
     const initParticles = () => {
       if (!anchor) return;
+      updateAnchorRect();
       particles = [];
-      const anchorRect = anchor.getBoundingClientRect();
+      const anchorRect = cachedAnchorRect;
       const anchorWidth = anchorRect.width;
       const anchorHeight = (anchorWidth * rowCount) / (maxColCount * CHAR_ASPECT_RATIO);
 
@@ -79,11 +90,19 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
       const cellWidth = anchorWidth / maxColCount;
       const fontSize = cellHeight * 1.05;
 
+      const isMobile = window.innerWidth < 640;
+
       for (let r = 0; r < rowCount; r++) {
         const line = rawLines[r] || '';
         for (let c = 0; c < line.length; c++) {
           const char = line[c];
           if (char && char !== ' ') {
+            // Adaptive Mobile Stride: sample every 2nd character on small screens (< 640px)
+            // to prevent character crowding/smearing on small widths and cut GPU calculations in half.
+            if (isMobile && (r + c) % 2 !== 0) {
+              continue;
+            }
+
             const targetX = anchorRect.left + c * cellWidth + cellWidth / 2;
             const targetY = anchorRect.top + r * cellHeight + cellHeight / 2;
 
@@ -115,7 +134,9 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
 
     const handleResize = () => {
       if (!canvas) return;
-      const dpr = window.devicePixelRatio || 1;
+      const isMobile = window.innerWidth < 768;
+      // Cap DPR to 1.5 on mobile and 2.0 on desktop to prevent 3-4 megapixel overdraw on Retina devices
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2.0);
       const width = window.innerWidth;
       const height = window.innerHeight;
 
@@ -129,6 +150,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
 
     handleResize();
     window.addEventListener('resize', handleResize);
+    window.addEventListener('scroll', updateAnchorRect, { passive: true });
 
     // Global Mouse & Touch Tracking across the site
     const handleMouseMove = (e: MouseEvent) => {
@@ -155,14 +177,21 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
     window.addEventListener('mouseleave', handleMouseLeave);
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('touchend', handleMouseLeave);
+    window.addEventListener('touchcancel', handleMouseLeave);
 
     // 60 FPS Particle Physics & Assembly Engine Loop
     let timeTick = 0;
     const render = () => {
+      if (!isIntersecting) {
+        isLoopRunning = false;
+        return;
+      }
+
       timeTick += 0.015;
-      const dpr = window.devicePixelRatio || 1;
       const width = window.innerWidth;
       const height = window.innerHeight;
+      const isMobile = width < 768;
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2.0);
 
       ctx.save();
       ctx.scale(dpr, dpr);
@@ -175,17 +204,26 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
       const startTime = revealStartTimeRef.current || now;
       const timeSinceRevealSec = (now - startTime) / 1000;
 
-      // Real-time anchor tracking (adapts dynamically to scroll, resize)
-      const anchorRect = anchor.getBoundingClientRect();
+      // Use cached anchor rect (updated passively on scroll/resize)
+      const anchorRect = cachedAnchorRect;
       const anchorWidth = anchorRect.width;
       const anchorHeight = (anchorWidth * rowCount) / (maxColCount * CHAR_ASPECT_RATIO);
       const cellHeight = anchorHeight / rowCount;
       const cellWidth = anchorWidth / maxColCount;
       const fontSize = cellHeight * 1.05;
 
+      // Hoist font & text alignment OUTSIDE the loop (eliminates 185,000 font string parses/sec)
+      ctx.font = `${fontSize}px "JetBrains Mono", ui-monospace, SFMono-Regular, monospace`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.shadowBlur = 6;
+
+      // On desktop, render subtle atmospheric glow; on mobile bypass software blur for pure 60 FPS
+      if (!isMobile) {
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.45)';
+      } else {
+        ctx.shadowBlur = 0;
+      }
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
@@ -211,7 +249,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
           p.alpha = Math.min(1.0, p.alpha + 0.04);
         }
 
-        // 1. High-Velocity Scatter on Cursor Contact (Hover Engine)
+        // 1. High-Velocity Scatter on Cursor / Touch Contact (Hover Engine)
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -262,8 +300,6 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
 
         // 3. Render Character Particle with Alpha Fade
         ctx.fillStyle = `rgba(255, 255, 255, ${0.95 * p.alpha})`;
-        ctx.shadowColor = `rgba(255, 255, 255, ${0.55 * p.alpha})`;
-        ctx.font = `${p.size}px "JetBrains Mono", ui-monospace, SFMono-Regular, monospace`;
         ctx.fillText(p.char, p.x, p.y);
       }
 
@@ -271,15 +307,61 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    const startLoop = () => {
+      if (!isLoopRunning && isIntersecting) {
+        isLoopRunning = true;
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    // IntersectionObserver: automatically pauses RAF loop when scrolled past Hero
+    // frees 100% CPU/GPU for butter-smooth 60 FPS scrolling through Projects/Skills
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isIntersecting = entry.isIntersecting;
+        if (isIntersecting) {
+          updateAnchorRect();
+          // Snap particles immediately to their current scrolled home coordinates
+          const anchorRect = cachedAnchorRect;
+          const anchorWidth = anchorRect.width;
+          const anchorHeight = (anchorWidth * rowCount) / (maxColCount * CHAR_ASPECT_RATIO);
+          const cellHeight = anchorHeight / rowCount;
+          const cellWidth = anchorWidth / maxColCount;
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            if (p.hasStartedTravel) {
+              p.x = anchorRect.left + p.col * cellWidth + cellWidth / 2;
+              p.y = anchorRect.top + p.row * cellHeight + cellHeight / 2;
+              p.vx = 0;
+              p.vy = 0;
+            }
+          }
+          startLoop();
+        } else {
+          isLoopRunning = false;
+          cancelAnimationFrame(animationFrameId);
+          // Cleanly clear canvas so no frozen ghost particles overlay other sections
+          ctx.save();
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.restore();
+        }
+      });
+    }, { rootMargin: '50px' });
+
+    observer.observe(anchor);
+    startLoop();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', updateAnchorRect);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleMouseLeave);
+      window.removeEventListener('touchcancel', handleMouseLeave);
     };
   }, []);
 
@@ -288,7 +370,7 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
       {/* 1. Invisible Layout Anchor preserving perfect grid positioning in Hero */}
       <div 
         ref={anchorRef} 
-        className={`relative w-full max-w-[380px] sm:max-w-[430px] lg:max-w-[480px] xl:max-w-[520px] aspect-[112/68] pointer-events-none select-none ${className}`}
+        className={`relative w-full max-w-[320px] xs:max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] xl:max-w-[520px] aspect-[112/68] pointer-events-none select-none ${className}`}
         aria-hidden="true"
       />
 
