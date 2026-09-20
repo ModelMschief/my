@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import trimmedAudio from '@/assets/awakening_trimmed.mp3';
+import interstellarAudio from '@/assets/interstellar.mp3';
 import { Volume2, VolumeX } from 'lucide-react';
 
 interface AmbientAudioProps {
@@ -17,12 +17,32 @@ export const AmbientAudio: React.FC<AmbientAudioProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    const audio = new Audio(trimmedAudio);
+    const audio = new Audio(interstellarAudio);
     audioRef.current = audio;
-    audio.loop = true;
-    audio.volume = 0.25; // Pleasant ambient volume
+    audio.volume = 0.28;
+
+    const setInitialTimestamp = () => {
+      if (audio.currentTime < 14.0) {
+        audio.currentTime = 14.0;
+      }
+    };
+
+    audio.addEventListener('loadedmetadata', setInitialTimestamp);
+    
+    // Custom loop handling to loop back to 14.0s mark
+    const handleEnded = () => {
+      audio.currentTime = 14.0;
+      audio.play().catch((err) => console.log('Audio loop error:', err));
+    };
+    audio.addEventListener('ended', handleEnded);
 
     if (hasStarted && audioEnabled) {
+      try {
+        audio.currentTime = 14.0;
+      } catch (e) {
+        // Handled by loadedmetadata event
+      }
+
       audio.play().then(() => {
         setIsPlaying(true);
       }).catch((err) => {
@@ -31,6 +51,8 @@ export const AmbientAudio: React.FC<AmbientAudioProps> = ({
     }
 
     return () => {
+      audio.removeEventListener('loadedmetadata', setInitialTimestamp);
+      audio.removeEventListener('ended', handleEnded);
       audio.pause();
       audio.src = '';
     };
@@ -41,9 +63,12 @@ export const AmbientAudio: React.FC<AmbientAudioProps> = ({
     if (!audio) return;
 
     if (audio.paused) {
+      if (audio.currentTime < 14.0) {
+        audio.currentTime = 14.0;
+      }
       audio.play().then(() => {
         setIsPlaying(true);
-      });
+      }).catch((err) => console.log('Audio play error:', err));
     } else {
       audio.pause();
       setIsPlaying(false);
