@@ -22,23 +22,23 @@ export const AmbientAudio: React.FC<AmbientAudioProps> = ({
     audio.volume = 0.28;
 
     const setInitialTimestamp = () => {
-      if (audio.currentTime < 14.0) {
-        audio.currentTime = 14.0;
+      if (audio.currentTime < 16.0) {
+        audio.currentTime = 16.0;
       }
     };
 
     audio.addEventListener('loadedmetadata', setInitialTimestamp);
     
-    // Custom loop handling to loop back to 14.0s mark
+    // Custom loop handling to loop back to 16.0s mark
     const handleEnded = () => {
-      audio.currentTime = 14.0;
+      audio.currentTime = 16.0;
       audio.play().catch((err) => console.log('Audio loop error:', err));
     };
     audio.addEventListener('ended', handleEnded);
 
     if (hasStarted && audioEnabled) {
       try {
-        audio.currentTime = 14.0;
+        audio.currentTime = 16.0;
       } catch (e) {
         // Handled by loadedmetadata event
       }
@@ -63,8 +63,8 @@ export const AmbientAudio: React.FC<AmbientAudioProps> = ({
     if (!audio) return;
 
     if (audio.paused) {
-      if (audio.currentTime < 14.0) {
-        audio.currentTime = 14.0;
+      if (audio.currentTime < 16.0) {
+        audio.currentTime = 16.0;
       }
       audio.play().then(() => {
         setIsPlaying(true);
