@@ -27,16 +27,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
   return (
     <section
       id="home"
-      className="min-h-screen relative flex items-start justify-center pt-16 sm:pt-24 lg:pt-28 pb-10 sm:pb-12 px-4 sm:px-6 overflow-x-hidden"
+      className="min-h-fit md:min-h-0 lg:min-h-[85vh] relative flex items-start justify-center pt-16 sm:pt-24 lg:pt-28 pb-8 sm:pb-12 px-4 sm:px-6 overflow-x-hidden"
     >
       <div className="max-w-6xl w-full mx-auto relative z-10">
-        <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-start">
+        <div className="grid md:grid-cols-12 gap-6 lg:gap-12 items-start">
           {/* Left Column: Glides in from the LEFT at 5s */}
           <motion.div
             initial={{ x: -60, opacity: 0 }}
             animate={isRevealed ? { x: 0, opacity: 1 } : { x: -60, opacity: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 space-y-4 sm:space-y-6 text-left"
+            className="md:col-span-7 space-y-4 sm:space-y-6 text-left"
           >
             {/* Main Headline */}
             <div className="space-y-1.5 sm:space-y-2">
@@ -131,7 +131,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
           </motion.div>
 
           {/* Right Column: Interactive 60 FPS ASCII Particle Physics Portrait (Streams in from the right) */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end lg:pt-1">
+          <div className="md:col-span-5 flex justify-center md:justify-end mt-4 md:mt-0 md:pt-1">
             <AsciiParticleCanvas isRevealed={isRevealed} />
           </div>
         </div>

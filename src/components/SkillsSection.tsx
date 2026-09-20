@@ -154,7 +154,7 @@ export const SkillsSection = () => {
     : SKILL_CLUSTERS.filter(c => c.id === activeTab);
 
   return (
-    <section id="skills" className="py-28 relative overflow-hidden">
+    <section id="skills" className="py-14 sm:py-20 lg:py-24 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header with Fade In */}
         <motion.div

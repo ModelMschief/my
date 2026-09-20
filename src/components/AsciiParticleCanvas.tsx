@@ -134,9 +134,10 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
 
     const handleResize = () => {
       if (!canvas) return;
-      const isMobile = window.innerWidth < 768;
-      // Cap DPR to 1.5 on mobile and 2.0 on desktop to prevent 3-4 megapixel overdraw on Retina devices
-      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2.0);
+      const isTouchDevice = 'ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+      const isMobileDevice = window.innerWidth < 768 || (window.innerWidth <= 1024 && isTouchDevice);
+      // Cap DPR to 1.5 on mobile devices (including desktop view on mobile) to prevent buffer overdraw
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobileDevice ? 1.5 : 2.0);
       const width = window.innerWidth;
       const height = window.innerHeight;
 
@@ -190,8 +191,9 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
       timeTick += 0.015;
       const width = window.innerWidth;
       const height = window.innerHeight;
-      const isMobile = width < 768;
-      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2.0);
+      const isTouchDevice = 'ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+      const isMobileDevice = width < 768 || (width <= 1024 && isTouchDevice);
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobileDevice ? 1.5 : 2.0);
 
       ctx.save();
       ctx.scale(dpr, dpr);
@@ -217,8 +219,8 @@ export const AsciiParticleCanvas: React.FC<AsciiParticleCanvasProps> = ({
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      // On desktop, render subtle atmospheric glow; on mobile bypass software blur for pure 60 FPS
-      if (!isMobile) {
+      // On desktop, render subtle atmospheric glow; on mobile devices bypass software blur for pure 60 FPS
+      if (!isMobileDevice) {
         ctx.shadowBlur = 5;
         ctx.shadowColor = 'rgba(255, 255, 255, 0.45)';
       } else {
