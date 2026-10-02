@@ -57,26 +57,26 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
       className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-3 pointer-events-auto"
       initial={{ y: -70, opacity: 0 }}
       animate={isRevealed ? { y: 0, opacity: 1 } : { y: -70, opacity: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
     >
       <motion.nav
         className={`max-w-6xl mx-auto rounded-2xl px-5 py-2.5 flex items-center justify-between transition-all duration-300 border ${
           isScrolled 
-            ? 'bg-[#030712]/85 backdrop-blur-xl border-white/15 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]' 
-            : 'bg-[#030712]/60 backdrop-blur-md border-white/10 shadow-lg'
+            ? 'bg-[#F8E7C9]/90 backdrop-blur-xl border-[#DFCCA8] shadow-[0_8px_30px_0_rgba(6,78,59,0.08)]' 
+            : 'bg-[#FFFDF8]/85 backdrop-blur-md border-[#DFCCA8]/80 shadow-sm'
         }`}
       >
         {/* Brand Logo */}
         <div className="flex items-center gap-4">
           <a
             href="#home"
-            className="group flex items-center gap-2 font-display text-lg sm:text-xl font-bold tracking-tight text-white"
+            className="group flex items-center gap-2 font-display text-lg sm:text-xl font-bold tracking-tight text-[#064E3B]"
           >
-            <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
-              <Terminal className="w-4 h-4 text-cyan-400" />
+            <div className="w-8 h-8 rounded-lg bg-[#064E3B]/10 border border-[#064E3B]/20 flex items-center justify-center">
+              <Terminal className="w-4 h-4 text-[#064E3B]" />
             </div>
             <span className="tracking-wide">
-              SHEBIN<span className="text-cyan-400">.</span>TR
+              SHEBIN<span className="text-[#064E3B]">.</span>TR
             </span>
           </a>
         </div>
@@ -91,8 +91,8 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
                 href={link.href}
                 className={`relative px-4 py-1.5 text-xs font-mono-code transition-all duration-200 rounded-lg ${
                   isActive
-                    ? 'text-white font-semibold bg-white/10'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
+                    ? 'text-[#064E3B] font-semibold bg-[#064E3B]/10 border border-[#064E3B]/20 shadow-xs'
+                    : 'text-[#2D4E42] hover:text-[#064E3B] hover:bg-[#064E3B]/5'
                 }`}
               >
                 {link.label}
@@ -100,12 +100,12 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
             );
           })}
 
-          <div className="flex items-center gap-1 ml-2 pl-2 border-l border-white/10">
+          <div className="flex items-center gap-1 ml-2 pl-2 border-l border-[#DFCCA8]">
             <a
               href="https://github.com/modelmschief"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2 rounded-xl text-[#2D4E42] hover:text-[#064E3B] hover:bg-[#064E3B]/10 transition-colors"
               title="GitHub Profile"
               aria-label="GitHub Profile"
             >
@@ -115,7 +115,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
               href="https://www.linkedin.com/in/shebin-t-r"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-xl text-slate-400 hover:text-cyan-400 hover:bg-white/10 transition-colors"
+              className="p-2 rounded-xl text-[#2D4E42] hover:text-[#064E3B] hover:bg-[#064E3B]/10 transition-colors"
               title="LinkedIn Profile"
               aria-label="LinkedIn Profile"
             >
@@ -125,9 +125,9 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
 
           <a
             href="#contact"
-            className="ml-2 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold font-mono-code text-black bg-white hover:bg-slate-200 rounded-xl transition-all shadow-sm"
+            className="ml-2 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold font-mono-code text-[#F8E7C9] bg-[#064E3B] hover:bg-[#043D2E] rounded-xl transition-all shadow-sm"
           >
-            <Send className="w-3 h-3 text-black" />
+            <Send className="w-3 h-3 text-[#F8E7C9]" />
             <span>Contact</span>
           </a>
         </div>
@@ -136,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
         <div className="md:hidden flex items-center gap-2">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-colors"
+            className="p-2 rounded-lg bg-[#064E3B]/10 border border-[#DFCCA8] text-[#064E3B] transition-colors"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -150,7 +150,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="md:hidden max-w-6xl mx-auto mt-2 p-4 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-white/10 shadow-2xl space-y-2"
+          className="md:hidden max-w-6xl mx-auto mt-2 p-4 rounded-2xl bg-[#FFFDF8]/95 backdrop-blur-xl border border-[#DFCCA8] shadow-xl space-y-2"
         >
           {navLinks.map((link) => (
             <a
@@ -159,19 +159,19 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
               onClick={() => setMobileOpen(false)}
               className={`block px-4 py-2.5 rounded-xl text-sm font-mono-code transition-colors ${
                 activeSection === link.href.slice(1)
-                  ? 'text-white bg-white/10 font-semibold'
-                  : 'text-slate-300 hover:bg-white/5'
+                  ? 'text-[#064E3B] bg-[#064E3B]/10 font-semibold'
+                  : 'text-[#2D4E42] hover:bg-[#064E3B]/5'
               }`}
             >
               {link.label}
             </a>
           ))}
-          <div className="flex items-center justify-center gap-4 py-2 border-t border-white/10">
+          <div className="flex items-center justify-center gap-4 py-2 border-t border-[#DFCCA8]/60">
             <a
               href="https://github.com/modelmschief"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-mono-code text-slate-300 hover:text-white"
+              className="flex items-center gap-2 text-xs font-mono-code text-[#2D4E42] hover:text-[#064E3B]"
             >
               <Github className="w-4 h-4" />
               <span>GitHub</span>
@@ -180,7 +180,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
               href="https://www.linkedin.com/in/shebin-t-r"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-mono-code text-cyan-400"
+              className="flex items-center gap-2 text-xs font-mono-code text-[#064E3B]"
             >
               <Linkedin className="w-4 h-4" />
               <span>LinkedIn</span>
@@ -189,7 +189,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
           <a
             href="#contact"
             onClick={() => setMobileOpen(false)}
-            className="block text-center mt-2 py-2.5 px-4 rounded-xl bg-white text-black font-mono-code text-sm font-semibold"
+            className="block text-center mt-2 py-2.5 px-4 rounded-xl bg-[#064E3B] text-[#F8E7C9] font-mono-code text-sm font-semibold"
           >
             Contact
           </a>

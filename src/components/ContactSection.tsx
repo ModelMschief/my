@@ -36,41 +36,39 @@ export const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-28 relative overflow-hidden">
+    <section id="contact" className="py-20 sm:py-28 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header with Fade In */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono-code text-slate-300 mb-4">
-            <Send className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFDF8] border border-[#DFCCA8] text-xs font-mono-code text-[#064E3B] mb-4 shadow-2xs">
+            <Send className="w-3.5 h-3.5 text-[#064E3B]" />
             <span>COMMUNICATION CHANNEL</span>
           </div>
-          <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+          <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-[#064E3B] tracking-tight">
             Get in Touch
           </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg mt-3 font-light">
+          <p className="text-[#26473D] max-w-2xl mx-auto text-base sm:text-lg mt-3 font-normal">
             Ready to architect high-throughput APIs, RAG intelligence, or non-custodial blockchain systems? Let's connect.
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Slides from LEFT on scroll */}
+          {/* Left Column: Direct Channels */}
           <motion.div
-            initial={{ opacity: 0, x: -90 }}
+            initial={{ opacity: 0, x: -60 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 space-y-4"
           >
-            <div className="rounded-2xl glass-obsidian p-6 space-y-3.5 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-
-              <h3 className="font-display text-lg font-bold text-white">
+            <div className="rounded-2xl bg-[#FFFDF8] border border-[#DFCCA8] p-6 space-y-3.5 shadow-sm text-left">
+              <h3 className="font-display text-lg font-bold text-[#064E3B]">
                 Direct Channels
               </h3>
 
@@ -79,20 +77,20 @@ export const ContactSection = () => {
                 href="https://t.me/gojo16s"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+                className="group flex items-center justify-between p-3 rounded-xl bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 hover:bg-[#F3E7D3] transition-all"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+                  <div className="w-9 h-9 rounded-lg bg-[#064E3B]/10 border border-[#064E3B]/20 flex items-center justify-center text-[#064E3B]">
                     <Bot className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] text-slate-400 font-mono-code">Telegram</p>
-                    <p className="text-xs font-medium text-white group-hover:text-cyan-300 transition-colors">
+                    <p className="text-[11px] text-[#4D6D62] font-mono-code">Telegram</p>
+                    <p className="text-xs font-semibold text-[#064E3B] group-hover:text-[#043D2E] transition-colors">
                       @gojo16s
                     </p>
                   </div>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#4D6D62] group-hover:text-[#064E3B] transition-colors" />
               </a>
 
               {/* LinkedIn Channel */}
@@ -100,20 +98,20 @@ export const ContactSection = () => {
                 href="https://www.linkedin.com/in/shebin-t-r"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+                className="group flex items-center justify-between p-3 rounded-xl bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 hover:bg-[#F3E7D3] transition-all"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                  <div className="w-9 h-9 rounded-lg bg-[#064E3B]/10 border border-[#064E3B]/20 flex items-center justify-center text-[#064E3B]">
                     <Linkedin className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] text-slate-400 font-mono-code">LinkedIn</p>
-                    <p className="text-xs font-medium text-white group-hover:text-cyan-300 transition-colors">
+                    <p className="text-[11px] text-[#4D6D62] font-mono-code">LinkedIn</p>
+                    <p className="text-xs font-semibold text-[#064E3B] group-hover:text-[#043D2E] transition-colors">
                       in/shebin-t-r
                     </p>
                   </div>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#4D6D62] group-hover:text-[#064E3B] transition-colors" />
               </a>
 
               {/* WhatsApp Channel */}
@@ -121,39 +119,39 @@ export const ContactSection = () => {
                 href="https://wa.me/919037610098"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+                className="group flex items-center justify-between p-3 rounded-xl bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 hover:bg-[#F3E7D3] transition-all"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                  <div className="w-9 h-9 rounded-lg bg-[#064E3B]/10 border border-[#064E3B]/20 flex items-center justify-center text-[#064E3B]">
                     <MessageSquare className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] text-slate-400 font-mono-code">WhatsApp</p>
-                    <p className="text-xs font-medium text-white group-hover:text-emerald-300 transition-colors">
+                    <p className="text-[11px] text-[#4D6D62] font-mono-code">WhatsApp</p>
+                    <p className="text-xs font-semibold text-[#064E3B] group-hover:text-[#043D2E] transition-colors">
                       +91 9037610098
                     </p>
                   </div>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#4D6D62] group-hover:text-[#064E3B] transition-colors" />
               </a>
 
               {/* Email Channel */}
               <a
                 href="mailto:shebinraju2021@gmail.com"
-                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+                className="group flex items-center justify-between p-3 rounded-xl bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 hover:bg-[#F3E7D3] transition-all"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                  <div className="w-9 h-9 rounded-lg bg-[#064E3B]/10 border border-[#064E3B]/20 flex items-center justify-center text-[#064E3B]">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] text-slate-400 font-mono-code">Email</p>
-                    <p className="text-xs font-medium text-white group-hover:text-blue-300 transition-colors">
+                    <p className="text-[11px] text-[#4D6D62] font-mono-code">Email</p>
+                    <p className="text-xs font-semibold text-[#064E3B] group-hover:text-[#043D2E] transition-colors">
                       shebinraju2021@gmail.com
                     </p>
                   </div>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#4D6D62] group-hover:text-[#064E3B] transition-colors" />
               </a>
 
               {/* GitHub Profile Card */}
@@ -161,57 +159,55 @@ export const ContactSection = () => {
                 href="https://github.com/modelmschief"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3 rounded-xl bg-black/30 border border-white/5 hover:border-white/15 hover:bg-black/50 transition-all"
+                className="group flex items-center justify-between p-3 rounded-xl bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 hover:bg-[#F3E7D3] transition-all"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-white">
+                  <div className="w-9 h-9 rounded-lg bg-[#064E3B]/10 border border-[#064E3B]/20 flex items-center justify-center text-[#064E3B]">
                     <Github className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] text-slate-400 font-mono-code">GitHub</p>
-                    <p className="text-xs font-medium text-white group-hover:text-slate-200 transition-colors">
+                    <p className="text-[11px] text-[#4D6D62] font-mono-code">GitHub</p>
+                    <p className="text-xs font-semibold text-[#064E3B] group-hover:text-[#043D2E] transition-colors">
                       github.com/modelmschief
                     </p>
                   </div>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#4D6D62] group-hover:text-[#064E3B] transition-colors" />
               </a>
             </div>
           </motion.div>
 
-          {/* Right Column: Slides from RIGHT on scroll */}
+          {/* Right Column: Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 90 }}
+            initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
             className="lg:col-span-7"
           >
             <form
               onSubmit={handleFormSubmit}
-              className="rounded-2xl glass-obsidian p-6 sm:p-8 space-y-5 shadow-2xl relative overflow-hidden"
+              className="rounded-2xl bg-[#FFFDF8] border border-[#DFCCA8] p-6 sm:p-8 space-y-5 shadow-sm text-left"
             >
-              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-
-              <div className="flex items-center justify-between pb-4 border-b border-white/10">
+              <div className="flex items-center justify-between pb-4 border-b border-[#DFCCA8]">
                 <div>
-                  <h3 className="font-display text-xl font-bold text-white">
+                  <h3 className="font-display text-xl font-bold text-[#064E3B]">
                     Send Message
                   </h3>
-                  <p className="text-xs font-mono-code text-slate-400 mt-0.5">
+                  <p className="text-xs font-mono-code text-[#4D6D62] mt-0.5">
                     Select delivery destination
                   </p>
                 </div>
 
                 {/* Dispatch Mode Selector */}
-                <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white/5 border border-white/10">
+                <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#FAF3E5] border border-[#DFCCA8]">
                   <button
                     type="button"
                     onClick={() => setDispatchMethod('telegram')}
-                    className={`px-3 py-1 rounded-lg text-xs font-mono-code transition-all ${
+                    className={`px-3 py-1 rounded-lg text-xs font-mono-code transition-all cursor-pointer ${
                       dispatchMethod === 'telegram'
-                        ? 'bg-white text-black font-semibold shadow-sm'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-[#064E3B] text-[#F8E7C9] font-semibold shadow-xs'
+                        : 'text-[#26473D] hover:text-[#064E3B]'
                     }`}
                   >
                     Telegram
@@ -219,10 +215,10 @@ export const ContactSection = () => {
                   <button
                     type="button"
                     onClick={() => setDispatchMethod('email')}
-                    className={`px-3 py-1 rounded-lg text-xs font-mono-code transition-all ${
+                    className={`px-3 py-1 rounded-lg text-xs font-mono-code transition-all cursor-pointer ${
                       dispatchMethod === 'email'
-                        ? 'bg-white text-black font-semibold shadow-sm'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-[#064E3B] text-[#F8E7C9] font-semibold shadow-xs'
+                        : 'text-[#26473D] hover:text-[#064E3B]'
                     }`}
                   >
                     Email
@@ -233,7 +229,7 @@ export const ContactSection = () => {
               {/* Inputs */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-mono-code text-slate-400 mb-1.5">
+                  <label className="block text-xs font-mono-code text-[#26473D] mb-1.5">
                     Your Name or Organization
                   </label>
                   <input
@@ -242,12 +238,12 @@ export const ContactSection = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Alex Morgan"
-                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-white/30 focus:bg-black/60 text-sm text-white placeholder:text-slate-600 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-[#FAF3E5] border border-[#DFCCA8] focus:border-[#064E3B] focus:bg-[#FFFDF8] text-sm text-[#064E3B] placeholder:text-[#4D6D62]/60 outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono-code text-slate-400 mb-1.5">
+                  <label className="block text-xs font-mono-code text-[#26473D] mb-1.5">
                     Your Contact Email / Handle
                   </label>
                   <input
@@ -256,12 +252,12 @@ export const ContactSection = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="e.g. alex@company.com or @alex_tg"
-                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-white/30 focus:bg-black/60 text-sm text-white placeholder:text-slate-600 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl bg-[#FAF3E5] border border-[#DFCCA8] focus:border-[#064E3B] focus:bg-[#FFFDF8] text-sm text-[#064E3B] placeholder:text-[#4D6D62]/60 outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono-code text-slate-400 mb-1.5">
+                  <label className="block text-xs font-mono-code text-[#26473D] mb-1.5">
                     Project Scope / Details
                   </label>
                   <textarea
@@ -270,7 +266,7 @@ export const ContactSection = () => {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Describe your backend requirement, RAG pipeline goals, or Web3 scope..."
-                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-white/30 focus:bg-black/60 text-sm text-white placeholder:text-slate-600 outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-[#FAF3E5] border border-[#DFCCA8] focus:border-[#064E3B] focus:bg-[#FFFDF8] text-sm text-[#064E3B] placeholder:text-[#4D6D62]/60 outline-none transition-all resize-none"
                   />
                 </div>
               </div>
@@ -278,16 +274,16 @@ export const ContactSection = () => {
               {/* Submit CTA */}
               <button
                 type="submit"
-                className="w-full py-3.5 px-6 rounded-xl font-mono-code text-sm font-medium text-black bg-white hover:bg-slate-200 transition-all duration-200 flex items-center justify-center gap-2 shadow-sm"
+                className="w-full py-3.5 px-6 rounded-xl font-mono-code text-sm font-semibold text-[#F8E7C9] bg-[#064E3B] hover:bg-[#043D2E] transition-all duration-200 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
               >
                 {submitted ? (
                   <>
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    <CheckCircle2 className="w-4 h-4 text-[#F8E7C9]" />
                     <span>Transmitted Successfully!</span>
                   </>
                 ) : (
                   <>
-                    <Send className="w-4 h-4 text-black" />
+                    <Send className="w-4 h-4 text-[#F8E7C9]" />
                     <span>
                       {dispatchMethod === 'telegram'
                         ? 'Dispatch via Telegram'

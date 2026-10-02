@@ -36,38 +36,38 @@ interface Project {
 const PROJECTS: Project[] = [
   {
     id: 'bsc-gateway',
-    title: 'BSC Non-Custodial Payment Gateway',
+    title: 'Multi-Chain Non-Custodial Payment Gateway (BSC & TON)',
     category: 'Blockchain & Cryptography',
-    shortDesc: 'Fully non-custodial Binance Smart Chain payment infrastructure with direct node communication and zero third-party intermediaries.',
-    fullDesc: 'Architected a zero-custody BSC payment pipeline directly querying BSC full nodes via raw JSON-RPC. Users retain 100% private key sovereignty while merchant applications receive instantaneous on-chain confirmation webhooks.',
+    shortDesc: 'Fully non-custodial multi-chain payment infrastructure supporting Binance Smart Chain (BSC) and The Open Network (TON) with direct node communication and zero third-party intermediaries.',
+    fullDesc: 'Architected a zero-custody multi-chain payment pipeline supporting both Binance Smart Chain (BSC) via raw JSON-RPC and The Open Network (TON) via TonLib and HTTP v2 clients. Users retain 100% private key sovereignty while merchant applications receive instantaneous on-chain confirmation webhooks.',
     metrics: [
       { label: 'Security Model', value: '100% Non-Custodial' },
+      { label: 'Supported Chains', value: 'BSC (EVM) + TON' },
       { label: 'Intermediaries', value: '0 Third-Party APIs' },
-      { label: 'Platform', value: 'Telegram Native' },
     ],
-    tags: ['Node.js', 'BSC JSON-RPC', 'Express', 'MongoDB', 'Telegram API'],
+    tags: ['BSC JSON-RPC', 'TON SDK', 'Node.js', 'Python', 'Express', 'MongoDB', 'Telegram API'],
     consoleSnippet: {
-      filename: 'bsc_gateway_engine.js',
+      filename: 'multichain_gateway_engine.ts',
       code: [
-        '// Direct JSON-RPC Node Subscription',
-        'async function listenDeposits(contractAddress) {',
-        '  const node = await getBscRpcSession();',
-        '  const events = await node.getTransferLogs(contractAddress);',
-        '  for (const tx of events) {',
-        '    if (verifySignature(tx.hash) && tx.confirmed) {',
-        '      await dispatchTelegramReceipt(tx.recipient, tx.amount);',
-        '    }',
+        '// Direct Multi-Chain Node Ingestion (BSC + TON)',
+        'async function watchInboundPayments(chain: "BSC" | "TON", address: string) {',
+        '  if (chain === "BSC") {',
+        '    const bscNode = await getBscRpcSession();',
+        '    return bscNode.subscribeTransferLogs(address);',
+        '  } else if (chain === "TON") {',
+        '    const tonClient = await getTonClientSession();',
+        '    return tonClient.subscribeAccountTransactions(address);',
         '  }',
         '}',
       ],
     },
     architecture: {
       problem: 'Traditional crypto gateways enforce custody, charge hefty 1-3% fees, and introduce single points of failure via closed-source SaaS APIs.',
-      solution: 'Direct RPC node subscription listening to pending block headers, verifying raw tx inputs, and confirming balance state with zero counterparty risk.',
+      solution: 'Direct multi-chain node subscription listening to BSC mempool block headers and TON shardchain block updates, verifying raw transaction inputs with zero counterparty risk.',
       flow: [
-        'Client requests unique payment session',
-        'Deterministic deposit address generated via cryptographic derivation',
-        'Async background daemon monitors BSC mempool & confirmed blocks',
+        'Client requests unique payment session for BSC (BEP-20) or TON',
+        'Deterministic deposit address or payment memo generated',
+        'Async background daemons monitor BSC mempool and TON shard transactions',
         'Automatic Telegram webhook and database state update on confirmation',
       ],
     },
@@ -78,16 +78,16 @@ const PROJECTS: Project[] = [
   },
   {
     id: 'custom-rag',
-    title: 'Custom Modular RAG Pipeline',
-    category: 'AI & Machine Learning',
-    shortDesc: 'Production-ready Retrieval-Augmented Generation framework featuring hybrid keyword/vector search, re-ranking, and dynamic citation tracing.',
-    fullDesc: 'A custom modular RAG library built for high retrieval fidelity and minimal latency. Implements custom chunking strategies, dense embeddings, BM25 sparse index merging, and context compression before LLM generation.',
+    title: 'Custom Vectorization & Modular RAG Engine',
+    category: 'AI & Neural Systems',
+    shortDesc: 'Production-ready vectorization & Retrieval-Augmented Generation framework featuring hybrid keyword/vector search, re-ranking, and dynamic citation tracing.',
+    fullDesc: 'A custom modular neural vectorization and RAG library built for high retrieval fidelity and minimal latency. Implements custom chunking strategies, dense embeddings, BM25 sparse index merging, cross-encoder neural re-ranking, and context compression before LLM generation.',
     metrics: [
       { label: 'Retrieval Speed', value: '< 40ms P95' },
       { label: 'Search Method', value: 'Hybrid Dense+BM25' },
-      { label: 'LLM Support', value: 'Gemini / Claude / OpenAI' },
+      { label: 'Vector Engine', value: 'ChromaDB / Pinecone' },
     ],
-    tags: ['Python', 'ChromaDB', 'LangChain', 'FastAPI', 'Vector Search'],
+    tags: ['PyTorch', 'Vector Embeddings', 'ChromaDB', 'LangChain', 'FastAPI', 'Python'],
     consoleSnippet: {
       filename: 'rag_hybrid_retriever.py',
       code: [
@@ -155,14 +155,14 @@ const PROJECTS: Project[] = [
     id: 'api-platform',
     title: 'Multi-Provider API Gateway Platform',
     category: 'Backend & Cloud Systems',
-    shortDesc: 'Multi-server API gateway prototype hosting 5+ specialized microservices with Flask ML inference nodes and Redis in-memory caching.',
-    fullDesc: 'Designed a distributed microservice topology where a FastAPI gateway routes incoming client traffic, enforces rate limiting via Redis token buckets, and dispatches compute-heavy machine learning tasks to dedicated Flask worker nodes.',
+    shortDesc: 'Multi-server API gateway prototype hosting 5+ specialized microservices with image detection & neural model inference nodes, vector lookup, and Redis caching.',
+    fullDesc: 'Designed a distributed microservice topology where a FastAPI gateway routes incoming client traffic, enforces rate limiting via Redis token buckets, and dispatches compute-heavy neural network models and visual inference tasks to dedicated Flask worker nodes.',
     metrics: [
       { label: 'Cache Latency', value: 'Sub-5ms' },
       { label: 'Rate Limiter', value: 'Redis Token Bucket' },
       { label: 'Live Prototype', value: 'botfusion.kesug.com' },
     ],
-    tags: ['FastAPI', 'Flask', 'Redis', 'Machine Learning', 'Docker'],
+    tags: ['FastAPI', 'PyTorch / OpenCV', 'Flask', 'Redis', 'Docker', 'Neural Inference'],
     consoleSnippet: {
       filename: 'api_gateway_router.py',
       code: [
@@ -273,30 +273,30 @@ export const ProjectsSection = () => {
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
 
   return (
-    <section id="projects" className="py-28 relative overflow-hidden">
+    <section id="projects" className="py-20 sm:py-28 relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header with Fade In */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono-code text-slate-300 mb-4">
-            <Layers className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFDF8] border border-[#DFCCA8] text-xs font-mono-code text-[#064E3B] mb-4 shadow-2xs">
+            <Layers className="w-3.5 h-3.5 text-[#064E3B]" />
             <span>FEATURED SHOWCASE</span>
           </div>
-          <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Production <span className="text-slate-200">Architectures</span>
+          <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-[#064E3B] tracking-tight">
+            Production <span className="text-[#1B3B31]">Architectures</span>
           </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg mt-3 font-light">
+          <p className="text-[#2D4E42] max-w-2xl mx-auto text-base sm:text-lg mt-3 font-normal">
             Engineered for zero-custody blockchain execution, sub-50ms AI retrieval, and scalable backend automation.
           </p>
         </motion.div>
 
         {/* Alternating Left-Right-Left-Right Showcase */}
-        <div className="space-y-24 sm:space-y-32">
+        <div className="space-y-20 sm:space-y-28">
           {PROJECTS.map((project, index) => {
             const isEven = index % 2 === 1;
 
@@ -305,38 +305,36 @@ export const ProjectsSection = () => {
                 key={project.id}
                 className="grid lg:grid-cols-12 gap-8 sm:gap-12 items-center"
               >
-                {/* Visual / Code Console Column */}
+                {/* Visual / Code Console Column (Dark Emerald & Obsidian Terminal for maximum syntax pop) */}
                 <motion.div
-                  initial={{ opacity: 0, x: isEven ? 90 : -90 }}
+                  initial={{ opacity: 0, x: isEven ? 60 : -60 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   className={`lg:col-span-6 ${
                     isEven ? 'lg:order-2' : 'lg:order-1'
                   }`}
                 >
-                  <div className="relative rounded-2xl glass-obsidian overflow-hidden shadow-2xl group transition-all duration-300">
-                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-
+                  <div className="relative rounded-2xl bg-[#021A13] border border-[#0D3B2F] overflow-hidden shadow-xl group transition-all duration-300">
                     {/* Console Header Bar */}
-                    <div className="flex items-center justify-between px-4 py-3 bg-white/[0.03] border-b border-white/10">
+                    <div className="flex items-center justify-between px-4 py-3 bg-[#04241B] border-b border-[#0D3B2F]">
                       <div className="flex items-center gap-2">
-                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
-                        <span className="text-xs font-mono-code text-slate-400 ml-2">
+                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                        <span className="text-xs font-mono-code text-[#A7D7C5] ml-2 font-medium">
                           {project.consoleSnippet.filename}
                         </span>
                       </div>
-                      <span className="text-[10px] font-mono-code text-slate-500">PRODUCTION</span>
+                      <span className="text-[10px] font-mono-code text-[#34D399]">PRODUCTION</span>
                     </div>
 
                     {/* Console Code Body */}
-                    <div className="p-5 font-mono-code text-xs leading-relaxed text-slate-300 overflow-x-auto space-y-1">
+                    <div className="p-5 font-mono-code text-xs leading-relaxed text-[#F8E7C9] overflow-x-auto space-y-1">
                       {project.consoleSnippet.code.map((line, i) => (
                         <div key={i} className="flex">
-                          <span className="text-slate-600 select-none w-6 shrink-0">{i + 1}</span>
-                          <span className={`${line.startsWith('//') || line.startsWith('#') ? 'text-slate-500 italic' : line.includes('def ') || line.includes('class ') || line.includes('function ') ? 'text-cyan-400 font-semibold' : 'text-slate-200'}`}>
+                          <span className="text-[#3B6658] select-none w-6 shrink-0">{i + 1}</span>
+                          <span className={`${line.startsWith('//') || line.startsWith('#') ? 'text-[#528776] italic' : line.includes('def ') || line.includes('class ') || line.includes('function ') ? 'text-[#34D399] font-semibold' : 'text-[#F8E7C9]'}`}>
                             {line}
                           </span>
                         </div>
@@ -344,11 +342,11 @@ export const ProjectsSection = () => {
                     </div>
 
                     {/* Console Bottom Verification Metrics Bar */}
-                    <div className="grid grid-cols-3 gap-2 px-4 py-3 bg-white/[0.02] border-t border-white/10 text-center">
+                    <div className="grid grid-cols-3 gap-2 px-4 py-3 bg-[#04241B] border-t border-[#0D3B2F] text-center">
                       {project.metrics.map((m) => (
                         <div key={m.label}>
-                          <p className="text-xs font-bold text-white font-mono-code truncate">{m.value}</p>
-                          <p className="text-[10px] text-slate-400 font-mono-code truncate">{m.label}</p>
+                          <p className="text-xs font-bold text-[#F8E7C9] font-mono-code truncate">{m.value}</p>
+                          <p className="text-[10px] text-[#A7D7C5] font-mono-code truncate">{m.label}</p>
                         </div>
                       ))}
                     </div>
@@ -357,32 +355,32 @@ export const ProjectsSection = () => {
 
                 {/* Narrative & Details Column */}
                 <motion.div
-                  initial={{ opacity: 0, x: isEven ? -90 : 90 }}
+                  initial={{ opacity: 0, x: isEven ? -60 : 60 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
                   className={`lg:col-span-6 space-y-6 ${
                     isEven ? 'lg:order-1' : 'lg:order-2'
                   }`}
                 >
                   <div className="space-y-3">
-                    <span className="text-xs font-mono-code text-cyan-400 uppercase tracking-wider px-3 py-1 rounded-md bg-white/[0.04] border border-white/10 inline-block">
+                    <span className="text-xs font-mono-code text-[#064E3B] font-semibold uppercase tracking-wider px-3 py-1 rounded-md bg-[#064E3B]/10 border border-[#064E3B]/20 inline-block">
                       {project.category}
                     </span>
-                    <h3 className="font-display text-3xl sm:text-4xl font-bold text-white">
+                    <h3 className="font-display text-3xl sm:text-4xl font-bold text-[#064E3B]">
                       {project.title}
                     </h3>
-                    <p className="text-base text-slate-300 leading-relaxed font-light">
+                    <p className="text-base text-[#26473D] leading-relaxed font-normal">
                       {project.fullDesc}
                     </p>
                   </div>
 
-                  {/* Architecture Highlights Pill Box */}
-                  <div className="p-4 rounded-xl glass-obsidian space-y-2">
-                    <p className="text-xs font-mono-code text-slate-400 uppercase">
+                  {/* Architecture Highlights Box */}
+                  <div className="p-4 rounded-xl bg-[#FFFDF8] border border-[#DFCCA8] shadow-2xs space-y-2">
+                    <p className="text-xs font-mono-code text-[#4D6D62] uppercase">
                       // Core Architecture Solution
                     </p>
-                    <p className="text-xs text-slate-200 leading-relaxed font-light">
+                    <p className="text-xs text-[#1B3B31] leading-relaxed font-normal">
                       {project.architecture.solution}
                     </p>
                   </div>
@@ -392,7 +390,7 @@ export const ProjectsSection = () => {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-xs font-mono-code text-slate-300"
+                        className="px-3 py-1 rounded-lg bg-[#FFFDF8] border border-[#DFCCA8] text-xs font-mono-code text-[#064E3B] shadow-2xs"
                       >
                         {tag}
                       </span>
@@ -403,10 +401,10 @@ export const ProjectsSection = () => {
                   <div className="flex flex-wrap items-center gap-3 pt-2">
                     <button
                       onClick={() => setActiveModalProject(project)}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-medium text-black bg-white hover:bg-slate-200 transition-all shadow-sm font-mono-code"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-medium text-[#F8E7C9] bg-[#064E3B] hover:bg-[#043D2E] transition-all shadow-sm font-mono-code cursor-pointer"
                     >
                       <span>Architecture Details</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-black" />
+                      <ArrowRight className="w-3.5 h-3.5 text-[#F8E7C9]" />
                     </button>
 
                     {project.links.github && (
@@ -414,7 +412,7 @@ export const ProjectsSection = () => {
                         href={project.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all font-mono-code"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-[#064E3B] bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 transition-all font-mono-code shadow-2xs"
                       >
                         <Github className="w-3.5 h-3.5" />
                         <span>GitHub</span>
@@ -426,7 +424,7 @@ export const ProjectsSection = () => {
                         href={project.links.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/20 transition-all font-mono-code"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-[#F8E7C9] bg-[#047857] hover:bg-[#065F46] transition-all font-mono-code shadow-sm"
                       >
                         <ExternalLink className="w-3.5 h-3.5" />
                         <span>Live Demo</span>
@@ -438,7 +436,7 @@ export const ProjectsSection = () => {
                         href={project.links.telegram}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all font-mono-code"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-[#064E3B] bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 transition-all font-mono-code shadow-2xs"
                       >
                         <Bot className="w-3.5 h-3.5" />
                         <span>Telegram Bot</span>
@@ -461,27 +459,28 @@ export const ProjectsSection = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveModalProject(null)}
-              className="fixed inset-0 bg-black/85 backdrop-blur-md"
+              className="fixed inset-0 bg-[#064E3B]/40 backdrop-blur-sm"
             />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 15 }}
-              className="relative max-w-2xl w-full rounded-2xl glass-obsidian border border-white/20 p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-6"
+              className="relative max-w-2xl w-full rounded-2xl bg-[#FFFDF8] border border-[#DFCCA8] p-6 sm:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto space-y-6 text-left"
             >
-              <div className="flex items-start justify-between gap-4 pb-4 border-b border-white/10">
+              <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#DFCCA8]">
                 <div>
-                  <span className="text-xs font-mono-code text-cyan-400 uppercase">
+                  <span className="text-xs font-mono-code text-[#064E3B] uppercase font-semibold">
                     // ARCHITECTURE BLUEPRINT
                   </span>
-                  <h3 className="font-display text-2xl font-bold text-white mt-1">
+                  <h3 className="font-display text-2xl font-bold text-[#064E3B] mt-1">
                     {activeModalProject.title}
                   </h3>
                 </div>
                 <button
                   onClick={() => setActiveModalProject(null)}
-                  className="p-2 rounded-lg bg-white/5 text-slate-400 hover:text-white border border-white/10 transition-colors"
+                  className="p-2 rounded-lg bg-[#FAF3E5] text-[#064E3B] hover:bg-[#F0E5D0] border border-[#DFCCA8] transition-colors cursor-pointer"
+                  aria-label="Close modal"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -489,19 +488,19 @@ export const ProjectsSection = () => {
 
               {/* Problem vs Solution */}
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
-                  <p className="text-xs font-mono-code text-red-400 font-bold mb-1">
+                <div className="p-4 rounded-xl bg-rose-50 border border-rose-200">
+                  <p className="text-xs font-mono-code text-rose-700 font-bold mb-1">
                     [THE BOTTLENECK]
                   </p>
-                  <p className="text-xs text-slate-300 leading-relaxed font-light">
+                  <p className="text-xs text-slate-700 leading-relaxed font-normal">
                     {activeModalProject.architecture.problem}
                   </p>
                 </div>
-                <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
-                  <p className="text-xs font-mono-code text-cyan-400 font-bold mb-1">
+                <div className="p-4 rounded-xl bg-[#EAF5F0] border border-[#A7D7C5]">
+                  <p className="text-xs font-mono-code text-[#064E3B] font-bold mb-1">
                     [THE ARCHITECTURE]
                   </p>
-                  <p className="text-xs text-slate-300 leading-relaxed font-light">
+                  <p className="text-xs text-[#1B3B31] leading-relaxed font-normal">
                     {activeModalProject.architecture.solution}
                   </p>
                 </div>
@@ -509,16 +508,16 @@ export const ProjectsSection = () => {
 
               {/* Data Flow Pipeline */}
               <div>
-                <h4 className="text-xs font-mono-code text-slate-400 uppercase mb-3">
+                <h4 className="text-xs font-mono-code text-[#4D6D62] uppercase mb-3">
                   // Data Flow Pipeline
                 </h4>
                 <div className="space-y-2 font-mono-code text-xs">
                   {activeModalProject.architecture.flow.map((step, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-3 p-3 rounded-lg bg-white/[0.03] border border-white/5 text-slate-300"
+                      className="flex items-start gap-3 p-3 rounded-lg bg-[#FAF3E5] border border-[#E8D9BD] text-[#1B3B31]"
                     >
-                      <span className="text-cyan-400 font-bold shrink-0">0{idx + 1}.</span>
+                      <span className="text-[#064E3B] font-bold shrink-0">0{idx + 1}.</span>
                       <span>{step}</span>
                     </div>
                   ))}
@@ -526,10 +525,10 @@ export const ProjectsSection = () => {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#DFCCA8]">
                 <button
                   onClick={() => setActiveModalProject(null)}
-                  className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-mono-code text-white transition-colors"
+                  className="px-4 py-2 rounded-xl bg-[#FAF3E5] hover:bg-[#F0E5D0] text-xs font-mono-code text-[#064E3B] border border-[#DFCCA8] transition-colors cursor-pointer"
                 >
                   Close
                 </button>
@@ -538,7 +537,7 @@ export const ProjectsSection = () => {
                     href={activeModalProject.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-black hover:bg-slate-200 text-xs font-mono-code font-semibold transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#064E3B] text-[#F8E7C9] hover:bg-[#043D2E] text-xs font-mono-code font-semibold transition-colors shadow-sm"
                   >
                     <Github className="w-3.5 h-3.5" />
                     <span>View Repository</span>
@@ -549,7 +548,7 @@ export const ProjectsSection = () => {
                     href={activeModalProject.links.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-400 text-black hover:bg-cyan-300 text-xs font-mono-code font-semibold transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#047857] text-[#F8E7C9] hover:bg-[#065F46] text-xs font-mono-code font-semibold transition-colors shadow-sm"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>Open Live Demo</span>
