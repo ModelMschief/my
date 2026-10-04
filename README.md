@@ -1,73 +1,50 @@
-# Welcome to your Lovable project
+# Shebin T R — Engineering Portfolio
 
-## Project info
+> AI Systems, Computer Vision, High-Throughput APIs & Multi-Chain Blockchain Architectures (BSC & TON).
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+[![Live Site](https://img.shields.io/badge/Live-Portfolio-064E3B?style=for-the-badge)](https://shebin-tr.onrender.com)
+[![GitHub](https://img.shields.io/badge/GitHub-ModelMschief-064E3B?style=for-the-badge&logo=github)](https://github.com/ModelMschief)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Shebin%20T%20R-064E3B?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/shebin-t-r)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🛠️ Engineering Disciplines
 
-**Use Lovable**
+- **Computer Vision & Neural Networks**: Training custom object detection models, CNN backbones, dataset annotation pipelines, and PyTorch deep learning topologies.
+- **Vectorization & Modular RAG**: High-dimensional multi-modal vector embeddings, sub-40ms vector similarity recall (ChromaDB / Pinecone), and hybrid BM25 + dense search.
+- **High-Throughput Backends**: Non-blocking asynchronous microservices, Goroutines, FastAPI, Node.js, and Redis caching.
+- **Multi-Chain Web3 Gateways**: Non-custodial payment processing on Binance Smart Chain (BSC) via direct JSON-RPC and The Open Network (TON) via custom TonLib client bindings.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🚀 Tech Stack
 
-**Use your preferred IDE**
+- **Frontend**: React 18, TypeScript, Tailwind CSS, Framer Motion, Lucide Icons, Vite
+- **AI & ML**: PyTorch, OpenCV, ChromaDB, LangChain, Scikit-Learn
+- **Backend & Cloud**: Python (FastAPI/Flask), Go (Golang), Node.js, Redis, MongoDB, PostgreSQL, Docker
+- **Web3**: BSC (EVM), TON (TVM), Web3.py, Telegram Bot API
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📦 Local Development
 
-Follow these steps:
+```bash
+# Clone the repository
+git clone https://github.com/ModelMschief/my.git
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Navigate to project
+cd my
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Install dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start local dev server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🌐 Deployments
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- **Render**: Deployed via `render.yaml` Blueprint ([https://shebin-tr.onrender.com](https://shebin-tr.onrender.com))
+- **GitHub Pages**: Deployed via `gh-pages` branch ([https://modelmschief.github.io/my/](https://modelmschief.github.io/my/))
