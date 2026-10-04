@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://modelmschief.github.io/my/sitemap.xml
+Sitemap: https://shebin-tr.onrender.com/sitemap.xml
