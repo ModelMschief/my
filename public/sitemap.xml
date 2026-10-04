@@ -7,6 +7,18 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://shebin-tr.onrender.com/llms.txt</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://shebin-tr.onrender.com/llms-full.txt</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://modelmschief.github.io/my/</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>

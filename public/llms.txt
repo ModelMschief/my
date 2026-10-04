@@ -1,0 +1,54 @@
+# Shebin T R
+
+> AI Engineer, Agentic Systems Architect, and Distributed Backend Engineer specializing in Computer Vision, Deep Learning, High-Dimensional Vectorization & RAG Pipelines, Autonomous AI Agents, High-Throughput Microservices (FastAPI & Go), DevOps & Cloud Infrastructure, and Non-Custodial Multi-Chain Web3 Systems (BSC & TON).
+
+## Summary
+
+Shebin T R (handle: `ModelMschief`) is an Artificial Intelligence and Data Science Engineering specialist. His core technical strengths span:
+- **Machine Learning & Deep Learning**: Custom CNN backbones, YOLO/object detection, dataset annotation pipelines, and PyTorch/OpenCV real-time visual inference.
+- **High-Dimensional Vectorization & RAG**: Multi-modal embeddings, ChromaDB/Pinecone indexing, hybrid dense + BM25 sparse retrieval, and cross-encoder neural re-ranking (< 40ms P95 latency).
+- **AI Agentic Systems**: Autonomous multi-step agent runtimes, dynamic tool sandboxing, long-term vector/episodic memory, and structured schema synthesis.
+- **High-Throughput Distributed Backends**: Asynchronous microservices in Python (FastAPI/Flask), Go (Golang), and Node.js with Redis token-bucket rate limiting and sub-5ms caching.
+- **DevOps, Cloud & Systems**: Docker containerization, Linux systemd daemonization, Google Cloud Platform (GCP Cloud Run), AWS, and automated CI/CD pipelines.
+- **Multi-Chain Web3 & Cryptography**: Direct JSON-RPC node integration on Binance Smart Chain (BSC/EVM) and raw Bag-of-Cells (BOC) client bindings for The Open Network (TON/TVM) with zero third-party custody.
+
+For a comprehensive technical dossier including architecture breakdowns, performance benchmarks, and implementation patterns, see [Full Technical Dossier (llms-full.txt)](https://shebin-tr.onrender.com/llms-full.txt).
+
+## Core Technical Disciplines
+
+- [Deep Learning & Computer Vision](https://shebin-tr.onrender.com/llms-full.txt#deep-learning-and-computer-vision): Image classification, object detection (YOLO, custom CNNs), neural network architecture training, loss optimization, OpenCV visual processing pipelines.
+- [Vectorization & Hybrid RAG](https://shebin-tr.onrender.com/llms-full.txt#vectorization-and-hybrid-rag): High-dimensional multi-modal vector embeddings, cosine distance partitioning, hybrid retrieval merging dense embeddings with BM25 sparse indices, cross-encoder re-ranking, and dynamic context compression.
+- [Agentic AI Frameworks](https://shebin-tr.onrender.com/llms-full.txt#agentic-ai-frameworks): Multi-step autonomous agent OS (OrchestraAI), episodic and semantic memory architectures, sandboxed tool dispatching, schema-enforced LLM synthesis.
+- [Distributed Backends & Microservices](https://shebin-tr.onrender.com/llms-full.txt#distributed-backends-and-microservices): Asynchronous Python (FastAPI, Flask, asyncio), Go (Golang concurrent goroutines and channels), Node.js/Express, Redis caching and pub/sub, WebSockets, and low-latency JSON-RPC.
+- [DevOps, Cloud & SRE](https://shebin-tr.onrender.com/llms-full.txt#devops-cloud-and-sre): Docker multi-stage containerization, Linux system administration, systemd background daemons, GCP Cloud Run, AWS, Git/GitHub CI/CD, reverse proxies.
+- [Multi-Chain Web3 & Cryptography](https://shebin-tr.onrender.com/llms-full.txt#multi-chain-web3-and-cryptography): Zero-custody payment infrastructure, EVM raw JSON-RPC on Binance Smart Chain, TON blockchain client libraries (TonLib, TonConnect, Cell BOC serialization), smart contract event polling.
+
+## Key Projects
+
+- [GateWays: Multi-Chain Non-Custodial Payment Gateway](https://github.com/ModelMschief/GateWays): Non-custodial multi-chain payment infrastructure supporting Binance Smart Chain (BSC) via direct JSON-RPC and The Open Network (TON) via TonLib. 100% private key sovereignty, zero third-party payment processors, and sub-second confirmation webhooks.
+- [Custom Vectorization & Modular RAG Engine](https://github.com/ModelMschief/Mini-Project-Colab): Production-ready vectorization and Retrieval-Augmented Generation framework featuring hybrid dense + BM25 sparse search, reciprocal rank fusion, and cross-encoder neural re-ranking (< 40ms P95 retrieval latency).
+- [Ton-Crypto-Lib: TON Blockchain Python SDK](https://github.com/ModelMschief/Ton-Crypto-Lib): Lightweight, async-first Python client library for TON (The Open Network). Implements pure-Python Bag-of-Cells (BOC) serialization, CRC32 checksumming, and TonConnect integration for Telegram Mini Apps.
+- [OrchestraAI: Developer AI Agent OS](https://github.com/ModelMschief/OrchestraAI): Developer framework for multi-agent autonomous orchestration with persistent vector/episodic memory, automated tool registration and sandboxing, and unified multi-LLM routing.
+- [reactbotfuse: Multi-Provider API Gateway Platform](https://github.com/ModelMschief/reactbotfuse): Distributed API gateway prototype hosting 5+ specialized microservices with image detection inference nodes, vector lookups, and Redis token bucket rate limiting. Live demo: [botfusion.kesug.com](https://botfusion.kesug.com/).
+- [Premium: Telegram Payment & Automation Engine](https://github.com/ModelMschief/premium): Production automation daemon built on the Telegram Bot API handling high-concurrency webhook streams (< 60ms dispatch), Motor asynchronous MongoDB persistence, and automated subscription status synchronization.
+
+## Technology Stack
+
+- **AI, ML & Vision**: PyTorch, OpenCV, YOLO, CNNs, Scikit-Learn, Hugging Face, ChromaDB, Pinecone, LangChain, Hybrid BM25.
+- **Languages**: Python (Expert / Asyncio), Go (Golang Concurrency), TypeScript / JavaScript, SQL, C++, R.
+- **Backend & APIs**: FastAPI, Flask, Node.js, Express, RESTful APIs, WebSockets, JSON-RPC, Pydantic, Motor.
+- **Databases & Caching**: Redis (In-Memory, Pub/Sub, Token Bucket), MongoDB, PostgreSQL, SQLite.
+- **DevOps & Cloud**: Docker, Linux (Ubuntu/Debian, systemd), Google Cloud Platform (Cloud Run), AWS, Git, GitHub Actions.
+- **Web3 & Blockchain**: Binance Smart Chain (BSC / EVM), The Open Network (TON / TVM), Web3.py, TonConnect, TonLib, BOC Serialization.
+- **Frontend**: React, TypeScript, Tailwind CSS, Vite, Framer Motion.
+
+## Verified Links & Presence
+
+- **Primary Portfolio**: [https://shebin-tr.onrender.com/](https://shebin-tr.onrender.com/)
+- **Mirror Portfolio**: [https://modelmschief.github.io/my/](https://modelmschief.github.io/my/)
+- **GitHub**: [https://github.com/modelmschief](https://github.com/modelmschief)
+- **LinkedIn**: [https://www.linkedin.com/in/shebin-t-r](https://www.linkedin.com/in/shebin-t-r)
+- **Telegram**: [https://t.me/gojo16s](https://t.me/gojo16s)
+- **Twitter / X**: [https://x.com/TShebin2920](https://x.com/TShebin2920)
+- **Email**: [mailto:shebinraju2021@gmail.com](mailto:shebinraju2021@gmail.com)
+- **WhatsApp**: [https://wa.me/919037610098](https://wa.me/919037610098)
