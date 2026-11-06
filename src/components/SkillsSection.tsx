@@ -49,7 +49,7 @@ const SKILL_CLUSTERS: SkillCluster[] = [
     },
     secondaryMetric: {
       label: 'Vectorization',
-      value: '< 35ms Multi-Modal Embeddings',
+      value: 'Dense & Sparse Embeddings',
     },
     techStack: ['PyTorch', 'OpenCV', 'YOLO/CNNs', 'Vectorization', 'ChromaDB', 'LangChain', 'Scikit-Learn'],
     items: [
@@ -83,8 +83,8 @@ const SKILL_CLUSTERS: SkillCluster[] = [
     subtitle: 'Scalable Async Architecture & APIs',
     icon: Server,
     metric: {
-      label: 'RPS Benchmark',
-      value: '12k+ req/sec',
+      label: 'Architecture',
+      value: 'Non-Blocking Async Event Loop',
     },
     secondaryMetric: {
       label: 'Protocols',
@@ -161,8 +161,8 @@ const SKILL_CLUSTERS: SkillCluster[] = [
     subtitle: 'Persistence, Caching & Cloud Platforms',
     icon: Cloud,
     metric: {
-      label: 'Cache Latency',
-      value: '< 5ms In-Memory',
+      label: 'Caching Strategy',
+      value: 'In-Memory Token Bucket',
     },
     secondaryMetric: {
       label: 'Infra Tier',
@@ -172,7 +172,7 @@ const SKILL_CLUSTERS: SkillCluster[] = [
     items: [
       {
         name: 'Redis In-Memory & Pub/Sub',
-        badge: 'Sub-5ms',
+        badge: 'In-Memory',
         desc: 'Distributed caching, session persistence, rate limiting, and real-time message broadcasting.',
       },
       {
@@ -236,7 +236,7 @@ export const SkillsSection = () => {
             Technical Capabilities
           </h2>
           <p className="text-[#26473D] max-w-2xl mx-auto text-base sm:text-lg mt-3 font-normal">
-            Engineered for high throughput, sub-50ms AI retrieval, and zero-compromise cryptographic security.
+            Engineered for high throughput, neural retrieval accuracy, and zero-compromise cryptographic security.
           </p>
 
           {/* Smooth Sliding Domain Filter Tabs */}
@@ -397,7 +397,7 @@ export const SkillsSection = () => {
           className="mt-16 pt-8 border-t border-[#DFCCA8] text-center"
         >
           <p className="text-xs font-mono-code text-[#4D6D62] mb-4 tracking-wider uppercase">
-            // Full Technology & Tooling Constellation (Synced with GitHub Profile)
+            Full Technology & Tooling Constellation (Synced with GitHub Profile)
           </p>
           <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
             {TECH_BADGES.map((tech) => (

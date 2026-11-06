@@ -46,10 +46,10 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
   }, []);
 
   const navLinks = [
-    { href: '#home', label: '// Home' },
-    { href: '#skills', label: '// Skills' },
-    { href: '#projects', label: '// Projects' },
-    { href: '#contact', label: '// Contact' },
+    { href: '#home', label: 'Home' },
+    { href: '#skills', label: 'Skills' },
+    { href: '#projects', label: 'Projects' },
+    { href: '#contact', label: 'Contact' },
   ];
 
   return (

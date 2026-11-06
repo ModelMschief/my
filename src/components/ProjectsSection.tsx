@@ -6,7 +6,8 @@ import {
   X, 
   Bot,
   ArrowRight,
-  ExternalLink
+  ExternalLink,
+  Workflow
 } from 'lucide-react';
 
 interface Project {
@@ -17,10 +18,6 @@ interface Project {
   fullDesc: string;
   metrics: { label: string; value: string }[];
   tags: string[];
-  consoleSnippet: {
-    filename: string;
-    code: string[];
-  };
   architecture: {
     problem: string;
     solution: string;
@@ -39,30 +36,15 @@ const PROJECTS: Project[] = [
     title: 'Multi-Chain Non-Custodial Payment Gateway (BSC & TON)',
     category: 'Blockchain & Cryptography',
     shortDesc: 'Fully non-custodial multi-chain payment infrastructure supporting Binance Smart Chain (BSC) and The Open Network (TON) with direct node communication and zero third-party intermediaries.',
-    fullDesc: 'Architected a zero-custody multi-chain payment pipeline supporting both Binance Smart Chain (BSC) via raw JSON-RPC and The Open Network (TON) via TonLib and HTTP v2 clients. Users retain 100% private key sovereignty while merchant applications receive instantaneous on-chain confirmation webhooks.',
+    fullDesc: 'Architected a non-custodial multi-chain payment pipeline supporting both Binance Smart Chain (BSC) via raw JSON-RPC and The Open Network (TON) via TonLib and HTTP v2 clients. Users retain private key sovereignty while merchant applications receive on-chain confirmation webhooks.',
     metrics: [
-      { label: 'Security Model', value: '100% Non-Custodial' },
+      { label: 'Security Model', value: 'Non-Custodial' },
       { label: 'Supported Chains', value: 'BSC (EVM) + TON' },
-      { label: 'Intermediaries', value: '0 Third-Party APIs' },
+      { label: 'Node Ingestion', value: 'Direct RPC / TonLib' },
     ],
     tags: ['BSC JSON-RPC', 'TON SDK', 'Node.js', 'Python', 'Express', 'MongoDB', 'Telegram API'],
-    consoleSnippet: {
-      filename: 'multichain_gateway_engine.ts',
-      code: [
-        '// Direct Multi-Chain Node Ingestion (BSC + TON)',
-        'async function watchInboundPayments(chain: "BSC" | "TON", address: string) {',
-        '  if (chain === "BSC") {',
-        '    const bscNode = await getBscRpcSession();',
-        '    return bscNode.subscribeTransferLogs(address);',
-        '  } else if (chain === "TON") {',
-        '    const tonClient = await getTonClientSession();',
-        '    return tonClient.subscribeAccountTransactions(address);',
-        '  }',
-        '}',
-      ],
-    },
     architecture: {
-      problem: 'Traditional crypto gateways enforce custody, charge hefty 1-3% fees, and introduce single points of failure via closed-source SaaS APIs.',
+      problem: 'Traditional crypto gateways enforce custody, charge high fees, and introduce single points of failure via closed-source SaaS APIs.',
       solution: 'Direct multi-chain node subscription listening to BSC mempool block headers and TON shardchain block updates, verifying raw transaction inputs with zero counterparty risk.',
       flow: [
         'Client requests unique payment session for BSC (BEP-20) or TON',
@@ -78,28 +60,16 @@ const PROJECTS: Project[] = [
   },
   {
     id: 'custom-rag',
-    title: 'Custom Vectorization & Modular RAG Engine',
+    title: 'Modular RAG & Neural Vectorization Engine',
     category: 'AI & Neural Systems',
     shortDesc: 'Production-ready vectorization & Retrieval-Augmented Generation framework featuring hybrid keyword/vector search, re-ranking, and dynamic citation tracing.',
     fullDesc: 'A custom modular neural vectorization and RAG library built for high retrieval fidelity and minimal latency. Implements custom chunking strategies, dense embeddings, BM25 sparse index merging, cross-encoder neural re-ranking, and context compression before LLM generation.',
     metrics: [
-      { label: 'Retrieval Speed', value: '< 40ms P95' },
-      { label: 'Search Method', value: 'Hybrid Dense+BM25' },
+      { label: 'Search Method', value: 'Hybrid Dense + BM25' },
+      { label: 'Neural Re-Rank', value: 'Cross-Encoder' },
       { label: 'Vector Engine', value: 'ChromaDB / Pinecone' },
     ],
     tags: ['PyTorch', 'Vector Embeddings', 'ChromaDB', 'LangChain', 'FastAPI', 'Python'],
-    consoleSnippet: {
-      filename: 'rag_hybrid_retriever.py',
-      code: [
-        '# Hybrid Dense + Sparse BM25 Fusion',
-        'class HybridRetriever:',
-        '    def query(self, text: str, top_k: int = 5):',
-        '        dense_results = self.vector_store.similarity_search(text, k=10)',
-        '        sparse_results = self.bm25_index.search(text, k=10)',
-        '        ranked_docs = reciprocal_rank_fusion(dense_results, sparse_results)',
-        '        return self.cross_encoder.rerank(ranked_docs)[:top_k]',
-      ],
-    },
     architecture: {
       problem: 'Vanilla RAG setups suffer from semantic hallucinations, slow multi-second retrieval times, and context token bloat.',
       solution: 'Multi-stage pipeline: Recursive character chunking -> Dense vector + BM25 sparse retrieval -> Cross-encoder re-ranking -> Citation generation.',
@@ -121,22 +91,11 @@ const PROJECTS: Project[] = [
     shortDesc: 'Developer-facing Python SDK for seamless TON transactions, address checksumming, and Telegram Mini App payment integrations.',
     fullDesc: 'Engineered a lightweight, async-first Python client library for TON (The Open Network). Eliminates massive dependency overhead while offering typed helpers for TonConnect payload generation and Bag-of-Cells (BOC) deserialization.',
     metrics: [
-      { label: 'Architecture', value: 'Pure Async Python' },
-      { label: 'Target', value: 'Telegram Mini Apps' },
-      { label: 'Dependency Size', value: 'Zero Bloat' },
+      { label: 'Architecture', value: 'Pure Asyncio' },
+      { label: 'Target Runtime', value: 'Telegram Mini Apps' },
+      { label: 'Serialization', value: 'Bag-of-Cells (BOC)' },
     ],
     tags: ['Python 3.11', 'TON Network', 'BOC Serialization', 'Asyncio', 'API'],
-    consoleSnippet: {
-      filename: 'ton_wallet_client.py',
-      code: [
-        '# TON Async Payload Construction',
-        'async def send_ton_transfer(dest_addr: str, nano_ton: int, memo: str):',
-        '    boc_cell = Cell.create_transfer_payload(dest_addr, nano_ton, memo)',
-        '    serialized = boc_cell.to_boc(has_crc32=True)',
-        '    response = await ton_lite_client.broadcast_message(serialized)',
-        '    return response.tx_hash',
-      ],
-    },
     architecture: {
       problem: 'Existing TON tooling in Python was fragmented, poorly typed, or tied to bloated C-bindings.',
       solution: 'A clean, modern async library supporting TON HTTP API v2/v4, raw message serialization, and TonConnect signature verifications.',
@@ -158,23 +117,11 @@ const PROJECTS: Project[] = [
     shortDesc: 'Multi-server API gateway prototype hosting 5+ specialized microservices with image detection & neural model inference nodes, vector lookup, and Redis caching.',
     fullDesc: 'Designed a distributed microservice topology where a FastAPI gateway routes incoming client traffic, enforces rate limiting via Redis token buckets, and dispatches compute-heavy neural network models and visual inference tasks to dedicated Flask worker nodes.',
     metrics: [
-      { label: 'Cache Latency', value: 'Sub-5ms' },
+      { label: 'Worker Pool', value: 'Decoupled ML Flask' },
       { label: 'Rate Limiter', value: 'Redis Token Bucket' },
-      { label: 'Live Prototype', value: 'botfusion.kesug.com' },
+      { label: 'Core Gateway', value: 'Asynchronous FastAPI' },
     ],
     tags: ['FastAPI', 'PyTorch / OpenCV', 'Flask', 'Redis', 'Docker', 'Neural Inference'],
-    consoleSnippet: {
-      filename: 'api_gateway_router.py',
-      code: [
-        '# Redis Token Bucket & ML Proxying',
-        '@app.post("/v1/predict/inference")',
-        '@rate_limit(redis_client, max_requests=100, window_sec=60)',
-        'async def dispatch_ml_inference(payload: PredictRequest):',
-        '    cached_res = await redis_client.get(payload.cache_key)',
-        '    if cached_res: return cached_res',
-        '    return await ml_worker_pool.forward(payload)',
-      ],
-    },
     architecture: {
       problem: 'Monolithic API backends bottleneck when serving compute-heavy ML inferences alongside low-latency CRUD requests.',
       solution: 'Split architecture: Fast non-blocking asynchronous gateway for auth/caching + decoupled horizontal Flask workers for ML inference.',
@@ -199,21 +146,9 @@ const PROJECTS: Project[] = [
     metrics: [
       { label: 'Model Support', value: 'Multi-LLM Unified' },
       { label: 'Memory Engine', value: 'Episodic & Vector' },
-      { label: 'Status', value: 'Active Engine' },
+      { label: 'Tool Execution', value: 'Sandboxed Runtime' },
     ],
     tags: ['Python', 'Agentic AI', 'Memory Systems', 'Tool Routing', 'FastAPI'],
-    consoleSnippet: {
-      filename: 'orchestra_agent_engine.py',
-      code: [
-        '# OrchestraAI Dynamic Tool Dispatcher',
-        'class AgentRuntime:',
-        '    async def step(self, prompt: str, session_id: str):',
-        '        memory = await self.memory_store.retrieve(session_id)',
-        '        plan = await self.planner.generate(prompt, memory)',
-        '        execution = await self.tool_runner.execute(plan.tools)',
-        '        return await self.synthesizer.emit(execution)',
-      ],
-    },
     architecture: {
       problem: 'Building autonomous agents requires stitching fragmented libraries for memory, function execution, and state persistence.',
       solution: 'A unified single-runtime API providing long-term vector memory, automatic tool sandboxing, and reliable output schemas.',
@@ -230,36 +165,24 @@ const PROJECTS: Project[] = [
   },
   {
     id: 'telegram-automation',
-    title: 'Telegram Payment & Automation Engine',
-    category: 'Automation & Webhooks',
-    shortDesc: 'Comprehensive automation systems built on the Telegram Bot API handling notification pipelines, MongoDB integrations, and automated payment workflows.',
-    fullDesc: 'Production daemon handling real-time Telegram webhook dispatching, persistent MongoDB user state synchronization, and automated subscription status updates for high-volume channels.',
+    title: 'Telegram Payment & Group Management Bot',
+    category: 'Fintech & Community Management',
+    shortDesc: 'Automated payment processing and membership lifecycle engine for Telegram groups, handling subscriber billing, access control, and real-time database state synchronization.',
+    fullDesc: 'Production daemon engineered for Telegram communities, orchestrating automated member onboarding, payment verification, recurring subscription state, and automated kick/invite group management with zero dropped webhooks.',
     metrics: [
-      { label: 'Response Time', value: '< 60ms Webhooks' },
-      { label: 'Database', value: 'MongoDB ACID' },
-      { label: 'Platform', value: 'Telegram Bot API' },
+      { label: 'Core Engine', value: 'Telegram Bot API' },
+      { label: 'Persistence', value: 'MongoDB ACID' },
+      { label: 'Capabilities', value: 'Payments & Group Admin' },
     ],
-    tags: ['Python', 'Telegram API', 'MongoDB', 'Asyncio', 'Webhooks'],
-    consoleSnippet: {
-      filename: 'tg_payment_daemon.py',
-      code: [
-        '# Async Telegram Webhook & State Updater',
-        '@dp.message_handler(commands=["verify_payment"])',
-        'async def verify_user_subscription(message: types.Message):',
-        '    user_id = message.from_user.id',
-        '    status = await mongo_db.payments.find_one({"user_id": user_id})',
-        '    if status and status["is_valid"]:',
-        '        await bot.send_message(user_id, "Access Granted ✅")',
-      ],
-    },
+    tags: ['Telegram Bot API', 'Payment Gateways', 'Group Management', 'Asyncio', 'MongoDB'],
     architecture: {
-      problem: 'Handling high-concurrency Telegram bot webhooks with synchronous database drivers leads to worker exhaustion and dropped messages.',
-      solution: 'Asyncio event loops with Motor (async MongoDB) and decoupled webhook receivers guaranteeing zero dropped updates.',
+      problem: 'Managing high-traffic paid Telegram groups manually or with slow synchronous bots leads to dropped webhooks, missed payments, and delayed access grants.',
+      solution: 'Decoupled asynchronous webhook receiver paired with atomic Motor MongoDB transactions and automated Telegram admin permission triggers.',
       flow: [
-        'Telegram server pushes webhook payload',
-        'Async handler parses transaction signature',
-        'Updates MongoDB atomic record',
-        'Dispatches customized user response in < 60ms',
+        'Telegram server pushes webhook payment/command payload',
+        'Async daemon validates transaction signature and membership tier',
+        'Atomic MongoDB record update with timestamped subscription expiry',
+        'Automatic group invite link dispatch or scheduled access revocation',
       ],
     },
     links: {
@@ -291,7 +214,7 @@ export const ProjectsSection = () => {
             Production <span className="text-[#1B3B31]">Architectures</span>
           </h2>
           <p className="text-[#2D4E42] max-w-2xl mx-auto text-base sm:text-lg mt-3 font-normal">
-            Engineered for zero-custody blockchain execution, sub-50ms AI retrieval, and scalable backend automation.
+            Engineered for decentralized blockchain execution, neural retrieval intelligence, and high-concurrency microservices.
           </p>
         </motion.div>
 
@@ -305,7 +228,7 @@ export const ProjectsSection = () => {
                 key={project.id}
                 className="grid lg:grid-cols-12 gap-8 sm:gap-12 items-center"
               >
-                {/* Visual / Code Console Column (Dark Emerald & Obsidian Terminal for maximum syntax pop) */}
+                {/* Visual Architectural Blueprint Card */}
                 <motion.div
                   initial={{ opacity: 0, x: isEven ? 60 : -60 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -315,38 +238,46 @@ export const ProjectsSection = () => {
                     isEven ? 'lg:order-2' : 'lg:order-1'
                   }`}
                 >
-                  <div className="relative rounded-2xl bg-[#021A13] border border-[#0D3B2F] overflow-hidden shadow-xl group transition-all duration-300">
-                    {/* Console Header Bar */}
-                    <div className="flex items-center justify-between px-4 py-3 bg-[#04241B] border-b border-[#0D3B2F]">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                        <span className="text-xs font-mono-code text-[#A7D7C5] ml-2 font-medium">
-                          {project.consoleSnippet.filename}
+                  <div className="relative rounded-3xl bg-[#FFFDF8] border border-[#DFCCA8] overflow-hidden shadow-sm hover:shadow-[0_16px_40px_rgba(6,78,59,0.08)] hover:border-[#064E3B]/60 group transition-all duration-300">
+                    {/* Architectural Header Bar */}
+                    <div className="flex items-center justify-between px-5 py-3.5 bg-[#FAF3E5] border-b border-[#DFCCA8]">
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-2 h-2 rounded-full bg-[#064E3B] animate-pulse" />
+                        <span className="text-xs font-mono-code text-[#064E3B] font-semibold tracking-wide uppercase flex items-center gap-1.5">
+                          <Workflow className="w-3.5 h-3.5 text-[#064E3B]" />
+                          System Topology &amp; Pipeline
                         </span>
                       </div>
-                      <span className="text-[10px] font-mono-code text-[#34D399]">PRODUCTION</span>
+                      <span className="text-[10px] font-mono-code px-2.5 py-0.5 rounded-full bg-[#064E3B]/10 text-[#064E3B] font-semibold border border-[#064E3B]/20">
+                        VERIFIED ARCHITECTURE
+                      </span>
                     </div>
 
-                    {/* Console Code Body */}
-                    <div className="p-5 font-mono-code text-xs leading-relaxed text-[#F8E7C9] overflow-x-auto space-y-1">
-                      {project.consoleSnippet.code.map((line, i) => (
-                        <div key={i} className="flex">
-                          <span className="text-[#3B6658] select-none w-6 shrink-0">{i + 1}</span>
-                          <span className={`${line.startsWith('//') || line.startsWith('#') ? 'text-[#528776] italic' : line.includes('def ') || line.includes('class ') || line.includes('function ') ? 'text-[#34D399] font-semibold' : 'text-[#F8E7C9]'}`}>
-                            {line}
-                          </span>
+                    {/* Architectural Pipeline Node Schematics */}
+                    <div className="p-5 sm:p-6 space-y-2.5">
+                      {project.architecture.flow.map((step, i) => (
+                        <div 
+                          key={i} 
+                          className="relative flex items-start gap-3.5 p-3 rounded-xl bg-[#FAF3E5]/60 border border-[#E8D9BD] hover:border-[#064E3B]/40 hover:bg-[#FAF3E5] transition-all group/node"
+                        >
+                          <div className="w-6 h-6 rounded-lg bg-[#064E3B] text-[#F8E7C9] text-[10px] font-mono-code font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-2xs group-hover/node:scale-105 transition-transform">
+                            0{i + 1}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-[#1B3B31] font-medium leading-relaxed">
+                              {step}
+                            </p>
+                          </div>
                         </div>
                       ))}
                     </div>
 
-                    {/* Console Bottom Verification Metrics Bar */}
-                    <div className="grid grid-cols-3 gap-2 px-4 py-3 bg-[#04241B] border-t border-[#0D3B2F] text-center">
+                    {/* Bottom Architectural Telemetry Strip */}
+                    <div className="grid grid-cols-3 gap-2 px-4 py-3 bg-[#FAF3E5] border-t border-[#DFCCA8] text-center">
                       {project.metrics.map((m) => (
-                        <div key={m.label}>
-                          <p className="text-xs font-bold text-[#F8E7C9] font-mono-code truncate">{m.value}</p>
-                          <p className="text-[10px] text-[#A7D7C5] font-mono-code truncate">{m.label}</p>
+                        <div key={m.label} className="truncate">
+                          <p className="text-xs font-bold text-[#064E3B] font-mono-code truncate">{m.value}</p>
+                          <p className="text-[10px] text-[#4D6D62] font-mono-code truncate mt-0.5">{m.label}</p>
                         </div>
                       ))}
                     </div>
@@ -377,8 +308,8 @@ export const ProjectsSection = () => {
 
                   {/* Architecture Highlights Box */}
                   <div className="p-4 rounded-xl bg-[#FFFDF8] border border-[#DFCCA8] shadow-2xs space-y-2">
-                    <p className="text-xs font-mono-code text-[#4D6D62] uppercase">
-                      // Core Architecture Solution
+                    <p className="text-xs font-mono-code text-[#4D6D62] uppercase font-semibold">
+                      Core Architecture Solution
                     </p>
                     <p className="text-xs text-[#1B3B31] leading-relaxed font-normal">
                       {project.architecture.solution}
@@ -424,7 +355,7 @@ export const ProjectsSection = () => {
                         href={project.links.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-[#F8E7C9] bg-[#047857] hover:bg-[#065F46] transition-all font-mono-code shadow-sm"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-[#F8E7C9] bg-[#064E3B] hover:bg-[#043D2E] transition-all font-mono-code shadow-sm"
                       >
                         <ExternalLink className="w-3.5 h-3.5" />
                         <span>Live Demo</span>
@@ -471,7 +402,7 @@ export const ProjectsSection = () => {
               <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#DFCCA8]">
                 <div>
                   <span className="text-xs font-mono-code text-[#064E3B] uppercase font-semibold">
-                    // ARCHITECTURE BLUEPRINT
+                    Architecture Blueprint
                   </span>
                   <h3 className="font-display text-2xl font-bold text-[#064E3B] mt-1">
                     {activeModalProject.title}
@@ -488,17 +419,17 @@ export const ProjectsSection = () => {
 
               {/* Problem vs Solution */}
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-rose-50 border border-rose-200">
-                  <p className="text-xs font-mono-code text-rose-700 font-bold mb-1">
-                    [THE BOTTLENECK]
+                <div className="p-4 rounded-xl bg-[#FDF6ED] border border-[#EAD5BE]">
+                  <p className="text-xs font-mono-code text-[#8C3D2B] font-bold mb-1 uppercase">
+                    Challenge &amp; Bottleneck
                   </p>
-                  <p className="text-xs text-slate-700 leading-relaxed font-normal">
+                  <p className="text-xs text-[#2D4E42] leading-relaxed font-normal">
                     {activeModalProject.architecture.problem}
                   </p>
                 </div>
-                <div className="p-4 rounded-xl bg-[#EAF5F0] border border-[#A7D7C5]">
-                  <p className="text-xs font-mono-code text-[#064E3B] font-bold mb-1">
-                    [THE ARCHITECTURE]
+                <div className="p-4 rounded-xl bg-[#EAF3EE] border border-[#B7D8CD]">
+                  <p className="text-xs font-mono-code text-[#064E3B] font-bold mb-1 uppercase">
+                    Engineered Solution
                   </p>
                   <p className="text-xs text-[#1B3B31] leading-relaxed font-normal">
                     {activeModalProject.architecture.solution}
@@ -508,8 +439,8 @@ export const ProjectsSection = () => {
 
               {/* Data Flow Pipeline */}
               <div>
-                <h4 className="text-xs font-mono-code text-[#4D6D62] uppercase mb-3">
-                  // Data Flow Pipeline
+                <h4 className="text-xs font-mono-code text-[#4D6D62] uppercase mb-3 font-semibold">
+                  Data Flow Pipeline
                 </h4>
                 <div className="space-y-2 font-mono-code text-xs">
                   {activeModalProject.architecture.flow.map((step, idx) => (
@@ -548,7 +479,7 @@ export const ProjectsSection = () => {
                     href={activeModalProject.links.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#047857] text-[#F8E7C9] hover:bg-[#065F46] text-xs font-mono-code font-semibold transition-colors shadow-sm"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#064E3B] text-[#F8E7C9] hover:bg-[#043D2E] text-xs font-mono-code font-semibold transition-colors shadow-sm"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>Open Live Demo</span>

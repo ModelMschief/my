@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { ArrowRight, Send, Github, Linkedin, Briefcase } from 'lucide-react';
+import { ArrowRight, Send, Github, Linkedin, Brain, Server, Link2 } from 'lucide-react';
 import AsciiParticleCanvas from '@/components/AsciiParticleCanvas';
 
 const ROLES = [
@@ -108,26 +108,28 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
               </a>
             </div>
 
-            {/* Verified Metrics Badges */}
-            <div className="pt-6 grid grid-cols-3 gap-4 border-t border-[#DFCCA8] max-w-lg">
+            {/* Engineering Pillars */}
+            <div className="pt-6 grid grid-cols-3 gap-3 sm:gap-4 border-t border-[#DFCCA8] max-w-lg">
               <div>
-                <p className="font-display text-2xl sm:text-3xl font-bold text-[#064E3B] flex items-center gap-1">
-                  <span>4</span>
-                  <Briefcase className="w-4 h-4 text-[#064E3B]" />
+                <p className="font-display text-sm sm:text-base font-bold text-[#064E3B] flex items-center gap-1.5">
+                  <Brain className="w-4 h-4 text-[#064E3B] shrink-0" />
+                  <span>AI & Vision</span>
                 </p>
-                <p className="text-xs text-[#4D6D62] font-mono-code mt-0.5">Internships Completed</p>
+                <p className="text-[11px] text-[#4D6D62] font-mono-code mt-0.5 leading-snug">Neural Nets & Vector RAG</p>
               </div>
               <div>
-                <p className="font-display text-2xl sm:text-3xl font-bold text-[#064E3B]">
-                  100%
+                <p className="font-display text-sm sm:text-base font-bold text-[#064E3B] flex items-center gap-1.5">
+                  <Server className="w-4 h-4 text-[#064E3B] shrink-0" />
+                  <span>Distributed</span>
                 </p>
-                <p className="text-xs text-[#4D6D62] font-mono-code mt-0.5">Non-Custodial Web3</p>
+                <p className="text-[11px] text-[#4D6D62] font-mono-code mt-0.5 leading-snug">Async Python & Go</p>
               </div>
               <div>
-                <p className="font-display text-2xl sm:text-3xl font-bold text-[#064E3B]">
-                  &lt;40ms
+                <p className="font-display text-sm sm:text-base font-bold text-[#064E3B] flex items-center gap-1.5">
+                  <Link2 className="w-4 h-4 text-[#064E3B] shrink-0" />
+                  <span>Multi-Chain</span>
                 </p>
-                <p className="text-xs text-[#4D6D62] font-mono-code mt-0.5">RAG Query Latency</p>
+                <p className="text-[11px] text-[#4D6D62] font-mono-code mt-0.5 leading-snug">BSC & TON Direct RPC</p>
               </div>
             </div>
           </motion.div>
