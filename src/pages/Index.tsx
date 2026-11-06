@@ -13,9 +13,9 @@ const Index = () => {
         className="fixed inset-0 pointer-events-none z-0 opacity-40 overflow-hidden" 
         aria-hidden="true"
       >
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-[#EED5AB]/60 via-[#F8E7C9]/40 to-transparent blur-3xl rounded-full" />
-        <div className="absolute top-[35%] -left-32 w-[500px] h-[500px] bg-[#064E3B]/5 blur-3xl rounded-full" />
-        <div className="absolute top-[65%] -right-32 w-[500px] h-[500px] bg-[#EED5AB]/40 blur-3xl rounded-full" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-[#EED5AB]/60 via-[#F8E7C9]/40 to-transparent blur-3xl rounded-full animate-ambient-1" />
+        <div className="absolute top-[35%] -left-32 w-[500px] h-[500px] bg-[#064E3B]/5 blur-3xl rounded-full animate-ambient-2" />
+        <div className="absolute top-[65%] -right-32 w-[500px] h-[500px] bg-[#EED5AB]/40 blur-3xl rounded-full animate-ambient-3" />
       </div>
 
       {/* 2. Interactive Navigation Dock */}

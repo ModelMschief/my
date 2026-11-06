@@ -149,4 +149,47 @@
       linear-gradient(to right, rgba(6, 78, 59, 0.05) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(6, 78, 59, 0.05) 1px, transparent 1px);
   }
+
+  /* Ultra-Slow Luxury Ambient Breathing (GPU Composited) */
+  @keyframes ambientDrift1 {
+    0%, 100% {
+      transform: translate(-50%, 0) scale(1);
+    }
+    50% {
+      transform: translate(-46%, 28px) scale(1.08);
+    }
+  }
+
+  @keyframes ambientDrift2 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(35px, -25px) scale(1.12);
+    }
+  }
+
+  @keyframes ambientDrift3 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-30px, 30px) scale(1.1);
+    }
+  }
+
+  .animate-ambient-1 {
+    animation: ambientDrift1 24s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-ambient-2 {
+    animation: ambientDrift2 28s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-ambient-3 {
+    animation: ambientDrift3 26s ease-in-out infinite;
+    will-change: transform;
+  }
 }
