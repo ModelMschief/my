@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { 
   Brain, 
@@ -6,200 +6,197 @@ import {
   Link2, 
   Server, 
   Cloud,
-  CheckCircle2,
+  Bot,
+  Zap,
+  Radio,
+  Smartphone,
+  Activity,
+  Send,
+  Layers,
+  Database,
+  Terminal,
+  Eye,
+  Network,
   LucideIcon
 } from 'lucide-react';
 
-interface SkillItem {
-  name: string;
-  badge: string;
-  desc: string;
-}
-
-interface SkillCluster {
+interface BentoSkillCard {
   id: string;
-  index: string;
-  code: string;
+  clusterId: string;
+  category: string;
   title: string;
-  subtitle: string;
+  desc: string;
   icon: LucideIcon;
-  metric: {
-    label: string;
-    value: string;
-  };
-  secondaryMetric: {
-    label: string;
-    value: string;
-  };
-  techStack: string[];
-  items: SkillItem[];
+  tags: string[];
+  highlightMetric: string;
 }
 
-const SKILL_CLUSTERS: SkillCluster[] = [
+const BENTO_SKILLS: BentoSkillCard[] = [
+  // AI, Vision & Neural Systems
   {
-    id: 'ai-rag',
-    index: '01',
-    code: 'SYS_VISION_AI',
-    title: 'AI, Vision & Neural Networks',
-    subtitle: 'Image Detection, Vectorization & RAG',
+    id: 'cv-yolo',
+    clusterId: 'ai-rag',
+    category: 'Computer Vision',
+    title: 'Object Detection & Custom CNNs',
+    desc: 'Training custom YOLO architectures, CNN feature extractors, dataset annotation pipelines, and real-time inference with OpenCV.',
+    icon: Eye,
+    tags: ['PyTorch', 'OpenCV', 'YOLO'],
+    highlightMetric: 'Visual Inference',
+  },
+  {
+    id: 'vector-rag',
+    clusterId: 'ai-rag',
+    category: 'Neural Search',
+    title: 'High-Dim Vectorization & RAG',
+    desc: 'Multi-modal embeddings, ChromaDB indexing, and BM25 hybrid fusion with cross-encoder re-ranking for sub-second retrieval.',
+    icon: Network,
+    tags: ['ChromaDB', 'Pinecone', 'LangChain'],
+    highlightMetric: 'Dense + BM25',
+  },
+  {
+    id: 'neural-nets',
+    clusterId: 'ai-rag',
+    category: 'Deep Learning',
+    title: 'Neural Topologies & Training',
+    desc: 'Designing feedforward, convolutional, and deep NN topologies with custom loss functions and backpropagation optimization.',
     icon: Brain,
-    metric: {
-      label: 'Model Training',
-      value: 'CNNs • Object Detection',
-    },
-    secondaryMetric: {
-      label: 'Vectorization',
-      value: 'Dense & Sparse Embeddings',
-    },
-    techStack: ['PyTorch', 'OpenCV', 'YOLO/CNNs', 'Vectorization', 'ChromaDB', 'LangChain', 'Scikit-Learn'],
-    items: [
-      {
-        name: 'Image Detection & Computer Vision',
-        badge: 'Deep Learning',
-        desc: 'Training custom object detection models, CNN backbones, dataset annotation pipelines, and real-time visual inference.',
-      },
-      {
-        name: 'High-Dimensional Vectorization',
-        badge: 'Embeddings',
-        desc: 'Extracting dense multi-modal & textual vector representations, cosine indexing, and sub-40ms semantic partition search.',
-      },
-      {
-        name: 'Neural Network Architecture & Training',
-        badge: 'PyTorch / NN',
-        desc: 'Designing feedforward, convolutional, and deep NN topologies, loss function optimization, and backpropagation tuning.',
-      },
-      {
-        name: 'Custom Modular RAG & Agents',
-        badge: 'Orchestration',
-        desc: 'Hybrid retrieval fusing dense vector embeddings with BM25 keyword search, plus multi-step autonomous tool routing.',
-      },
-    ],
+    tags: ['PyTorch', 'Backprop', 'Tensors'],
+    highlightMetric: 'Deep Learning',
   },
   {
-    id: 'backend-apis',
-    index: '02',
-    code: 'SYS_ASYNC',
-    title: 'High-Throughput Backend',
-    subtitle: 'Scalable Async Architecture & APIs',
+    id: 'agent-os',
+    clusterId: 'ai-rag',
+    category: 'Agentic Systems',
+    title: 'Autonomous AI Agent OS',
+    desc: 'Multi-step autonomous execution runtimes, dual-tier episodic/vector memory, and structured schema validation via Pydantic.',
+    icon: Bot,
+    tags: ['Agent Runtimes', 'Tool Sandboxing', 'Memory'],
+    highlightMetric: 'Autonomous AI',
+  },
+
+  // High-Throughput Backend & Concurrency
+  {
+    id: 'fastapi-backend',
+    clusterId: 'backend-apis',
+    category: 'Async Backend',
+    title: 'Asynchronous Python (FastAPI)',
+    desc: 'Non-blocking async microservices with automated OpenAPI schemas, dependency injection, and Pydantic validation.',
     icon: Server,
-    metric: {
-      label: 'Architecture',
-      value: 'Non-Blocking Async Event Loop',
-    },
-    secondaryMetric: {
-      label: 'Protocols',
-      value: 'REST • WebSocket • RPC',
-    },
-    techStack: ['Python', 'FastAPI', 'Go (Golang)', 'Node.js', 'Pydantic'],
-    items: [
-      {
-        name: 'Python (FastAPI & Flask)',
-        badge: 'Expert',
-        desc: 'Asynchronous microservices with auto OpenAPI specs, dependency injection, and Pydantic.',
-      },
-      {
-        name: 'Go (Golang) Microservices',
-        badge: 'High-Concurrency',
-        desc: 'Ultra-fast concurrent routines, channel communication, and compiled low-latency microservices.',
-      },
-      {
-        name: 'Node.js & Express',
-        badge: 'Runtime',
-        desc: 'High-concurrency event loops, worker threads, and streaming response endpoints.',
-      },
-      {
-        name: 'RESTful Gateways & WebSockets',
-        badge: 'Real-Time',
-        desc: 'Bi-directional live feeds, low-overhead binary frames, and structured JSON-RPC.',
-      },
-    ],
+    tags: ['FastAPI', 'Asyncio', 'Pydantic'],
+    highlightMetric: 'Non-Blocking',
   },
   {
-    id: 'blockchain-web3',
-    index: '03',
-    code: 'SYS_WEB3',
-    title: 'Web3 & Decentralized Protocols',
-    subtitle: 'Non-Custodial Infrastructure & Gateways',
+    id: 'go-microservices',
+    clusterId: 'backend-apis',
+    category: 'Compiled Concurrency',
+    title: 'Go (Golang) Microservices',
+    desc: 'Ultra-fast concurrent routines, channel communication, structured logging, and compiled low-latency network microservices.',
+    icon: Zap,
+    tags: ['Golang', 'Goroutines', 'Channels'],
+    highlightMetric: 'High Concurrency',
+  },
+  {
+    id: 'realtime-gateways',
+    clusterId: 'backend-apis',
+    category: 'Real-Time Protocols',
+    title: 'REST Gateways & WebSockets',
+    desc: 'Full-duplex real-time communication feeds, low-overhead binary frames, and structured JSON-RPC over TCP/HTTP.',
+    icon: Radio,
+    tags: ['WebSockets', 'JSON-RPC', 'REST APIs'],
+    highlightMetric: 'Full-Duplex',
+  },
+
+  // Web3 & Non-Custodial Infrastructure
+  {
+    id: 'multichain-gateway',
+    clusterId: 'blockchain-web3',
+    category: 'Web3 Infrastructure',
+    title: 'BSC & TON Payment Gateways',
+    desc: 'Non-custodial payment processing connecting directly to BSC mempool block headers and TON shardchain block updates.',
     icon: Link2,
-    metric: {
-      label: 'Verification',
-      value: 'Direct Node RPC (BSC & TON)',
-    },
-    secondaryMetric: {
-      label: 'Networks',
-      value: 'BSC (EVM) • TON (TVM)',
-    },
-    techStack: ['BSC EVM', 'TON SDK', 'Web3.py', 'TonConnect', 'Telegram API', 'JSON-RPC Nodes'],
-    items: [
-      {
-        name: 'BSC & TON Payment Gateways',
-        badge: 'Multi-Chain',
-        desc: 'Non-custodial payment processing via raw BSC JSON-RPC and TON client bindings with zero middleman dependencies.',
-      },
-      {
-        name: 'TON Blockchain SDKs & Mini Apps',
-        badge: 'Telegram Native',
-        desc: 'Custom Python client libraries for frictionless TON transactions and TonConnect flows inside Telegram Mini Apps.',
-      },
-      {
-        name: 'Direct Node & RPC Integration',
-        badge: 'EVM / TVM',
-        desc: 'Direct node queries, raw JSON-RPC ingestion, TON cell BOC serialization, and on-chain transaction listeners.',
-      },
-      {
-        name: 'Telegram Bot API & Webhooks',
-        badge: 'Automation',
-        desc: 'Enterprise bots handling payment verifications, dynamic keyboard menus, and push alerts.',
-      },
-    ],
+    tags: ['BSC EVM', 'TON SDK', 'Non-Custodial'],
+    highlightMetric: 'Zero Custody',
   },
   {
-    id: 'data-infra',
-    index: '04',
-    code: 'SYS_INFRA',
-    title: 'Data, Cloud & DevOps',
-    subtitle: 'Persistence, Caching & Cloud Platforms',
+    id: 'ton-sdk',
+    clusterId: 'blockchain-web3',
+    category: 'Telegram Native',
+    title: 'TON Blockchain Python SDK',
+    desc: 'Pure-Python async library implementing Bag-of-Cells (BOC) cell tree serialization and TonConnect integrations.',
+    icon: Smartphone,
+    tags: ['TonConnect', 'BOC Parsing', 'Python 3.11'],
+    highlightMetric: 'Pure Async',
+  },
+  {
+    id: 'node-rpc',
+    clusterId: 'blockchain-web3',
+    category: 'Node Architecture',
+    title: 'Direct Node & RPC Ingestion',
+    desc: 'Direct node queries and raw JSON-RPC listeners, eliminating third-party API dependencies and single points of failure.',
+    icon: Activity,
+    tags: ['Raw RPC', 'Mempool', 'TonLib'],
+    highlightMetric: 'Direct RPC',
+  },
+  {
+    id: 'telegram-automation',
+    clusterId: 'blockchain-web3',
+    category: 'Event Daemons',
+    title: 'Telegram Bot API Daemons',
+    desc: 'Event-driven daemons with Motor async MongoDB drivers for automated payment verification, group admin, and alerts.',
+    icon: Send,
+    tags: ['Telegram API', 'Motor', 'Webhooks'],
+    highlightMetric: 'Event Driven',
+  },
+
+  // Data, Cloud & DevOps
+  {
+    id: 'redis-cache',
+    clusterId: 'data-infra',
+    category: 'In-Memory Systems',
+    title: 'Redis In-Memory & Pub/Sub',
+    desc: 'Distributed caching layers, token bucket rate limiters, session persistence, and real-time message broadcasting.',
+    icon: Layers,
+    tags: ['Redis', 'Token Bucket', 'Pub/Sub'],
+    highlightMetric: 'In-Memory Store',
+  },
+  {
+    id: 'databases-acid',
+    clusterId: 'data-infra',
+    category: 'Data Persistence',
+    title: 'MongoDB & PostgreSQL',
+    desc: 'Complex aggregation pipelines, multi-document ACID transactions, indexing strategies, and relational schema modeling.',
+    icon: Database,
+    tags: ['MongoDB', 'PostgreSQL', 'ACID'],
+    highlightMetric: 'Dual Engine',
+  },
+  {
+    id: 'docker-cloud',
+    clusterId: 'data-infra',
+    category: 'Cloud Infrastructure',
+    title: 'Docker & GCP Cloud Run',
+    desc: 'Multi-stage container packaging, serverless container compute, artifact registries, and automated CI/CD pipelines.',
     icon: Cloud,
-    metric: {
-      label: 'Caching Strategy',
-      value: 'In-Memory Token Bucket',
-    },
-    secondaryMetric: {
-      label: 'Infra Tier',
-      value: 'Docker • GCP • Linux',
-    },
-    techStack: ['Redis', 'PostgreSQL', 'MongoDB', 'Docker', 'Google Cloud', 'Linux'],
-    items: [
-      {
-        name: 'Redis In-Memory & Pub/Sub',
-        badge: 'In-Memory',
-        desc: 'Distributed caching, session persistence, rate limiting, and real-time message broadcasting.',
-      },
-      {
-        name: 'MongoDB & PostgreSQL',
-        badge: 'ACID / NoSQL',
-        desc: 'Complex aggregation pipelines, multi-document transactions, and relational modeling.',
-      },
-      {
-        name: 'Cloud Platforms (GCP, AWS, Azure)',
-        badge: 'Cloud Infra',
-        desc: 'Serverless functions, container compute, object storage, and cloud deployment pipelines.',
-      },
-      {
-        name: 'Docker & Linux Environments',
-        badge: 'DevOps',
-        desc: 'Containerized packaging, systemd daemons, networking, and reverse proxying.',
-      },
-    ],
+    tags: ['Docker', 'Google Cloud', 'CI/CD'],
+    highlightMetric: 'Serverless Compute',
+  },
+  {
+    id: 'linux-daemons',
+    clusterId: 'data-infra',
+    category: 'Systems Engineering',
+    title: 'Linux & systemd Daemons',
+    desc: 'Production server administration, POSIX shell scripting, systemd service units, reverse proxies, and log management.',
+    icon: Terminal,
+    tags: ['Linux', 'systemd', 'Bash Scripting'],
+    highlightMetric: 'Unix Daemons',
   },
 ];
 
 const FILTER_TABS = [
-  { id: 'all', label: 'All Domains' },
+  { id: 'all', label: 'All Capabilities' },
   { id: 'ai-rag', label: 'Vision, NN & AI' },
-  { id: 'backend-apis', label: 'Backend & APIs' },
-  { id: 'blockchain-web3', label: 'Blockchain & Web3' },
-  { id: 'data-infra', label: 'Cloud & Databases' },
+  { id: 'backend-apis', label: 'Backend & Concurrency' },
+  { id: 'blockchain-web3', label: 'Web3 & Node Gateways' },
+  { id: 'data-infra', label: 'Cloud & In-Memory' },
 ];
 
 const TECH_BADGES = [
@@ -210,12 +207,16 @@ const TECH_BADGES = [
   'TON Blockchain', 'Telegram API', 'R', 'Git', 'GitHub'
 ];
 
+// Staggered sine-wave floating configurations for independent Zero-G suspension
+const FLOAT_DELAYS = [0, 0.4, 0.8, 1.2, 1.6, 2.0, 0.3, 0.7, 1.1, 1.5, 1.9, 0.5, 0.9, 1.3, 1.7];
+const FLOAT_DURATIONS = [4.2, 4.8, 5.2, 4.5, 5.0, 4.6, 4.4, 5.1, 4.7, 4.9, 5.3, 4.3, 4.7, 5.0, 4.6];
+
 export const SkillsSection = () => {
   const [activeTab, setActiveTab] = useState<string>('all');
 
-  const filteredClusters = activeTab === 'all' 
-    ? SKILL_CLUSTERS 
-    : SKILL_CLUSTERS.filter(c => c.id === activeTab);
+  const filteredCards = activeTab === 'all' 
+    ? BENTO_SKILLS 
+    : BENTO_SKILLS.filter(card => card.clusterId === activeTab);
 
   return (
     <section id="skills" className="py-20 sm:py-28 relative overflow-hidden">
@@ -226,17 +227,17 @@ export const SkillsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-14 sm:mb-16"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFDF8] border border-[#DFCCA8] text-xs font-mono-code text-[#064E3B] mb-4 shadow-2xs">
             <Cpu className="w-3.5 h-3.5 text-[#064E3B]" />
-            <span>ENGINEERING STACK</span>
+            <span>ENGINEERING SUPERPOWERS</span>
           </div>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-[#064E3B] tracking-tight">
             Technical Capabilities
           </h2>
           <p className="text-[#26473D] max-w-2xl mx-auto text-base sm:text-lg mt-3 font-normal">
-            Engineered for high throughput, neural retrieval accuracy, and zero-compromise cryptographic security.
+            Deconstructed micro-architectures engineered for neural retrieval, concurrent execution, and zero-compromise security.
           </p>
 
           {/* Smooth Sliding Domain Filter Tabs */}
@@ -267,126 +268,90 @@ export const SkillsSection = () => {
           </div>
         </motion.div>
 
-        {/* 4 Professional Architecture Grid Cards */}
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
-          {filteredClusters.map((cluster, index) => {
-            const Icon = cluster.icon;
+        {/* Magnetic Zero-G Bento Grid (Floating Micro-Cards) */}
+        <motion.div 
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredCards.map((card, index) => {
+              const Icon = card.icon;
+              const floatDelay = FLOAT_DELAYS[index % FLOAT_DELAYS.length];
+              const floatDuration = FLOAT_DURATIONS[index % FLOAT_DURATIONS.length];
 
-            return (
-              <motion.div
-                key={cluster.id}
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ 
-                  duration: 0.55, 
-                  delay: index * 0.08, 
-                  ease: [0.16, 1, 0.3, 1] 
-                }}
-                whileHover={{ y: -6 }}
-                className="relative rounded-3xl bg-[#FFFDF8] border border-[#DFCCA8] hover:border-[#064E3B]/70 transition-all duration-300 p-6 sm:p-8 overflow-hidden group shadow-sm hover:shadow-[0_16px_40px_rgba(6,78,59,0.08)] flex flex-col justify-between"
-              >
-                {/* Subtle Ambient Emerald Aura on Hover */}
-                <div className="absolute -right-20 -top-20 w-44 h-44 rounded-full bg-[#064E3B]/5 blur-3xl pointer-events-none group-hover:bg-[#064E3B]/10 transition-colors duration-500" />
+              return (
+                <motion.div
+                  layout
+                  key={card.id}
+                  initial={{ opacity: 0, scale: 0.94 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1,
+                    y: [0, -5, 0],
+                  }}
+                  exit={{ opacity: 0, scale: 0.92 }}
+                  transition={{
+                    y: {
+                      duration: floatDuration,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: floatDelay,
+                    },
+                    layout: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+                    opacity: { duration: 0.25 },
+                    scale: { duration: 0.25 },
+                  }}
+                  whileHover={{ 
+                    y: -8, 
+                    scale: 1.02,
+                    transition: { duration: 0.2, ease: "easeOut" }
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  className="relative rounded-2xl bg-[#FFFDF8] border border-[#DFCCA8] hover:border-[#064E3B]/70 p-5 flex flex-col justify-between transition-colors duration-200 group shadow-sm hover:shadow-[0_16px_36px_rgba(6,78,59,0.12)] cursor-default"
+                >
+                  {/* Subtle Top Telemetry Strip */}
+                  <div>
+                    <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#DFCCA8]/60">
+                      <span className="text-[10px] font-mono-code uppercase tracking-wider text-[#4D6D62] font-medium">
+                        {card.category}
+                      </span>
+                      <span className="text-[10px] font-mono-code px-2 py-0.5 rounded-full bg-[#FAF3E5] border border-[#DFCCA8] text-[#064E3B] font-semibold">
+                        {card.highlightMetric}
+                      </span>
+                    </div>
 
-                <div>
-                  {/* Top Architectural Telemetry Bar */}
-                  <div className="flex items-center justify-between pb-4 border-b border-[#DFCCA8]/60 mb-5">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#064E3B] animate-pulse" />
-                      <span className="font-mono-code text-[11px] font-semibold text-[#064E3B] tracking-wider uppercase">
-                        {cluster.code}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono-code px-2.5 py-0.5 rounded-full bg-[#FAF3E5] border border-[#DFCCA8] text-[#4D6D62] font-medium">
-                        NODE {cluster.index}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Header with High-Contrast Icon and Typography */}
-                  <div className="flex items-start gap-4 mb-5">
-                    <div className="w-12 h-12 rounded-2xl bg-[#064E3B] text-[#F8E7C9] flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 group-hover:rotate-1 transition-all duration-300">
-                      <Icon className="w-6 h-6 text-[#F8E7C9]" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-display text-xl sm:text-2xl font-extrabold text-[#064E3B] tracking-tight">
-                        {cluster.title}
-                      </h3>
-                      <p className="text-xs font-mono-code text-[#4D6D62] mt-0.5">
-                        {cluster.subtitle}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Telemetry Benchmark Strip */}
-                  <div className="grid grid-cols-2 gap-3 p-3 rounded-2xl bg-[#FAF3E5] border border-[#DFCCA8]/70 mb-5 shadow-2xs">
-                    <div className="space-y-0.5 border-r border-[#DFCCA8]/60 pr-2">
-                      <span className="block text-[10px] font-mono-code text-[#4D6D62] uppercase tracking-wider">
-                        {cluster.metric.label}
-                      </span>
-                      <span className="block font-mono-code text-xs font-bold text-[#064E3B]">
-                        {cluster.metric.value}
-                      </span>
-                    </div>
-                    <div className="space-y-0.5 pl-2">
-                      <span className="block text-[10px] font-mono-code text-[#4D6D62] uppercase tracking-wider">
-                        {cluster.secondaryMetric.label}
-                      </span>
-                      <span className="block font-mono-code text-xs font-bold text-[#064E3B]">
-                        {cluster.secondaryMetric.value}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Capability Items with Slide & Accent Interaction */}
-                  <div className="space-y-2.5">
-                    {cluster.items.map((item) => (
-                      <div
-                        key={item.name}
-                        className="group/item relative p-3 rounded-xl bg-[#FAF3E5]/60 hover:bg-[#FAF3E5] border border-[#E8D9BD] hover:border-[#064E3B]/40 transition-all duration-200 overflow-hidden pl-4 hover:translate-x-1"
-                      >
-                        {/* Active Left Emerald Accent Line */}
-                        <div className="absolute left-0 inset-y-0 w-1 bg-[#064E3B] opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" />
-                        
-                        <div className="flex items-center justify-between gap-2 mb-1">
-                          <span className="text-xs sm:text-sm font-bold text-[#064E3B] font-display flex items-center gap-1.5">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-[#064E3B] shrink-0" />
-                            {item.name}
-                          </span>
-                          <span className="text-[10px] font-mono-code px-2 py-0.5 rounded bg-[#FFFDF8] text-[#064E3B] border border-[#DFCCA8] shadow-2xs shrink-0 group-hover/item:bg-[#064E3B] group-hover/item:text-[#F8E7C9] group-hover/item:border-[#064E3B] transition-colors">
-                            {item.badge}
-                          </span>
-                        </div>
-                        <p className="text-xs text-[#26473D] leading-relaxed font-normal pl-5">
-                          {item.desc}
-                        </p>
+                    {/* Icon + Title */}
+                    <div className="flex items-start gap-3 mb-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-[#064E3B] text-[#F8E7C9] flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200">
+                        <Icon className="w-4 h-4 text-[#F8E7C9]" />
                       </div>
-                    ))}
-                  </div>
-                </div>
+                      <h3 className="font-display text-sm sm:text-base font-bold text-[#064E3B] leading-snug">
+                        {card.title}
+                      </h3>
+                    </div>
 
-                {/* Tech Stack Chip Ribbon */}
-                <div className="mt-6 pt-4 border-t border-[#DFCCA8]/60">
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="text-[10px] font-mono-code text-[#4D6D62] uppercase tracking-wider mr-1">
-                      Stack:
-                    </span>
-                    {cluster.techStack.map((tech) => (
+                    {/* Punchy Description */}
+                    <p className="text-xs text-[#26473D] leading-relaxed font-normal mb-4">
+                      {card.desc}
+                    </p>
+                  </div>
+
+                  {/* Micro Tech Tags Ribbon */}
+                  <div className="pt-3 border-t border-[#DFCCA8]/60 flex items-center gap-1.5 flex-wrap">
+                    {card.tags.map((tag) => (
                       <span
-                        key={tech}
-                        className="px-2 py-0.5 rounded-md bg-[#FFFDF8] border border-[#DFCCA8] text-[10px] font-mono-code text-[#064E3B] hover:bg-[#064E3B] hover:text-[#F8E7C9] hover:border-[#064E3B] transition-colors cursor-default shadow-2xs"
+                        key={tag}
+                        className="px-2 py-0.5 rounded-md bg-[#FAF3E5] border border-[#DFCCA8] text-[10px] font-mono-code text-[#064E3B] group-hover:bg-[#064E3B] group-hover:text-[#F8E7C9] group-hover:border-[#064E3B] transition-colors"
                       >
-                        {tech}
+                        {tag}
                       </span>
                     ))}
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
 
         {/* Global Tech Constellation Pills */}
         <motion.div
@@ -397,7 +362,7 @@ export const SkillsSection = () => {
           className="mt-16 pt-8 border-t border-[#DFCCA8] text-center"
         >
           <p className="text-xs font-mono-code text-[#4D6D62] mb-4 tracking-wider uppercase">
-            Full Technology & Tooling Constellation (Synced with GitHub Profile)
+            Full Technology &amp; Tooling Constellation (Synced with GitHub Profile)
           </p>
           <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
             {TECH_BADGES.map((tech) => (
