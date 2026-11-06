@@ -129,7 +129,7 @@ const SKILL_CLUSTERS: SkillCluster[] = [
       label: 'Networks',
       value: 'BSC (EVM) • TON (TVM)',
     },
-    techStack: ['BSC EVM', 'TON SDK', 'Web3.py', 'TonConnect', 'Telegram API', 'Smart Contracts'],
+    techStack: ['BSC EVM', 'TON SDK', 'Web3.py', 'TonConnect', 'Telegram API', 'JSON-RPC Nodes'],
     items: [
       {
         name: 'BSC & TON Payment Gateways',
@@ -142,9 +142,9 @@ const SKILL_CLUSTERS: SkillCluster[] = [
         desc: 'Custom Python client libraries for frictionless TON transactions and TonConnect flows inside Telegram Mini Apps.',
       },
       {
-        name: 'Smart Contract Interaction',
+        name: 'Direct Node & RPC Integration',
         badge: 'EVM / TVM',
-        desc: 'ABI encoding/decoding, TON cell BOC serialization, event log listeners, and gas optimization.',
+        desc: 'Direct node queries, raw JSON-RPC ingestion, TON cell BOC serialization, and on-chain transaction listeners.',
       },
       {
         name: 'Telegram Bot API & Webhooks',
