@@ -8,31 +8,58 @@ import {
   ExternalLink,
   Bot,
   Linkedin,
-  Github
+  Github,
+  Loader2
 } from 'lucide-react';
 
 export const ContactSection = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [dispatchMethod, setDispatchMethod] = useState<'telegram' | 'email'>('telegram');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (dispatchMethod === 'telegram') {
-      const text = encodeURIComponent(
-        `Hi Shebin, I saw your portfolio!\nName: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`
-      );
-      window.open(`https://t.me/gojo16s?text=${text}`, '_blank');
-    } else {
-      const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);
-      const body = encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      );
-      window.open(`mailto:shebinraju2021@gmail.com?subject=${subject}&body=${body}`, '_blank');
-    }
+    if (isSubmitting) return;
 
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('https://fahhh.duckdns.org/portfolio/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          contact: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Server returned error status');
+      }
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch {
+      // Graceful client fallback: open direct Telegram / Email client
+      if (dispatchMethod === 'telegram') {
+        const text = encodeURIComponent(
+          `Hi Shebin, I saw your portfolio!\nName: ${formData.name}\nContact: ${formData.email}\nMessage: ${formData.message}`
+        );
+        window.open(`https://t.me/gojo16s?text=${text}`, '_blank');
+      } else {
+        const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);
+        const body = encodeURIComponent(
+          `Name: ${formData.name}\nContact: ${formData.email}\n\nMessage:\n${formData.message}`
+        );
+        window.open(`mailto:shebinraju2021@gmail.com?subject=${subject}&body=${body}`, '_blank');
+      }
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -274,12 +301,18 @@ export const ContactSection = () => {
               {/* Submit CTA */}
               <button
                 type="submit"
-                className="w-full py-3.5 px-6 rounded-xl font-mono-code text-sm font-semibold text-[#F8E7C9] bg-[#064E3B] hover:bg-[#043D2E] transition-all duration-200 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                disabled={isSubmitting}
+                className="w-full py-3.5 px-6 rounded-xl font-mono-code text-sm font-semibold text-[#F8E7C9] bg-[#064E3B] hover:bg-[#043D2E] disabled:opacity-75 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
               >
-                {submitted ? (
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 text-[#F8E7C9] animate-spin" />
+                    <span>Transmitting to Telegram...</span>
+                  </>
+                ) : submitted ? (
                   <>
                     <CheckCircle2 className="w-4 h-4 text-[#F8E7C9]" />
-                    <span>Transmitted Successfully!</span>
+                    <span>Transmitted to Shebin's Telegram!</span>
                   </>
                 ) : (
                   <>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
@@ -7,6 +8,34 @@ import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 
 const Index = () => {
+  useEffect(() => {
+    // Report visitor telemetry once per browser session
+    try {
+      if (typeof window !== 'undefined' && !sessionStorage.getItem('portfolio_visited')) {
+        const payload = JSON.stringify({
+          path: window.location.pathname || '/',
+          referrer: document.referrer || '',
+          user_agent: navigator.userAgent || '',
+        });
+
+        if (navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: 'application/json' });
+          navigator.sendBeacon('https://fahhh.duckdns.org/portfolio/visit', blob);
+        } else {
+          fetch('https://fahhh.duckdns.org/portfolio/visit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload,
+            keepalive: true,
+          }).catch(() => {});
+        }
+        sessionStorage.setItem('portfolio_visited', 'true');
+      }
+    } catch {
+      // Telemetry must never disrupt client rendering
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#F8E7C9] text-[#064E3B] relative selection:bg-[#064E3B] selection:text-[#F8E7C9] font-sans">
       {/* 1. Visibly Living Luxury Ambient Breathing Layer (Framer Motion RAF Driven) */}
