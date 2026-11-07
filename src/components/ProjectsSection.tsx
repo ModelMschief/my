@@ -194,7 +194,7 @@ const PROJECTS: Project[] = [
     links: {
       github: 'https://github.com/ModelMschief/premium',
       telegram: 'https://t.me/gojo16s',
-      bot: 'https://t.me/AiGojoBot',
+      bot: 'https://t.me/dealmanybot',
     },
   },
 ];
