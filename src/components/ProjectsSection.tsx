@@ -7,13 +7,16 @@ import {
   Bot,
   ArrowRight,
   ExternalLink,
-  Workflow
+  Workflow,
+  Sparkles
 } from 'lucide-react';
 
 interface Project {
   id: string;
   title: string;
   category: string;
+  featured?: boolean;
+  featuredBadge?: string;
   shortDesc: string;
   fullDesc: string;
   metrics: { label: string; value: string }[];
@@ -27,6 +30,7 @@ interface Project {
     github?: string;
     live?: string;
     telegram?: string;
+    bot?: string;
   };
 }
 
@@ -35,6 +39,8 @@ const PROJECTS: Project[] = [
     id: 'bsc-gateway',
     title: 'Multi-Chain Non-Custodial Payment Gateway (BSC & TON)',
     category: 'Blockchain & Cryptography',
+    featured: true,
+    featuredBadge: 'FLAGSHIP MULTI-CHAIN ARCHITECTURE',
     shortDesc: 'Fully non-custodial multi-chain payment infrastructure supporting Binance Smart Chain (BSC) and The Open Network (TON) with direct node communication and zero third-party intermediaries.',
     fullDesc: 'Architected a non-custodial multi-chain payment pipeline supporting both Binance Smart Chain (BSC) via raw JSON-RPC and The Open Network (TON) via TonLib and HTTP v2 clients. Users retain private key sovereignty while merchant applications receive on-chain confirmation webhooks.',
     metrics: [
@@ -188,6 +194,7 @@ const PROJECTS: Project[] = [
     links: {
       github: 'https://github.com/ModelMschief/premium',
       telegram: 'https://t.me/gojo16s',
+      bot: 'https://t.me/AiGojoBot',
     },
   },
 ];
@@ -295,9 +302,17 @@ export const ProjectsSection = () => {
                   }`}
                 >
                   <div className="space-y-3">
-                    <span className="text-xs font-mono-code text-[#064E3B] font-semibold uppercase tracking-wider px-3 py-1 rounded-md bg-[#064E3B]/10 border border-[#064E3B]/20 inline-block">
-                      {project.category}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {project.featured && (
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#064E3B] text-[#F8E7C9] text-[11px] font-mono-code font-bold tracking-wider uppercase shadow-xs">
+                          <Sparkles className="w-3 h-3 text-[#F8E7C9]" />
+                          <span>{project.featuredBadge || 'FEATURED ARCHITECTURE'}</span>
+                        </span>
+                      )}
+                      <span className="text-xs font-mono-code text-[#064E3B] font-semibold uppercase tracking-wider px-3 py-1 rounded-md bg-[#064E3B]/10 border border-[#064E3B]/20 inline-block">
+                        {project.category}
+                      </span>
+                    </div>
                     <h3 className="font-display text-3xl sm:text-4xl font-bold text-[#064E3B]">
                       {project.title}
                     </h3>
@@ -362,6 +377,18 @@ export const ProjectsSection = () => {
                       </a>
                     )}
 
+                    {project.links.bot && (
+                      <a
+                        href={project.links.bot}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-[#F8E7C9] bg-[#064E3B] hover:bg-[#043D2E] transition-all font-mono-code shadow-sm"
+                      >
+                        <Bot className="w-3.5 h-3.5 text-[#F8E7C9]" />
+                        <span>Test Live Bot</span>
+                      </a>
+                    )}
+
                     {project.links.telegram && (
                       <a
                         href={project.links.telegram}
@@ -370,7 +397,7 @@ export const ProjectsSection = () => {
                         className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-[#064E3B] bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 transition-all font-mono-code shadow-2xs"
                       >
                         <Bot className="w-3.5 h-3.5" />
-                        <span>Telegram Bot</span>
+                        <span>Contact Dev</span>
                       </a>
                     )}
                   </div>
@@ -472,6 +499,17 @@ export const ProjectsSection = () => {
                   >
                     <Github className="w-3.5 h-3.5" />
                     <span>View Repository</span>
+                  </a>
+                )}
+                {activeModalProject.links.bot && (
+                  <a
+                    href={activeModalProject.links.bot}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#064E3B] text-[#F8E7C9] hover:bg-[#043D2E] text-xs font-mono-code font-semibold transition-colors shadow-sm"
+                  >
+                    <Bot className="w-3.5 h-3.5" />
+                    <span>Test Live Bot</span>
                   </a>
                 )}
                 {activeModalProject.links.live && (

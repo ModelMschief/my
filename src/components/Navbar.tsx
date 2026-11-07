@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Terminal, Send, Menu, X, Github, Linkedin } from 'lucide-react';
+import { Terminal, Send, Menu, X, Github, Linkedin, FileText } from 'lucide-react';
 
 interface NavbarProps {
   isRevealed?: boolean;
@@ -124,8 +124,19 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
           </div>
 
           <a
+            href="./Shebin_TR_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold font-mono-code text-[#064E3B] bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 rounded-xl transition-all shadow-2xs"
+            title="Download Shebin T R Resume (PDF)"
+          >
+            <FileText className="w-3.5 h-3.5 text-[#064E3B]" />
+            <span>Resume</span>
+          </a>
+
+          <a
             href="#contact"
-            className="ml-2 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold font-mono-code text-[#F8E7C9] bg-[#064E3B] hover:bg-[#043D2E] rounded-xl transition-all shadow-sm"
+            className="ml-1 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold font-mono-code text-[#F8E7C9] bg-[#064E3B] hover:bg-[#043D2E] rounded-xl transition-all shadow-sm"
           >
             <Send className="w-3 h-3 text-[#F8E7C9]" />
             <span>Contact</span>
@@ -168,19 +179,30 @@ export const Navbar: React.FC<NavbarProps> = ({ isRevealed = true }) => {
           ))}
           <div className="flex items-center justify-center gap-4 py-2 border-t border-[#DFCCA8]/60">
             <a
+              href="./Shebin_TR_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs font-mono-code text-[#064E3B] font-semibold"
+            >
+              <FileText className="w-4 h-4 text-[#064E3B]" />
+              <span>Resume (PDF)</span>
+            </a>
+            <span className="text-[#DFCCA8]">•</span>
+            <a
               href="https://github.com/modelmschief"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-mono-code text-[#2D4E42] hover:text-[#064E3B]"
+              className="flex items-center gap-1.5 text-xs font-mono-code text-[#2D4E42] hover:text-[#064E3B]"
             >
               <Github className="w-4 h-4" />
               <span>GitHub</span>
             </a>
+            <span className="text-[#DFCCA8]">•</span>
             <a
               href="https://www.linkedin.com/in/shebin-t-r"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-mono-code text-[#064E3B]"
+              className="flex items-center gap-1.5 text-xs font-mono-code text-[#064E3B]"
             >
               <Linkedin className="w-4 h-4" />
               <span>LinkedIn</span>

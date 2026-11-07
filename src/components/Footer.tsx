@@ -1,4 +1,4 @@
-import { Terminal, Github, Bot, MessageSquare, Twitter, Linkedin } from 'lucide-react';
+import { Terminal, Github, Bot, MessageSquare, Twitter, Linkedin, FileText } from 'lucide-react';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -50,10 +50,21 @@ export const Footer = () => {
         </div>
 
         {/* Copyright & Live Status */}
-        <div className="text-center md:text-right space-y-1">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#064E3B]/10 border border-[#064E3B]/20 text-[10px] font-mono-code text-[#064E3B]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#064E3B] animate-pulse" />
-            <span>ALL SYSTEMS OPERATIONAL</span>
+        <div className="text-center md:text-right space-y-1.5">
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-2">
+            <a
+              href="./Shebin_TR_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FAF3E5] border border-[#DFCCA8] text-[10px] font-mono-code text-[#064E3B] hover:border-[#064E3B]/60 transition-colors shadow-2xs"
+            >
+              <FileText className="w-3 h-3 text-[#064E3B]" />
+              <span>Technical CV (PDF)</span>
+            </a>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#064E3B]/10 border border-[#064E3B]/20 text-[10px] font-mono-code text-[#064E3B]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#064E3B] animate-pulse" />
+              <span>ALL SYSTEMS OPERATIONAL</span>
+            </div>
           </div>
           <p className="text-[11px] font-mono-code text-[#4D6D62]">
             © {currentYear} Shebin T R. All rights reserved.

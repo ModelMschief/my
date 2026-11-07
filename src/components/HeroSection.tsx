@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { ArrowRight, Send, Github, Linkedin, Brain, Server, Link2 } from 'lucide-react';
+import { ArrowRight, Send, Github, Linkedin, Brain, Server, Link2, FileText } from 'lucide-react';
 import AsciiParticleCanvas from '@/components/AsciiParticleCanvas';
 
 const ROLES = [
@@ -59,12 +59,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
               </div>
             </div>
 
-            {/* Narrative Summary with High Readability */}
+            {/* Narrative Summary with High Readability & Seniority */}
             <p className="text-base sm:text-lg text-[#26473D] max-w-xl leading-relaxed font-normal">
-              Studying AI & Data Science Engineering. Training{' '}
-              <span className="text-[#064E3B] font-semibold">image detection models & neural networks</span>, architecting{' '}
-              <span className="text-[#064E3B] font-semibold">high-dimensional vectorization & RAG pipelines</span>, and building{' '}
-              <span className="text-[#064E3B] font-semibold">non-custodial payment gateways</span> on BSC and TON.
+              AI & Systems Engineer specializing in{' '}
+              <span className="text-[#064E3B] font-semibold">computer vision & neural network architectures</span>,{' '}
+              <span className="text-[#064E3B] font-semibold">high-dimensional vector retrieval</span>, and{' '}
+              <span className="text-[#064E3B] font-semibold">non-custodial blockchain infrastructure</span> on BSC and TON. Pursuing B.Tech in Artificial Intelligence & Data Science.
             </p>
 
             {/* Action Buttons */}
@@ -78,6 +78,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
               </a>
 
               <a
+                href="./Shebin_TR_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium text-[#064E3B] bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 transition-all duration-200 font-mono-code shadow-xs"
+              >
+                <FileText className="w-4 h-4 text-[#064E3B]" />
+                <span>Resume (PDF)</span>
+              </a>
+
+              <a
                 href="#contact"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium text-[#064E3B] bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 transition-all duration-200 font-mono-code shadow-xs"
               >
@@ -85,27 +95,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
                 <span>Get in Touch</span>
               </a>
 
-              <a
-                href="https://github.com/modelmschief"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 text-[#064E3B] transition-colors shadow-xs"
-                title="GitHub Profile"
-                aria-label="GitHub Profile"
-              >
-                <Github className="w-4 h-4" />
-              </a>
+              <div className="flex items-center gap-2">
+                <a
+                  href="https://github.com/modelmschief"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-xl bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 text-[#064E3B] transition-colors shadow-xs"
+                  title="GitHub Profile"
+                  aria-label="GitHub Profile"
+                >
+                  <Github className="w-4 h-4" />
+                </a>
 
-              <a
-                href="https://www.linkedin.com/in/shebin-t-r"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 text-[#064E3B] transition-colors shadow-xs"
-                title="LinkedIn Profile"
-                aria-label="LinkedIn Profile"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
+                <a
+                  href="https://www.linkedin.com/in/shebin-t-r"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-xl bg-[#FFFDF8] hover:bg-[#FAF3E5] border border-[#DFCCA8] hover:border-[#064E3B]/40 text-[#064E3B] transition-colors shadow-xs"
+                  title="LinkedIn Profile"
+                  aria-label="LinkedIn Profile"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              </div>
             </div>
 
             {/* Engineering Pillars */}
