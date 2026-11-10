@@ -1,4 +1,15 @@
-import { Terminal, Github, Bot, MessageSquare, Twitter, Linkedin, FileText } from 'lucide-react';
+import { Terminal, Github, Bot, MessageSquare, Linkedin, FileText } from 'lucide-react';
+
+const XIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -8,7 +19,7 @@ export const Footer = () => {
     { name: 'LinkedIn', icon: Linkedin, href: 'https://www.linkedin.com/in/shebin-t-r' },
     { name: 'Telegram', icon: Bot, href: 'https://t.me/gojo16s' },
     { name: 'WhatsApp', icon: MessageSquare, href: 'https://wa.me/919037610098' },
-    { name: 'X (Twitter)', icon: Twitter, href: 'https://x.com/TShebin2920' },
+    { name: 'X', icon: XIcon, href: 'https://x.com/TShebin2920' },
   ];
 
   return (
