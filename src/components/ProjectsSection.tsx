@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { 
-  Layers, 
   Github, 
   X, 
   Bot,
@@ -213,12 +212,8 @@ export const ProjectsSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFDF8] border border-[#DFCCA8] text-xs font-mono-code text-[#064E3B] mb-4 shadow-2xs">
-            <Layers className="w-3.5 h-3.5 text-[#064E3B]" />
-            <span>FEATURED SHOWCASE</span>
-          </div>
-          <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-[#064E3B] tracking-tight">
-            Production <span className="text-[#1B3B31]">Architectures</span>
+          <h2 className="font-impact text-4xl sm:text-6xl lg:text-7xl uppercase tracking-tight text-[#064E3B] leading-[0.95]">
+            Production Architectures
           </h2>
           <p className="text-[#2D4E42] max-w-2xl mx-auto text-base sm:text-lg mt-3 font-normal">
             Engineered for decentralized blockchain execution, neural retrieval intelligence, and high-concurrency microservices.

@@ -40,9 +40,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isRevealed = true }) =
             className="md:col-span-7 space-y-4 sm:space-y-6 text-left"
           >
             {/* Main Headline */}
-            <div className="space-y-1.5 sm:space-y-2">
-              <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[#064E3B] leading-tight">
-                Shebin T R
+            <div className="space-y-2 sm:space-y-3">
+              <h1 className="font-impact text-5xl sm:text-7xl lg:text-8xl uppercase tracking-tight text-[#064E3B] leading-[0.95] select-none">
+                SHEBIN T R
               </h1>
               <div className="h-9 flex items-center">
                 <span className="text-xl sm:text-2xl font-mono-code text-[#064E3B] mr-2 font-bold">&gt;</span>

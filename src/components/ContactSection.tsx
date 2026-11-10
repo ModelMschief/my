@@ -73,11 +73,7 @@ export const ContactSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFDF8] border border-[#DFCCA8] text-xs font-mono-code text-[#064E3B] mb-4 shadow-2xs">
-            <Send className="w-3.5 h-3.5 text-[#064E3B]" />
-            <span>COMMUNICATION CHANNEL</span>
-          </div>
-          <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-[#064E3B] tracking-tight">
+          <h2 className="font-impact text-4xl sm:text-6xl lg:text-7xl uppercase tracking-tight text-[#064E3B] leading-[0.95]">
             Get in Touch
           </h2>
           <p className="text-[#26473D] max-w-2xl mx-auto text-base sm:text-lg mt-3 font-normal">

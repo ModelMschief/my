@@ -18,6 +18,7 @@ export default {
         sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
         display: ['Space Grotesk', 'Plus Jakarta Sans', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+        impact: ['Impact', 'Bayon', 'Bebas Neue', '"Arial Narrow"', 'sans-serif'],
       },
       colors: {
         cosmic: {
